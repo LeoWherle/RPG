@@ -39,17 +39,17 @@
     } stats_t;
 
     typedef struct entity {
+        enum entity_type type;
+        enum animation_type animation;
+        stats_t stats;
         sfSprite *sprite;
         sfTexture *texture;
         sfVector2f pos;
         sfFloatRect anim;
-        enum entity_type type;
-        enum animation_type animation;
-        stats_t stats;
         dependency_t *depend;
-        void (*move)(struct entity *, sfEvent);
-        void (*anim)(struct entity *, sfEvent);
-        void (*action)(struct entity *, sfEvent);
+        void (*move)(struct entity *, sfEvent *);
+        void (*anim)(struct entity *, sfEvent *);
+        void (*action)(struct entity *, sfEvent *);
     } entity_t;
 
 #endif /* !ENTITIES_H */
