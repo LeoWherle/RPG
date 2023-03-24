@@ -15,6 +15,8 @@
         NONE = 0,
         TEXTURE,
         SPRITE,
+        PLAYER,
+        WEAPON,
         ENTITY,
         MAP,
     };

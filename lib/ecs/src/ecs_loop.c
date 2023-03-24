@@ -15,8 +15,10 @@
 void print(item_t *item, window_t *window)
 {
     sfRenderWindow_clear(window->window, sfWhite);
-    for (item_t *pr = item; pr; pr = pr->next)
-        pr->print(pr->item, window);
+    for (item_t *pr = item; pr; pr = pr->next) {
+        if (pr->item)
+            pr->print(pr->item, window);
+    }
     sfRenderWindow_display(window->window);
 }
 
@@ -24,8 +26,10 @@ void execute(item_t *item, sfEvent *event, sfTime *time)
 {
     if (item) {
         execute(item->next, event, time);
-        item->update(item->item, event);
-        item->animate(item->item, time);
+        if (item->update)
+            item->update(item->item, event);
+        if (item->animate)
+            item->animate(item->item, time);
     }
     return;
 }
