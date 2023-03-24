@@ -32,10 +32,13 @@ OBJ = 	$(SRC:.c=.o)
 
 MAKE  = make --no-print-directory
 
-LIBS = lib/lists lib/strings
+LIBS = lib/lists lib/strings lib/ecs
+LIBINC = $(addsuffix /include, $(addprefix -I, $(LIBS)))
+LIB_FLAGS = -Llib -lclist -lecs -lmy_str
 
-CFLAGS = -W -Wall -Wextra -Iinclude -Ilib/lists/include -Ilib/strings/include
-LDFLAGS = -Llib -lclist -lmy_str
+CFLAGS = -W -Wall -Wextra -Iinclude $(LIBINC)
+CSFMLFLAGS = -lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio
+LDFLAGS = $(LIB_FLAGS) -lm $(CSFMLFLAGS)
 CRITFLAGS = -lcriterion --coverage
 
 FILE_AMOUNT = $(shell echo $(SRC) | wc -w | sed -e 's/ //g')
