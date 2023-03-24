@@ -10,7 +10,7 @@
 #include <SFML/Window.h>
 #include "item.h"
 
-window_t *create_window(sfVideoMode mode, int framerate, char const *title)
+window_t *window_create(sfVideoMode mode, int framerate, char const *title)
 {
     window_t *new = NULL;
 
@@ -28,4 +28,11 @@ window_t *create_window(sfVideoMode mode, int framerate, char const *title)
     }
     sfRenderWindow_setFramerateLimit(new->window, framerate);
     return new;
+}
+
+void window_destroy(window_t *window)
+{
+    sfClock_destroy(window->frame);
+    sfRenderWindow_destroy(window->window);
+    free(window);
 }

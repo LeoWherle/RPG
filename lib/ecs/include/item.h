@@ -43,10 +43,11 @@
 
     void item_loop(item_t *item, window_t *screen, bool (* cond)(sfEvent *));
 
-    window_t *create_window(sfVideoMode mode, int framerate, char const *title);
-    void destroy_window(window_t *window);
-    item_t *create_item(item_t *list, void *item,
+    window_t *window_create(sfVideoMode mode, int framerate, char const *title);
+    void window_destroy(window_t *window);
+    item_t *item_create(item_t *list, void *item,
                         void (* act)(void *, sfEvent *),
                         void (* print)(void *, window_t *));
+    void item_list_destroy(item_t *item);
 
 #endif /*ITEM_H*/

@@ -9,7 +9,7 @@
 #include <stddef.h>
 #include "item.h"
 
-item_t *create_item(item_t *list, void *item, void (* update)(void *, sfEvent *),
+item_t *item_create(item_t *list, void *item, void (* update)(void *, sfEvent *),
                     void (* print)(void *, window_t *))
 {
     item_t *new = NULL;
@@ -22,4 +22,15 @@ item_t *create_item(item_t *list, void *item, void (* update)(void *, sfEvent *)
     new->print = print;
     new->next = list;
     return new;
+}
+
+void item_list_destroy(item_t *item)
+{
+    if (!item)
+        return;
+    destroy_item_list(item->next);
+    if(item->destroy) {
+        item->destroy(item->item);
+        free(item);
+    }
 }
