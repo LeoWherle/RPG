@@ -19,7 +19,7 @@ int main(void)
     tile_list = init_tile_list(tile_list);
     ASSERT_MALLOC(tile_list, 84);
     window = sfRenderWindow_create((sfVideoMode){1920, 1080, 32},
-    "RPG", sfClose, NULL);
+    "RPG", sfClose | sfResize, NULL);
     ASSERT_MALLOC(window, 84);
     sfRenderWindow_setFramerateLimit(window, 60);
     room = get_room(room, EMPTY_R);

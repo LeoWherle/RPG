@@ -12,7 +12,7 @@
 #ifndef ROOM_H_
     #define ROOM_H_
     #define TILE_SIZE 64
-    #define TILE_NB 12
+    #define TILE_NB 14
     #define VOID 0
     #define FLOOR 1
     #define WALL 2
@@ -25,6 +25,9 @@
     #define DOOR 9
     #define OPEN_DOOR 10
     #define CHEST 11
+    #define WALL2_W_GROUND 12
+    #define WALL3_W_GROUND 13
+
 
 typedef enum room_type_e {
     EMPTY_R,
