@@ -23,6 +23,8 @@ RESET		=	\033[0m
 NAME = my_rpg
 
 SRC =	src/main.c	\
+		src/room/room_reader.c	\
+		src/room/room_manager.c \
 
 TEST_CRIT	=	\
 
