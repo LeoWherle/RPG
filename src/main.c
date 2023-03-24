@@ -5,7 +5,11 @@
 ** main
 */
 
+#include "item.h"
+#include "entities.h"
+
 int main(void)
 {
-    return 0;
+    window_t *window = create_window(1920, 1080, 32, "rpg");
+    item_t *items = NULL;
 }
