@@ -12,19 +12,27 @@
 #ifndef ROOM_H_
     #define ROOM_H_
     #define TILE_SIZE 64
-    #define TILE_NB 4
+    #define TILE_NB 12
     #define VOID 0
     #define FLOOR 1
     #define WALL 2
-    #define DOOR 3
+    #define WALL2 3
+    #define WALL3 4
+    #define UPLEFT 5
+    #define UPRIGHT 6
+    #define DOWNLEFT 7
+    #define DOWNRIGHT 8
+    #define DOOR 9
+    #define OPEN_DOOR 10
+    #define CHEST 11
 
 typedef enum room_type_e {
-    MONSTER,
-    CHEST,
-    PNJ,
-    BOSS,
-    TRAP,
-    EMPTY
+    EMPTY_R,
+    MONSTER_R,
+    CHEST_R,
+    PNJ_R,
+    BOSS_R,
+    TRAP_R
 } room_type_t;
 
 typedef struct room_s {
@@ -43,5 +51,9 @@ typedef struct tile_s {
     room_t *get_room(room_t *room, room_type_t type);
     void print_room(char **room);
     void free_room(room_t *room);
+    void draw_room(sfRenderWindow *window, room_t *room, tile_t **tile_list);
+    tile_t **init_tile_list(tile_t **tile_list);
+    void free_tile_list(tile_t **tile_list);
+    char **get_tiles_img(char **tiles);
 
 #endif /* !ROOM_H_ */

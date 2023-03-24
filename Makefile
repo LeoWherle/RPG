@@ -25,6 +25,8 @@ NAME = my_rpg
 SRC =	src/main.c	\
 		src/room/room_reader.c	\
 		src/room/room_manager.c \
+		src/room/tiles.c		\
+		src/room/tiles_image.c	\
 
 TEST_CRIT	=	\
 
