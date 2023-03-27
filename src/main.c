@@ -11,11 +11,21 @@
 #include "room.h"
 #include "errorhandling.h"
 
-void free_all(room_t *room, tile_t **tile_list, sfRenderWindow *window)
+static void free_all(room_t *room, tile_t **tile_list, sfRenderWindow *window)
 {
     free_room(room);
     free_tile_list(tile_list);
     sfRenderWindow_destroy(window);
+}
+
+static void analyse_event(sfRenderWindow *window)
+{
+    sfEvent event;
+
+    while (sfRenderWindow_pollEvent(window, &event)) {
+        if (event.type == sfEvtClosed)
+            sfRenderWindow_close(window);
+    }
 }
 
 int main(void)
@@ -35,6 +45,7 @@ int main(void)
     while (sfRenderWindow_isOpen(window)) {
         sfRenderWindow_clear(window, sfBlack);
         draw_room(window, room, tile_list);
+        analyse_event(window);
         sfRenderWindow_display(window);
     }
     free_all(room, tile_list, window);
