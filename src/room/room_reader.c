@@ -15,7 +15,7 @@
 #include "room.h"
 #include "my_str.h"
 
-static char *fill_room(int c, char *buff, char **room, int y)
+char *fill_room(int c, char *buff, char **room, int y)
 {
     ASSERT_MALLOC(room[y], NULL);
     my_strcpy(room[y], buff);
@@ -43,15 +43,16 @@ static room_t *fill_room_lines(room_t *room, char *buff, FILE *fd, size_t len)
     int y = 0;
     size_t c = 0;
 
-    while ((int)c != -1) {
+    while ((int)c != -1 && (buff == NULL || buff[0] != '=')) {
         c = getline(&buff, &len, fd);
-        if ((int)c != -1) {
+        if ((int)c != -1 && buff[0] != '=') {
             room->room[y] = malloc(sizeof(char) * (c + 1));
             room->room[y] = fill_room(c, buff, room->room, y);
             ASSERT_MALLOC(room->room[y], NULL);
             y++;
         }
     }
+    room = fill_collisions(room, buff, fd, len);
     return (room);
 }
 
@@ -83,5 +84,10 @@ room_t *get_room(room_t *room, room_type_t type)
     ASSERT_MALLOC(room, NULL);
     room = open_room(room, path);
     ASSERT_MALLOC(room->room, NULL);
+    ASSERT_MALLOC(room->collisions, NULL);
+    write(1, "\nRoom:\n\n", 8);
+    print_room(room->room);
+    write(1, "\nCollisions:\n\n", 14);
+    print_room(room->collisions);
     return (room);
 }

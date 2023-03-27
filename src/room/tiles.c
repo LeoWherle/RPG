@@ -9,17 +9,9 @@
 #include <SFML/Window.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "room.h"
 #include "errorhandling.h"
-
-static tile_t *init_collision(tile_t **tile, int i)
-{
-    if (i == FLOOR)
-        tile[i]->collision = false;
-    else
-        tile[i]->collision = true;
-    return (tile[i]);
-}
 
 void free_tile_list(tile_t **tile_list)
 {
@@ -34,6 +26,25 @@ void free_tile_list(tile_t **tile_list)
     free(tile_list);
 }
 
+room_t *fill_collisions(room_t *room, char *buff, FILE *fd, size_t len)
+{
+    int y = 0;
+    size_t c = 0;
+
+    room->collisions = malloc(sizeof(char *) * (room->height + 1));
+    ASSERT_MALLOC(room->collisions, NULL);
+    while ((int)c != -1) {
+        c = getline(&buff, &len, fd);
+        if ((int)c != -1) {
+            room->collisions[y] = malloc(sizeof(char) * (c + 1));
+            room->collisions[y] = fill_room(c, buff, room->collisions, y);
+            ASSERT_MALLOC(room->collisions[y], NULL);
+            y++;
+        }
+    }
+    return (room);
+}
+
 tile_t **fill_tile_list(char **tiles, tile_t **tile_list)
 {
     int i = 0;
@@ -46,7 +57,6 @@ tile_t **fill_tile_list(char **tiles, tile_t **tile_list)
         tile_list[i]->img = sfSprite_create();
         ASSERT_MALLOC(tile_list[i]->img, NULL);
         sfSprite_setTexture(tile_list[i]->img, tile_list[i]->texture, sfTrue);
-        tile_list[i] = init_collision(tile_list, i);
         sfSprite_setScale(tile_list[i]->img, (sfVector2f){4, 4});
         i++;
     }

@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <SFML/Graphics.h>
 #include <SFML/Window.h>
+#include <stdio.h>
 
 #ifndef ROOM_H_
     #define ROOM_H_
@@ -43,6 +44,7 @@ typedef enum room_type_e {
 
 typedef struct room_s {
     char **room;
+    char **collisions;
     room_type_t type;
     int entity_nb;
     int height;
@@ -51,7 +53,6 @@ typedef struct room_s {
 typedef struct tile_s {
     sfTexture *texture;
     sfSprite *img;
-    bool collision;
 } tile_t;
 
     room_t *get_room(room_t *room, room_type_t type);
@@ -60,6 +61,7 @@ typedef struct tile_s {
     void draw_room(sfRenderWindow *window, room_t *room, tile_t **tile_list);
     tile_t **init_tile_list(tile_t **tile_list);
     void free_tile_list(tile_t **tile_list);
-    char **get_tiles_img(char **tiles);
+    room_t *fill_collisions(room_t *room, char *buff, FILE *fd, size_t len);
+    char *fill_room(int c, char *buff, char **room, int y);
 
 #endif /* !ROOM_H_ */
