@@ -79,13 +79,14 @@ room_t *get_room(room_t *room, room_type_t type)
 {
     char *path = NULL;
     int nb = get_file_nb("assets/rooms/dungeon");
+    static int room_nb = 0;
 
-    if (nb <= 0)
-        return (NULL);
+    if (nb <= 0) return (NULL);
     srand(time(NULL));
     nb = rand() % nb;
     path = get_specific_file("assets/rooms/dungeon", nb);
     ASSERT_MALLOC(path, NULL);
+    if (room_nb != 0) free_room(room);
     room = malloc(sizeof(room_t));
     room->type = type;
     room->entity_nb = 0;
@@ -93,8 +94,7 @@ room_t *get_room(room_t *room, room_type_t type)
     room = open_room(room, path);
     ASSERT_MALLOC(room->room, NULL);
     ASSERT_MALLOC(room->collisions, NULL);
-    print_room(room->room);
-    write(1, "\nCollisions:\n\n", 14);
-    print_room(room->collisions);
+    free(path);
+    room_nb++;
     return (room);
 }
