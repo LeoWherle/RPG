@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "errorhandling.h"
 #include "room.h"
 #include "my_str.h"
@@ -76,8 +77,15 @@ static room_t *open_room(room_t *room, char *path)
 
 room_t *get_room(room_t *room, room_type_t type)
 {
-    char *path = "assets/rooms/dev_room.rpg";
+    char *path = NULL;
+    int nb = get_file_nb("assets/rooms/dungeon");
 
+    if (nb <= 0)
+        return (NULL);
+    srand(time(NULL));
+    nb = rand() % nb;
+    path = get_specific_file("assets/rooms/dungeon", nb);
+    ASSERT_MALLOC(path, NULL);
     room = malloc(sizeof(room_t));
     room->type = type;
     room->entity_nb = 0;
@@ -85,7 +93,6 @@ room_t *get_room(room_t *room, room_type_t type)
     room = open_room(room, path);
     ASSERT_MALLOC(room->room, NULL);
     ASSERT_MALLOC(room->collisions, NULL);
-    write(1, "\nRoom:\n\n", 8);
     print_room(room->room);
     write(1, "\nCollisions:\n\n", 14);
     print_room(room->collisions);

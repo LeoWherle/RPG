@@ -13,7 +13,7 @@
 #ifndef ROOM_H_
     #define ROOM_H_
     #define TILE_SIZE 64
-    #define TILE_NB 17
+    #define TILE_NB 18
     #define VOID 0
     #define FLOOR 1
     #define WALL 2
@@ -31,6 +31,7 @@
     #define SPIKES_UP 14
     #define SPIKES_DOWN 15
     #define FIRE_STATUE 16
+    #define STAIRS 17
 
 
 typedef enum room_type_e {
@@ -63,5 +64,7 @@ typedef struct tile_s {
     void free_tile_list(tile_t **tile_list);
     room_t *fill_collisions(room_t *room, char *buff, FILE *fd, size_t len);
     char *fill_room(int c, char *buff, char **room, int y);
+    int get_file_nb(char *path);
+    char *get_specific_file(char *path, int nb);
 
 #endif /* !ROOM_H_ */

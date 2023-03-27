@@ -74,7 +74,7 @@ tile_t **init_tile_list(tile_t **tile_list)
     "assets/tiles/open_door.png", "assets/tiles/chest.png",
     "assets/tiles/wall2.png", "assets/tiles/wall3.png",
     "assets/tiles/spikes_up.png", "assets/tiles/spikes_down.png",
-    "assets/tiles/fire_statue.png", NULL};
+    "assets/tiles/fire_statue.png", "assets/tiles/stair.png", NULL};
 
     tile_list = malloc(sizeof(tile_t *) * (TILE_NB + 1));
     ASSERT_MALLOC(tile_list, NULL);

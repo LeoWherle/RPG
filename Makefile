@@ -27,6 +27,7 @@ SRC =	src/main.c	\
 		src/room/room_manager.c \
 		src/room/tiles.c		\
 		src/room/tiles_image.c	\
+		src/room/room_folder_reader.c	\
 
 TEST_CRIT	=	\
 

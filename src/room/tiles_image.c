@@ -14,7 +14,7 @@
 
 static int translate_map(char **map, int y, int x)
 {
-    char *img = ". -[]lrLRpPc}{Ssf";
+    char *img = ". -[]lrLRpPc}{Ssf/";
     int i = 0;
 
     while (img[i] != '\0') {
