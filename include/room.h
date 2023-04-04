@@ -13,7 +13,7 @@
 #ifndef ROOM_H_
     #define ROOM_H_
     #define TILE_SIZE 60
-    #define TILE_NB 29
+    #define TILE_NB 30
     #define VOID_ID 0
     #define FLOOR_ID 1
     #define VOID_POS ((sfIntRect){2, 2, 20, 20})
@@ -45,6 +45,7 @@
     #define ENT_BOT_CL ((sfIntRect){102, 222, 40, 20})
     #define SAVE_PILLAR ((sfIntRect){208, 62, 28, 45})
     #define SAVED_PILLAR ((sfIntRect){236, 62, 28, 45})
+    #define TORCH ((sfIntRect){182, 0, 20, 22})
 
 
 typedef enum room_type_e {

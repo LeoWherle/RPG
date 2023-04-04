@@ -14,7 +14,7 @@
 
 static int translate_map(char **map, int y, int x)
 {
-    char *img = ". -_[]lrLRppPP:;,~c<>{}eeEESs";
+    char *img = ". -_[]lrLRppPP:;,~c<>{}eeEESst";
     int i = 0;
     int temp = 0;
 
