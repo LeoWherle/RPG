@@ -62,6 +62,7 @@ typedef struct room_s {
     room_type_t type;
     int entity_nb;
     int height;
+    sfColor bg_color;
 } room_t;
 
 typedef struct tile_s {
@@ -85,5 +86,6 @@ typedef struct pos_s {
     int get_file_nb(char *path);
     char *get_specific_file(char *path, int nb);
     int draw_doors(char **map, int x, int y, int i);
+    bool is_in(char c, char *str);
 
 #endif /* !ROOM_H_ */

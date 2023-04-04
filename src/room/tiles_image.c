@@ -19,9 +19,8 @@ static int translate_map(char **map, int y, int x)
     int temp = 0;
 
     while (img[i] != '\0') {
-        if ((img[i] == 'p' || img[i] == 'P' || img[i] == 'e' || img[i] == 'E')
-        && (map[y][x] == 'p' || map[y][x] == 'P' || map[y][x] == 'e' ||
-        map[y][x] == 'E') && (temp = draw_doors(map, x, y, i)) != -1)
+        if (is_in(img[i], "pPeE") && (is_in(map[y][x], "pPeE"))
+        && (temp = draw_doors(map, x, y, i)) != -1)
             return (temp);
         if (map[y][x] == img[i])
             return (i);
@@ -34,21 +33,17 @@ static void draw_tile(sfRenderWindow *window, sfSprite *tile, sfSprite *floor,
 char c)
 {
 
-    if (c == 'c' || c == '[' || c == ']') {
+    if (is_in(c, "c[]")) {
         sfRenderWindow_drawSprite(window, floor, NULL);
     }
-    if (c != '?' && c != ' ')
+    if (!is_in(c, "? "))
         sfRenderWindow_drawSprite(window, tile, NULL);
 }
 
 static void draw_floor_tile(sfRenderWindow *window, sfSprite *floor, char c)
 {
-
-    if (c != '?' && c != '[' && c != ']' && c != '{' && c != '}' && c != '<'
-    && c != '>' && c != '-' && c != '_' && c != 'r' && c != 'R' && c != 'l' &&
-    c != 'R') {
+    if (!is_in(c, "?[]{}<>-_lrLR"))
         sfRenderWindow_drawSprite(window, floor, NULL);
-    }
 }
 
 static void draw_floor(sfRenderWindow *window, room_t *room, tile_t **tile_list)

@@ -5,6 +5,7 @@
 ** Room Folder reader
 */
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <dirent.h>
 #include <sys/types.h>
@@ -43,6 +44,15 @@ static char *create_room_path(char *room, char *path, struct dirent *entry)
     my_strcat(room, "/");
     my_strcat(room, entry->d_name);
     return (room);
+}
+
+bool is_in(char c, char *str)
+{
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == c)
+            return (true);
+    }
+    return (false);
 }
 
 char *get_specific_file(char *path, int nb)
