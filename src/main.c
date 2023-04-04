@@ -55,7 +55,7 @@ int main(void)
     room = get_room(room, EMPTY_R);
     ASSERT_MALLOC(room, 84);
     while (sfRenderWindow_isOpen(window)) {
-        sfRenderWindow_clear(window, sfBlack);
+        sfRenderWindow_clear(window, sfColor_fromRGB(34, 32, 52));
         draw_room(window, room, tile_list);
         room = analyse_event(window, room);
         ASSERT_MALLOC(room, 84);
