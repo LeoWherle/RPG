@@ -37,7 +37,7 @@ static char *create_room_path(char *room, char *path, struct dirent *entry)
 {
     ASSERT_MALLOC(entry, NULL);
     room = malloc(sizeof(char) * (my_strlen(entry->d_name)
-    + my_strlen(path) + 1));
+    + my_strlen(path) + 2));
     ASSERT_MALLOC(room, NULL);
     my_strcpy(room, path);
     my_strcat(room, "/");
@@ -64,7 +64,6 @@ char *get_specific_file(char *path, int nb)
         i++;
         entry = readdir(dir);
     }
-    closedir(dir);
     room = create_room_path(room, path, entry);
     return (room);
 }

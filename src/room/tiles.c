@@ -19,6 +19,10 @@ int draw_doors(char **map, int x, int y, int i)
         return (i + 1);
     if (map[y][x] == 'P' && map[y - 1][x] == 'P')
         return (i + 3);
+    if (map[y][x] == 'e' && map[y + 1][x] == 'e')
+        return (i + 14);
+    if (map[y][x] == 'E' && map[y + 1][x] == 'E')
+        return (i + 16);
     return (-1);
 }
 
@@ -82,7 +86,9 @@ tile_t **init_tile_list(tile_t **tile_list)
     &WALL_FRONT_POS, &WALL_BACK_POS, &WALL_LEFT_POS, &WALL_RIGHT_POS,
     &TOP_LEFT_POS, &TOP_RIGHT_POS, &BOT_LEFT_POS, &BOT_RIGHT_POS,
     &DOOR_TOP_OP, &DOOR_BOT_OP, &DOOR_TOP_CL, &DOOR_BOT_CL, &LITTLE_CRIS_BL,
-    &LITTLE_CRIS_PI, &LITTLE_ROCK, &LITTLE_STICK, NULL};
+    &LITTLE_CRIS_PI, &LITTLE_ROCK, &LITTLE_STICK, &CHEST, &INTERN_TOP_LEFT,
+    &INTERN_TOP_RIGHT, &INTERN_BOT_LEFT, &INTERN_BOT_RIGHT, &ENT_TOP_OP,
+    &ENT_BOT_OP, &ENT_TOP_CL, &ENT_BOT_CL, &SAVE_PILLAR, &SAVED_PILLAR, NULL};
 
     tile_list = malloc(sizeof(tile_t *) * (TILE_NB + 1));
     ASSERT_MALLOC(tile_list, NULL);

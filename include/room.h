@@ -13,11 +13,11 @@
 #ifndef ROOM_H_
     #define ROOM_H_
     #define TILE_SIZE 60
-    #define TILE_NB 18
+    #define TILE_NB 29
     #define VOID_ID 0
     #define FLOOR_ID 1
     #define VOID_POS ((sfIntRect){2, 2, 20, 20})
-    #define FLOOR_POS ((sfIntRect){142, 0, 20, 20})
+    #define FLOOR_POS ((sfIntRect){142, 2, 20, 20})
     #define WALL_FRONT_POS ((sfIntRect){162, 42, 20, 20})
     #define WALL_BACK_POS ((sfIntRect){42, 2, 20, 20})
     #define WALL_LEFT_POS ((sfIntRect){122, 22, 20, 20})
@@ -34,6 +34,17 @@
     #define LITTLE_CRIS_PI ((sfIntRect){102, 82, 20, 20})
     #define LITTLE_ROCK ((sfIntRect){222, 22, 20, 20})
     #define LITTLE_STICK ((sfIntRect){142, 102, 20, 20})
+    #define CHEST ((sfIntRect){162, 2, 20, 20})
+    #define INTERN_TOP_LEFT ((sfIntRect){22, 2, 20, 20})
+    #define INTERN_TOP_RIGHT ((sfIntRect){62, 2, 20, 20})
+    #define INTERN_BOT_LEFT ((sfIntRect){142, 42, 20, 20})
+    #define INTERN_BOT_RIGHT ((sfIntRect){182, 42, 20, 20})
+    #define ENT_TOP_OP ((sfIntRect){122, 242, 40, 20})
+    #define ENT_BOT_OP ((sfIntRect){62, 222, 40, 20})
+    #define ENT_TOP_CL ((sfIntRect){162, 242, 40, 20})
+    #define ENT_BOT_CL ((sfIntRect){102, 222, 40, 20})
+    #define SAVE_PILLAR ((sfIntRect){208, 62, 28, 45})
+    #define SAVED_PILLAR ((sfIntRect){236, 62, 28, 45})
 
 
 typedef enum room_type_e {
