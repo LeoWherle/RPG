@@ -11,23 +11,6 @@
 #include "collision.h"
 #include "chained_list.h"
 
-static bool check_aabb(sfFloatRect *hitbox, sfFloatRect *hurtbox)
-{
-    if (hitbox->top < hurtbox->top + hurtbox->height &&
-        hitbox->top + hitbox->height > hurtbox->top &&
-        hitbox->left < hurtbox->left + hurtbox->width &&
-        hitbox->left + hitbox->width > hurtbox->left) {
-        return true;
-    }
-    if (hurtbox->top < hitbox->top + hitbox->height &&
-        hurtbox->top + hurtbox->height > hitbox->top &&
-        hurtbox->left < hitbox->left + hitbox->width &&
-        hurtbox->left + hurtbox->width > hitbox->left) {
-        return true;
-    }
-    return false;
-}
-
 /**
  * @brief check if there is a collision between a collider and
  * another collider that have a certain tag
@@ -47,7 +30,7 @@ collider_t *collision_check(collider_t *to_check, tag_t tag)
     while (node) {
         act = node->data;
         if (act->activated && act->type == tag &&
-            check_aabb(to_check->hitbox, act->hitbox)) {
+            sfFloatRect_intersects(to_check->hitbox, act->hitbox, NULL)) {
             return act;
         }
         node = node->next;
