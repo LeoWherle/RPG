@@ -14,17 +14,19 @@
 
 static int translate_map(char **map, int y, int x)
 {
-    char *img = ". -[]lrLRpPc}{Ssf/";
+    char *img = ". -_[]lrLRppPP:;,~";
     int i = 0;
+    int temp = 0;
 
     while (img[i] != '\0') {
+        if ((img[i] == 'p' || img[i] == 'P') && (map[y][x] == 'p' ||
+        map[y][x] == 'P') && (temp = draw_doors(map, x, y, i)) != -1)
+            return (temp);
         if (map[y][x] == img[i])
             return (i);
         i++;
     }
-    if (map[y][x] == 'E' || map[y][x] == '$')
-        return (translate_map(map, y, x + 1));
-    return (0);
+    return (VOID_ID);
 }
 
 static void draw_tile(sfRenderWindow *window, sfSprite *tile, sfSprite *floor,
@@ -34,8 +36,33 @@ char c)
     if (c == 'c' || c == '[' || c == ']') {
         sfRenderWindow_drawSprite(window, floor, NULL);
     }
-    if (c != '?')
+    if (c != '?' && c != ' ')
         sfRenderWindow_drawSprite(window, tile, NULL);
+}
+
+static void draw_floor_tile(sfRenderWindow *window, sfSprite *floor, char c)
+{
+
+    if (c == ' ' || c == ';' || c == ':' || c == ',' || c == '~') {
+        sfRenderWindow_drawSprite(window, floor, NULL);
+    }
+}
+
+static void draw_floor(sfRenderWindow *window, room_t *room, tile_t **tile_list)
+{
+    sfVector2f pos = {0, 0};
+    char c = 0;
+    tile_t *floor = tile_list[FLOOR_ID];
+
+    for (int y = 0; room->room[y] != NULL; y++) {
+        for (int x = 0; room->room[y][x] != '\0'; x++) {
+            pos.x = x * TILE_SIZE;
+            pos.y = y * TILE_SIZE;
+            c = room->room[y][x];
+            sfSprite_setPosition(floor->img, pos);
+            draw_floor_tile(window, floor->img, c);
+        }
+    }
 }
 
 void draw_room(sfRenderWindow *window, room_t *room, tile_t **tile_list)
@@ -44,8 +71,9 @@ void draw_room(sfRenderWindow *window, room_t *room, tile_t **tile_list)
     int tile_asset = 0;
     tile_t *tile = NULL;
     char c = 0;
-    tile_t *floor = tile_list[FLOOR];
+    tile_t *floor = tile_list[FLOOR_ID];
 
+    draw_floor(window, room, tile_list);
     for (int y = 0; room->room[y] != NULL; y++) {
         for (int x = 0; room->room[y][x] != '\0'; x++) {
             pos.x = x * TILE_SIZE;
