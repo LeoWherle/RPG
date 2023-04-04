@@ -13,14 +13,15 @@
 
 /**
  * @brief create a new collider and add it to the global list
- * 
+ *
  * @param hitbox the sfFloatrect that will describe the hitbox
  * @param type the type of hitbox
  * @param activate whether to use the collider or not
  * @param owner the owner of the collider
- * @return collider_t* 
+ * @return collider_t*
  */
-collider_t *collider_create(sfFloatRect *hitbox, tag_t type, bool activate, void *owner)
+collider_t *collider_create(sfFloatRect *hitbox, tag_t type,
+                            bool activate, void *owner)
 {
     static list_t *collider_list = NULL;
     collider_t *new = NULL;
@@ -41,7 +42,7 @@ collider_t *collider_create(sfFloatRect *hitbox, tag_t type, bool activate, void
 /**
  * @brief Destroy a collider and remove it from the golbal collider list.
  * If this is the last collider, also destroy the global list.
- * 
+ *
  * @param collider the collider to destroy
  */
 void collider_destroy(collider_t *collider)

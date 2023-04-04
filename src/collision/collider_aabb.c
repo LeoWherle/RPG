@@ -28,11 +28,12 @@ static bool check_aabb(sfFloatRect *hitbox, sfFloatRect *hurtbox)
 }
 
 /**
- * @brief check if there is a collision between a collider and another collider that have a certain tag
- * 
+ * @brief check if there is a collision between a collider and
+ * another collider that have a certain tag
+ *
  * @param to_check the collider that collision will be check
  * @param tag the tag to check
- * @return collider_t* 
+ * @return collider_t*
  */
 collider_t *collision_check(collider_t *to_check, tag_t tag)
 {
@@ -46,6 +47,6 @@ collider_t *collision_check(collider_t *to_check, tag_t tag)
             return act;
         }
         node = node->next;
-    } while(node != to_check->to_collide->head);
+    } while (node != to_check->to_collide->head);
     return NULL;
 }
