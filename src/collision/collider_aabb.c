@@ -7,6 +7,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "collision.h"
 #include "chained_list.h"
 
@@ -24,7 +25,7 @@ static bool check_aabb(sfFloatRect *hitbox, sfFloatRect *hurtbox)
         hurtbox->left + hurtbox->width > hitbox->left) {
         return true;
     }
-    return true;
+    return false;
 }
 
 /**
@@ -39,14 +40,18 @@ collider_t *collision_check(collider_t *to_check, tag_t tag)
 {
     collider_t *act = NULL;
     node_t *node = to_check->to_collide->head;
+    tag_t hold = NONE;
 
-    do {
+    hold = to_check->type;
+    to_check->type = NONE;
+    while (node) {
         act = node->data;
         if (act->activated && act->type == tag &&
             check_aabb(to_check->hitbox, act->hitbox)) {
             return act;
         }
         node = node->next;
-    } while (node != to_check->to_collide->head);
+    }
+    to_check->type = hold;
     return NULL;
 }
