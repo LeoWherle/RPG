@@ -76,10 +76,15 @@ typedef struct pos_s {
     int y;
 } pos_t;
 
+typedef struct map_s {
+    room_t *room;
+    tile_t **tile_list;
+} map_t;
+
     room_t *get_room(room_t *room, room_type_t type);
     void print_room(char **room);
     void free_room(room_t *room);
-    void draw_room(sfRenderWindow *window, room_t *room, tile_t **tile_list);
+    void draw_room(sfRenderWindow *window, map_t *map);
     tile_t **init_tile_list(tile_t **tile_list);
     void free_tile_list(tile_t **tile_list);
     room_t *fill_collisions(room_t *room, char *buff, FILE *fd, size_t len);
@@ -88,5 +93,6 @@ typedef struct pos_s {
     char *get_specific_file(char *path, int nb);
     int draw_doors(char **map, int x, int y, int i);
     bool is_in(char c, char *str);
+    void free_map(map_t *map);
 
 #endif /* !ROOM_H_ */

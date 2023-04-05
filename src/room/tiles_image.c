@@ -63,22 +63,22 @@ static void draw_floor(sfRenderWindow *window, room_t *room, tile_t **tile_list)
     }
 }
 
-void draw_room(sfRenderWindow *window, room_t *room, tile_t **tile_list)
+void draw_room(sfRenderWindow *window, map_t *map)
 {
     sfVector2f pos = {0, 0};
     int tile_asset = 0;
     tile_t *tile = NULL;
     char c = 0;
-    tile_t *floor = tile_list[FLOOR_ID];
+    tile_t *floor = map->tile_list[FLOOR_ID];
 
-    draw_floor(window, room, tile_list);
-    for (int y = 0; room->room[y] != NULL; y++) {
-        for (int x = 0; room->room[y][x] != '\0'; x++) {
+    draw_floor(window, map->room, map->tile_list);
+    for (int y = 0; map->room->room[y] != NULL; y++) {
+        for (int x = 0; map->room->room[y][x] != '\0'; x++) {
             pos.x = x * TILE_SIZE;
             pos.y = y * TILE_SIZE;
-            tile_asset = translate_map(room->room, y, x);
-            c = room->room[y][x];
-            tile = tile_list[tile_asset];
+            tile_asset = translate_map(map->room->room, y, x);
+            c = map->room->room[y][x];
+            tile = map->tile_list[tile_asset];
             sfSprite_setPosition(floor->img, pos);
             sfSprite_setPosition(tile->img, pos);
             draw_tile(window, tile->img, floor->img, c);
