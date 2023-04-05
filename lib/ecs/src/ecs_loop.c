@@ -26,7 +26,7 @@ void execute(item_t *item, sfTime *time, window_t *window)
 {
     if (item) {
         execute(item->next, time, window);
-        if (item->update)
+        if (item->update && window->event->type != -1)
             item->update(item->item, window);
         if (item->animate)
             item->animate(item->item, time);
