@@ -94,5 +94,6 @@ typedef struct map_s {
     int draw_doors(char **map, int x, int y, int i);
     bool is_in(char c, char *str);
     void free_map(map_t *map);
+    map_t *init_map(map_t *map);
 
 #endif /* !ROOM_H_ */
