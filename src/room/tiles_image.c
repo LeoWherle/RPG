@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include "room.h"
 #include "errorhandling.h"
+#include "item.h"
 
 static int translate_map(char **map, int y, int x)
 {
@@ -63,7 +64,7 @@ static void draw_floor(sfRenderWindow *window, room_t *room, tile_t **tile_list)
     }
 }
 
-void draw_room(sfRenderWindow *window, map_t *map)
+void draw_room(map_t *map, window_t* window)
 {
     sfVector2f pos = {0, 0};
     int tile_asset = 0;
@@ -71,7 +72,7 @@ void draw_room(sfRenderWindow *window, map_t *map)
     char c = 0;
     tile_t *floor = map->tile_list[FLOOR_ID];
 
-    draw_floor(window, map->room, map->tile_list);
+    draw_floor(window->window, map->room, map->tile_list);
     for (int y = 0; map->room->room[y] != NULL; y++) {
         for (int x = 0; map->room->room[y][x] != '\0'; x++) {
             pos.x = x * TILE_SIZE;
@@ -81,7 +82,7 @@ void draw_room(sfRenderWindow *window, map_t *map)
             tile = map->tile_list[tile_asset];
             sfSprite_setPosition(floor->img, pos);
             sfSprite_setPosition(tile->img, pos);
-            draw_tile(window, tile->img, floor->img, c);
+            draw_tile(window->window, tile->img, floor->img, c);
         }
     }
 }

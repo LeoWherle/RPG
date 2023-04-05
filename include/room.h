@@ -9,6 +9,7 @@
 #include <SFML/Graphics.h>
 #include <SFML/Window.h>
 #include <stdio.h>
+#include "item.h"
 
 #ifndef ROOM_H_
     #define ROOM_H_
@@ -84,7 +85,7 @@ typedef struct map_s {
     room_t *get_room(room_t *room, room_type_t type);
     void print_room(char **room);
     void free_room(room_t *room);
-    void draw_room(sfRenderWindow *window, map_t *map);
+    void draw_room(map_t *map, window_t* window);
     tile_t **init_tile_list(tile_t **tile_list);
     void free_tile_list(tile_t **tile_list);
     room_t *fill_collisions(room_t *room, char *buff, FILE *fd, size_t len);
