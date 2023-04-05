@@ -9,8 +9,9 @@
 #include "errorhandling.h"
 #include "room.h"
 
-void free_map(map_t *map)
+void free_map(void *map_pt)
 {
+    map_t *map = (map_t *)map_pt;
     free_room(map->room);
     free_tile_list(map->tile_list);
     free(map);

@@ -85,7 +85,7 @@ typedef struct map_s {
     room_t *get_room(room_t *room, room_type_t type);
     void print_room(char **room);
     void free_room(room_t *room);
-    void draw_room(map_t *map, window_t* window);
+    void draw_room(void *map_pt, window_t* window);
     tile_t **init_tile_list(tile_t **tile_list);
     void free_tile_list(tile_t **tile_list);
     room_t *fill_collisions(room_t *room, char *buff, FILE *fd, size_t len);
@@ -94,7 +94,7 @@ typedef struct map_s {
     char *get_specific_file(char *path, int nb);
     int draw_doors(char **map, int x, int y, int i);
     bool is_in(char c, char *str);
-    void free_map(map_t *map);
+    void free_map(void *map_pt);
     map_t *init_map(void);
 
 #endif /* !ROOM_H_ */
