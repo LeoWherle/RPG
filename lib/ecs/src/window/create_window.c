@@ -10,7 +10,7 @@
 #include <SFML/Window.h>
 #include "item.h"
 
-window_t *window_create(sfVideoMode mode, int framerate, char const *title)
+window_t *window_create(sfVideoMode mode, int framerate, char const *title, sfFloatRect view_rect)
 {
     window_t *new = NULL;
 
@@ -22,6 +22,7 @@ window_t *window_create(sfVideoMode mode, int framerate, char const *title)
     new->mode = mode;
     new->window = sfRenderWindow_create(new->mode, title,
     sfClose | sfResize, NULL);
+    new->view = sfView_createFromRect(view_rect);
     if (!new->window) {
         free(new);
         return NULL;

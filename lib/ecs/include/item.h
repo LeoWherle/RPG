@@ -25,12 +25,14 @@
         float framerate;
         sfClock *frame;
         sfVideoMode mode;
+        sfView *view;
+        sfEvent *event;
         sfRenderWindow *window;
     } window_t;
 
     typedef struct item {
         void *item;
-        void (* update)(void *, sfEvent *);
+        void (* update)(void *, window_t *);
         void (* animate)(void *, sfTime *);
         void (* print)(void *, window_t *);
         void (* destroy)(void *);
@@ -45,10 +47,11 @@
 
     void item_loop(item_t *item, window_t *screen, bool (* cond)(sfEvent *));
 
-    window_t *window_create(sfVideoMode mode, int framerate, char const *title);
+    window_t *window_create(sfVideoMode mode, int framerate,
+                            char const *title, sfFloatRect view_rect);
     void window_destroy(window_t *window);
     item_t *item_create(item_t *list, void *item,
-                        void (* act)(void *, sfEvent *),
+                        void (* act)(void *, window_t *),
                         void (* print)(void *, window_t *));
     void item_list_destroy(item_t *item);
 

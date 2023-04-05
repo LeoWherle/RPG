@@ -22,31 +22,29 @@ void print(item_t *item, window_t *window)
     sfRenderWindow_display(window->window);
 }
 
-void execute(item_t *item, sfEvent *event, sfTime *time)
+void execute(item_t *item, sfTime *time, window_t *window)
 {
     if (item) {
-        execute(item->next, event, time);
+        execute(item->next, time, window);
         if (item->update)
-            item->update(item->item, event);
+            item->update(item->item, window);
         if (item->animate)
             item->animate(item->item, time);
     }
-    return;
 }
 
 void item_loop(item_t *item, window_t *window, bool (* cond)(sfEvent *))
 {
-    sfEvent event;
     sfTime time = {0};
 
-    sfRenderWindow_pollEvent(window->window, &event);
+    sfRenderWindow_pollEvent(window->window, &window->event);
     do {
         time = sfClock_getElapsedTime(window->frame);
         if (time.microseconds > window->framerate) {
-            execute(item, &event, &time);
+            execute(item, &time, window);
             print(item, window);
             sfClock_restart(window->frame);
         }
-        sfRenderWindow_pollEvent(window->window, &event);
-    } while (cond(&event));
+        sfRenderWindow_pollEvent(window->window, &window->event);
+    } while (cond(&window->event));
 }

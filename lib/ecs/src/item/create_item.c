@@ -10,7 +10,7 @@
 #include "item.h"
 
 item_t *item_create(item_t *list, void *item,
-                    void (* update)(void *, sfEvent *),
+                    void (* update)(void *, window_t *),
                     void (* print)(void *, window_t *))
 {
     item_t *new = NULL;
@@ -29,7 +29,7 @@ void item_list_destroy(item_t *item)
 {
     if (!item)
         return;
-    destroy_item_list(item->next);
+    item_list_destroy(item->next);
     if (item->destroy) {
         item->destroy(item->item);
         free(item);
