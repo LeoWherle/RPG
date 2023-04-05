@@ -29,6 +29,7 @@ int main(int ac, UNUSED char **av)
     window = window_create((sfVideoMode){1920, 1080, 32}, 60,
             "Into the abyss", (sfFloatRect){0, 0, 1920, 1080});
     item = item_create(item, create_player(window), destroy_player);
+    item = item_create(item, gui_create_all(window), gui_destroy_all);
     ASSERT_MALLOC(item, 84);
     item_set_func(item, player_update, NULL, player_print);
     item = item_create(item, init_map(), free_map);
