@@ -10,6 +10,7 @@
 #include <SFML/Window.h>
 #include <stdio.h>
 #include "item.h"
+#include "collision.h"
 
 #ifndef ROOM_H_
     #define ROOM_H_
@@ -80,6 +81,7 @@ typedef struct pos_s {
 typedef struct map_s {
     room_t *room;
     tile_t **tile_list;
+    list_t *colliders;
 } map_t;
 
     room_t *get_room(room_t *room, room_type_t type);

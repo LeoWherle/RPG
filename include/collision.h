@@ -13,7 +13,7 @@
     #define COLLISION_H
 
     typedef enum tag {
-        NONE,
+        TRIGGER,
         SOLID,
         HITBOX,
         HURTBOX,
