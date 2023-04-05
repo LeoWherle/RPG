@@ -30,13 +30,8 @@ static int translate_map(char **map, int y, int x)
     return (VOID_ID);
 }
 
-static void draw_tile(sfRenderWindow *window, sfSprite *tile, sfSprite *floor,
-char c)
+static void draw_tile(sfRenderWindow *window, sfSprite *tile, char c)
 {
-
-    if (is_in(c, "c[]")) {
-        sfRenderWindow_drawSprite(window, floor, NULL);
-    }
     if (!is_in(c, "? "))
         sfRenderWindow_drawSprite(window, tile, NULL);
 }
@@ -64,13 +59,13 @@ static void draw_floor(sfRenderWindow *window, room_t *room, tile_t **tile_list)
     }
 }
 
-void draw_room(map_t *map, window_t* window)
+void draw_room(void *map_pt, window_t* window)
 {
     sfVector2f pos = {0, 0};
     int tile_asset = 0;
     tile_t *tile = NULL;
     char c = 0;
-    tile_t *floor = map->tile_list[FLOOR_ID];
+    map_t *map = (map_t *)map_pt;
 
     sfRenderWindow_clear(window->window, map->room->bg_color);
     draw_floor(window->window, map->room, map->tile_list);
@@ -81,9 +76,8 @@ void draw_room(map_t *map, window_t* window)
             tile_asset = translate_map(map->room->room, y, x);
             c = map->room->room[y][x];
             tile = map->tile_list[tile_asset];
-            sfSprite_setPosition(floor->img, pos);
             sfSprite_setPosition(tile->img, pos);
-            draw_tile(window->window, tile->img, floor->img, c);
+            draw_tile(window->window, tile->img, c);
         }
     }
 }
