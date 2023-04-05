@@ -16,8 +16,10 @@ void free_map(map_t *map)
     free(map);
 }
 
-map_t *init_map(map_t *map)
+map_t *init_map(void)
 {
+    map_t *map = NULL;
+
     map = malloc(sizeof(map_t));
     ASSERT_MALLOC(map, NULL);
     map->room = NULL;
