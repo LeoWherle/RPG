@@ -11,11 +11,11 @@
 
 /**
  * @brief create an item
- * 
+ *
  * @param list the list of item
  * @param item the object to be placed in the item struct
  * @param destroy a function to destroy the object
- * @return item_t* 
+ * @return item_t*
  */
 item_t *item_create(item_t *list, void *item, void (* destroy)(void *))
 {
@@ -54,7 +54,7 @@ void item_set_func(item_t *item, void (* update)(void *, window_t *),
 
 /**
  * @brief destroy the given item list
- * 
+ *
  * @param item the item_list to destroy
  */
 void item_list_destroy(item_t *item)
