@@ -72,6 +72,7 @@ void draw_room(map_t *map, window_t* window)
     char c = 0;
     tile_t *floor = map->tile_list[FLOOR_ID];
 
+    sfRenderWindow_clear(window->window, map->room->bg_color);
     draw_floor(window->window, map->room, map->tile_list);
     for (int y = 0; map->room->room[y] != NULL; y++) {
         for (int x = 0; map->room->room[y][x] != '\0'; x++) {
