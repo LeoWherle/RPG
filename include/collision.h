@@ -18,6 +18,7 @@
         HITBOX,
         HURTBOX,
         DEATHBOX,
+        INTERACTION,
     } tag_t;
 
     typedef struct collider {
