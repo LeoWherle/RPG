@@ -36,14 +36,16 @@ void execute(item_t *item, sfTime *time, window_t *window)
 void item_loop(item_t *item, window_t *window, bool (* cond)(sfEvent *))
 {
     sfTime time = {0};
+    sfTime prev_time = {0};
 
+    prev_time = sfClock_getElapsedTime(window->frame); 
     sfRenderWindow_pollEvent(window->window, &window->event);
     do {
         time = sfClock_getElapsedTime(window->frame);
-        if (time.microseconds > window->framerate) {
+        if ((time.microseconds - prev_time.microseconds) / 1000000. > 0.016666) {
             execute(item, &time, window);
             print(item, window);
-            sfClock_restart(window->frame);
+            time = prev_time;
         }
         sfRenderWindow_pollEvent(window->window, &window->event);
     } while (cond(&window->event));

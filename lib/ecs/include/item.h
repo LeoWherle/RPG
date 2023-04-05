@@ -22,7 +22,6 @@
     };
 
     typedef struct window {
-        float framerate;
         sfClock *frame;
         sfVideoMode mode;
         sfView *view;

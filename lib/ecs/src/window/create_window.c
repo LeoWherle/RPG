@@ -18,7 +18,6 @@ window_t *window_create(sfVideoMode mode, int framerate, char const *title, sfFl
     if (!new)
         return NULL;
     new->frame = sfClock_create();
-    new->framerate = 1. / framerate * 1000000.;
     new->mode = mode;
     new->window = sfRenderWindow_create(new->mode, title,
     sfClose | sfResize, NULL);
