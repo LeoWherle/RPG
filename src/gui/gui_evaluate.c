@@ -6,7 +6,6 @@
 */
 
 #include "gui.h"
-#include "francais.h"
 
 /**
  * @brief check if a gui_state_t is set
