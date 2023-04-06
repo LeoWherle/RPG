@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "item.h"
 #include "entities.h"
+#include "collision.h"
 
 void set_stats(entity_t *entity, stats_t *stats)
 {
@@ -21,26 +22,40 @@ void set_stats(entity_t *entity, stats_t *stats)
     entity->stats.atk_speed = stats->atk_speed;
 }
 
+void set_hitbox(entity_t *entity, sfFloatRect *hitbox, tag_t type)
+{
+    entity->collider = collider_create(hitbox, type, true, entity);
+}
+
+void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect)
+{
+    entity->texture = sfTexture_createFromFile(path, NULL);
+    entity->sprite = sfSprite_create();
+    entity->anim_rect = anim_rect;
+    sfSprite_setOrigin(entity->sprite,
+    (sfVector2f){anim_rect.width / 2, anim_rect.height / 2});
+    sfSprite_setScale(entity->sprite, (sfVector2f){PLAYER_SIZE, PLAYER_SIZE});
+    sfSprite_setTexture(entity->sprite, entity->texture, sfTrue);
+    sfSprite_setTextureRect(entity->sprite, entity->anim_rect);
+    sfSprite_setPosition(entity->sprite, entity->pos);
+}
+
 entity_t *create_player(window_t *window)
 {
     entity_t *player = malloc(sizeof(entity_t));
     stats_t stats = {PLAYER_HP, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
     PLAYER_SPEED, PLAYER_ATK_SPEED};
+
     player->type = PLAYER_E;
     player->animation = FRONT_IDLE;
-    player->texture = sfTexture_createFromFile
-    ("assets/characters/player.png", NULL);
-    player->sprite = sfSprite_create();
     player->anim_clock = sfClock_create();
     player->pos = (sfVector2f){window->mode.width / 2,
     window->mode.height / 2};
-    player->anim_rect = (sfIntRect){0, 0, 48, 48};
+    set_sprite(player, "assets/characters/player.png",
+    (sfIntRect){0, 0, 48, 48});
     set_stats(player, &stats);
-    sfSprite_setOrigin(player->sprite, (sfVector2f){24, 24});
-    sfSprite_setScale(player->sprite, (sfVector2f){PLAYER_SIZE, PLAYER_SIZE});
-    sfSprite_setTexture(player->sprite, player->texture, sfTrue);
-    sfSprite_setTextureRect(player->sprite, player->anim_rect);
-    sfSprite_setPosition(player->sprite, player->pos);
+    set_hitbox(player, &(sfFloatRect){player->pos.x - 24,
+    player->pos.y - 24, 48, 48}, SOLID);
     set_camera(player, window);
     return player;
 }

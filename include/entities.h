@@ -11,6 +11,7 @@
 #include <SFML/System.h>
 #include <math.h>
 #include "item.h"
+#include "collision.h"
 
 #ifndef ENTITIES_H
     #define ENTITIES_H
@@ -56,6 +57,7 @@
         enum animation_type_player animation;
         int facing_right;
         stats_t stats;
+        collider_t *collider;
         sfSprite *sprite;
         sfTexture *texture;
         sfVector2f pos;
@@ -70,6 +72,7 @@
     void move_player(entity_t *player, window_t *window);
     void player_print(void *player, window_t *window);
     void player_update(void *player, window_t *window);
+    void player_hitbox(entity_t *player);
     void set_camera(entity_t *player, window_t *window);
     void update_camera(entity_t *player, window_t *window);
 
