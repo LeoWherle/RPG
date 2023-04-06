@@ -11,6 +11,7 @@
 #include <SFML/System.h>
 #include <math.h>
 #include "item.h"
+#include "collision.h"
 
 #ifndef ENTITIES_H
     #define ENTITIES_H
@@ -18,12 +19,12 @@
     #define SQRT 0.70710678118
     #define INTERVAL 0.1
     #define PLAYER_SIZE 3
-    #define BASE_SPEED 5
-    #define BASE_ATK_SPEED 1
-    #define BASE_HP 100
-    #define BASE_ATK 10
-    #define BASE_DEF 10
-    #define BASE_LUCK 10
+    #define PLAYER_SPEED 5
+    #define PLAYER_ATK_SPEED 1
+    #define PLAYER_HP 100
+    #define PLAYER_ATK 10
+    #define PLAYER_DEF 10
+    #define PLAYER_LUCK 10
 
     enum entity_type {
         PLAYER_E = 0,
@@ -33,13 +34,13 @@
         OTHER
     };
 
-    enum animation_type {
+    enum animation_type_player {
         FRONT_IDLE = 0,
-        SIDE_IDLE = 1,
-        BACK_IDLE = 2,
-        FRONT_WALK = 3,
-        SIDE_WALK = 4,
-        BACK_WALK = 5,
+        SIDE_IDLE,
+        BACK_IDLE,
+        FRONT_WALK,
+        SIDE_WALK,
+        BACK_WALK,
     };
 
     typedef struct stats {
@@ -53,9 +54,10 @@
 
     typedef struct entity {
         enum entity_type type;
-        enum animation_type animation;
+        enum animation_type_player animation;
         int facing_right;
         stats_t stats;
+        collider_t *collider;
         sfSprite *sprite;
         sfTexture *texture;
         sfVector2f pos;
@@ -70,6 +72,7 @@
     void move_player(entity_t *player, window_t *window);
     void player_print(void *player, window_t *window);
     void player_update(void *player, window_t *window);
+    void player_hitbox(entity_t *player);
     void set_camera(entity_t *player, window_t *window);
     void update_camera(entity_t *player, window_t *window);
 
