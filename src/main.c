@@ -12,10 +12,12 @@
 #include "entities.h"
 #include "errorhandling.h"
 
-bool exit_ecs(sfEvent *event)
+bool exit_ecs(window_t *window)
 {
-    if (event->type == sfEvtClosed)
+    if (window->event->type == sfEvtClosed) {
+        sfRenderWindow_close(window->window);
         return true;
+    }
     return false;
 }
 
