@@ -30,44 +30,67 @@ text_box_t *text_box_create(sfFont *font, sfTexture *rect_texture)
     ASSERT_MALLOC(new->title, NULL);
     sfText_setFont(new->title, font);
     sfText_setCharacterSize(new->title, 32);
-    sfText_setPosition(new->title, (sfVector2f){50, 864});
+    sfText_setPosition(new->title, (sfVector2f){50, 828});
     new->text_line_1 = sfText_create();
     ASSERT_MALLOC(new->text_line_1, NULL);
     sfText_setFont(new->text_line_1, font);
     sfText_setCharacterSize(new->text_line_1, 32);
-    sfText_setPosition(new->text_line_1, (sfVector2f){50, 936});
+    sfText_setPosition(new->text_line_1, (sfVector2f){50, 900});
     new->text_line_2 = sfText_create();
     ASSERT_MALLOC(new->text_line_2, NULL);
     sfText_setFont(new->text_line_2, font);
     sfText_setCharacterSize(new->text_line_2, 32);
-    sfText_setPosition(new->text_line_2, (sfVector2f){50, 1008});
+    sfText_setPosition(new->text_line_2, (sfVector2f){50, 972});
     new->text_delay = 0;
     new->to_print = NULL;
     new->index = 0;
     return new;
 }
 
+static int get_line_len(char *txt)
+{
+    int i = 0;
+
+    while (i < 90 && txt[i] != '\0' && txt[i] != '\n') {
+        i++;
+    }
+    while (txt[i] != ' ' && txt[i] != '\0' && txt[i] != '\n') {
+        i--;
+    }
+    return i + 1;
+}
+
+static int get_nb_lines(char *txt)
+{
+    int size = 0;
+    int i = 0;
+
+    while (txt[i] != '\0') {
+        i += get_line_len(&txt[i]);
+        size++;
+    }
+    return size;
+}
+
 static char **format_text(char *text)
 {
     char **new = NULL;
-    int len = 0;
     int size = 1;
     int y = 0;
+    int i = 0;
+    int len = 0;
 
-    len = my_strlen(text);
-    while (len > 0) {
-        len -= 50;
-        size++;
+    size = get_nb_lines(text);
+    new = malloc(sizeof(char *) * (size + 1));
+    for (int x = 0; x < size; x++) {
+        len = get_line_len(&text[i]);
+        new[x] = malloc(sizeof(char *) * len);
+        for (y = 0; y < len; y++)
+            new[x][y] = text[i + y];
+        new[x][y - 1] = '\0';
+        i += y;
     }
-    new = malloc(sizeof(char *) * size);
-    for (int x = 0; x < size - 1; x++) {
-        new[x] = malloc(sizeof(char) * 51);
-        for (y = 0; y < 50 && text[x * 50 + y] != '\0'; y++) {
-            new[x][y] = text[x * 50 + y];
-        }
-        new[x][y] = '\0';
-    }
-    new[size - 1] = NULL;
+    new[size] = NULL;
     return new;
 }
 
