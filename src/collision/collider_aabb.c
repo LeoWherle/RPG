@@ -23,10 +23,10 @@ collider_t *collision_check(collider_t *to_check, tag_t tag)
 {
     collider_t *act = NULL;
     node_t *node = to_check->to_collide->head;
-    tag_t hold = NONE;
+    tag_t hold = 0;
 
     hold = to_check->type;
-    to_check->type = NONE;
+    to_check->type = 6;
     while (node) {
         act = node->data;
         if (act->activated && act->type == tag &&
