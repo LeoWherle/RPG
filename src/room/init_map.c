@@ -9,12 +9,13 @@
 #include "errorhandling.h"
 #include "room.h"
 #include "cave.h"
+#include "collision.h"
 
 void free_colliders(void *collider)
 {
     collider_t *coll = (collider_t *)collider;
 
-    free(coll);
+    collider_destroy(coll);
 }
 
 void free_map(void *map_pt)

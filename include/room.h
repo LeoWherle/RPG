@@ -17,6 +17,8 @@
     #define TILE_SIZE 60
     #define VOID_ID 0
     #define FLOOR_ID 1
+    #define RDR_DIST_X 1700
+    #define RDR_DIST_Y 1800
 
 typedef enum room_type_e {
     VILLAGE_R,

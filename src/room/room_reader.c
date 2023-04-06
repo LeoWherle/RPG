@@ -56,7 +56,10 @@ static room_t *fill_room_lines(room_t *room, char *buff, FILE *fd, size_t len)
             y++;
         }
     }
-    room->bg_color = sfColor_fromRGB(34, 32, 52);
+    if (room->type == CAVE_R)
+        room->bg_color = sfColor_fromRGB(34, 32, 52);
+    if (room->type == VILLAGE_R)
+        room->bg_color = sfColor_fromRGB(56, 152, 255);
     room = fill_collisions(room, buff, fd, len);
     return (room);
 }
