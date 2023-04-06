@@ -35,6 +35,7 @@ SRC =	src/main.c	\
 		src/entities/player_controller.c	\
 		src/entities/player_movement.c	\
 		src/collision/collider_create.c	\
+		src/collision/collider_aabb.c	\
 
 TEST_CRIT	=	\
 

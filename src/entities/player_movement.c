@@ -11,6 +11,7 @@
 #include <math.h>
 #include "item.h"
 #include "entities.h"
+#include "collision.h"
 
 void player_animation(entity_t *player)
 {
@@ -90,4 +91,11 @@ void move_player(entity_t *player, window_t *window)
     player->pos.y += speed_vector.y;
     player_orientation(player, window);
     animation_controller(player, speed_vector);
+}
+
+void player_hitbox(entity_t *player)
+{
+    player->collider->hitbox->left = player->pos.x - 24;
+    player->collider->hitbox->top = player->pos.y - 24;
+    collision_check(player->collider, SOLID);
 }
