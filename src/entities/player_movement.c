@@ -74,13 +74,13 @@ void move_player(entity_t *player, window_t *window)
 {
     sfVector2f speed_vector = {0, 0};
 
-    if (sfKeyboard_isKeyPressed(sfKeyZ))
+    if (sfKeyboard_isKeyPressed(sfKeyZ) || sfKeyboard_isKeyPressed(sfKeyUp))
         speed_vector.y -= player->stats.speed;
-    if (sfKeyboard_isKeyPressed(sfKeyS))
+    if (sfKeyboard_isKeyPressed(sfKeyS) || sfKeyboard_isKeyPressed(sfKeyDown))
         speed_vector.y += player->stats.speed;
-    if (sfKeyboard_isKeyPressed(sfKeyQ))
+    if (sfKeyboard_isKeyPressed(sfKeyQ) || sfKeyboard_isKeyPressed(sfKeyLeft))
         speed_vector.x -= player->stats.speed;
-    if (sfKeyboard_isKeyPressed(sfKeyD))
+    if (sfKeyboard_isKeyPressed(sfKeyD) || sfKeyboard_isKeyPressed(sfKeyRight))
         speed_vector.x += player->stats.speed;
     if (speed_vector.x != 0 && speed_vector.y != 0) {
         speed_vector.x *= SQRT;
