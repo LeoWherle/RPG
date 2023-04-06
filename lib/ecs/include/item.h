@@ -44,7 +44,7 @@
         struct dependency *next;
     } dependency_t;
 
-    void item_loop(item_t *item, window_t *screen, bool (* cond)(sfEvent *));
+    void item_loop(item_t *item, window_t *screen, bool (* cond)(window_t *));
 
     window_t *window_create(sfVideoMode mode, int framerate,
                             char const *title, sfFloatRect view_rect);

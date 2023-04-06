@@ -13,11 +13,12 @@
     #define COLLISION_H
 
     typedef enum tag {
-        NONE,
+        TRIGGER,
         SOLID,
         HITBOX,
         HURTBOX,
         DEATHBOX,
+        INTERACTION,
     } tag_t;
 
     typedef struct collider {

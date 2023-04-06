@@ -33,7 +33,7 @@ void execute(item_t *item, sfTime *time, window_t *window)
     }
 }
 
-void item_loop(item_t *item, window_t *window, bool (* cond)(sfEvent *))
+void item_loop(item_t *item, window_t *window, bool (* cond)(window_t *))
 {
     sfTime time = {0};
     sfTime prev_time = {0};
@@ -49,5 +49,5 @@ void item_loop(item_t *item, window_t *window, bool (* cond)(sfEvent *))
             time = prev_time;
         }
         sfRenderWindow_pollEvent(window->window, window->event);
-    } while (!cond(window->event));
+    } while (!cond(window));
 }
