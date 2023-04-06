@@ -54,8 +54,25 @@ entity_t *create_player(window_t *window)
     set_sprite(player, "assets/characters/player.png",
     (sfIntRect){0, 0, 48, 48});
     set_stats(player, &stats);
-    set_hitbox(player, &(sfFloatRect){player->pos.x - 24,
-    player->pos.y - 24, 48, 48}, SOLID);
+    player->collider = collider_create(&(sfFloatRect)
+    {player->pos.x - 24, player->pos.y - 24, 48, 48}, SOLID, true, player);
     set_camera(player, window);
     return player;
+}
+
+entity_t *create_slime(window_t *window)
+{
+    entity_t *slime = malloc(sizeof(entity_t));
+    stats_t stats = {100, 10, 0, 0, 2, 0};
+
+    slime->type = ENEMY;
+    slime->animation = FRONT_IDLE;
+    slime->anim_clock = sfClock_create();
+    slime->pos = (sfVector2f){window->mode.width / 2,
+    window->mode.height / 2};
+    slime->sprite_size = 20;
+    set_sprite(slime, "assets/characters/Slime.png",
+    (sfIntRect){0, 0, slime->sprite_size, slime->sprite_size});
+    set_stats(slime, &stats);
+    return slime;
 }

@@ -44,11 +44,11 @@
     };
 
     typedef struct stats {
-        int hp;
-        int atk;
-        int def;
-        int luck;
-        int speed;
+        float hp;
+        float atk;
+        float def;
+        float luck;
+        float speed;
         float atk_speed;
     } stats_t;
 
@@ -56,6 +56,7 @@
         enum entity_type type;
         enum animation_type_player animation;
         int facing_right;
+        int sprite_size;
         stats_t stats;
         collider_t *collider;
         sfSprite *sprite;
@@ -68,11 +69,16 @@
     } entity_t;
 
     entity_t *create_player(window_t *window);
+    entity_t *create_slime(window_t *window);
     void destroy_player(void *entity);
+    void destroy_enemy(void *entity);
     void move_player(entity_t *player, window_t *window);
     void player_print(void *player, window_t *window);
     void player_update(void *player, window_t *window);
     void player_hitbox(entity_t *player);
+    void enemy_update(void *enemy_void, window_t *window);
+    void enemy_print(void *enemy_void, window_t *window);
+    void enemy_move(entity_t *enemy, window_t *window);
     void set_camera(entity_t *player, window_t *window);
     void update_camera(entity_t *player, window_t *window);
 

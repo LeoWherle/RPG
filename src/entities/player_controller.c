@@ -16,6 +16,7 @@ void player_update(void *player_void, window_t *window)
 {
     entity_t *player = (entity_t *)player_void;
 
+    //player_hitbox(player);
     move_player(player, window);
     update_camera(player, window);
 }
