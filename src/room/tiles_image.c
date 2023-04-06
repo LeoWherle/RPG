@@ -13,23 +13,6 @@
 #include "errorhandling.h"
 #include "item.h"
 
-static int translate_map(char **map, int y, int x)
-{
-    char *img = ". -_[]lrLRppPP:;,~c<>{}eeEESst";
-    int i = 0;
-    int temp = 0;
-
-    while (img[i] != '\0') {
-        if (is_in(img[i], "pPeE") && (is_in(map[y][x], "pPeE"))
-        && (temp = draw_doors(map, x, y, i)) != -1)
-            return (temp);
-        if (map[y][x] == img[i])
-            return (i);
-        i++;
-    }
-    return (VOID_ID);
-}
-
 static void draw_tile(sfRenderWindow *window, sfSprite *tile, char c)
 {
     if (!is_in(c, "? "))
@@ -59,6 +42,17 @@ static void draw_floor(sfRenderWindow *window, room_t *room, tile_t **tile_list)
     }
 }
 
+static int translate_map(char **room, int y, int x, room_type_t type)
+{
+    int tile_asset = 0;
+
+    if (type == CAVE_R)
+        tile_asset = translate_cave(room, y, x);
+    if (type == VILLAGE_R)
+        tile_asset = translate_village(room, y, x);
+    return (tile_asset);
+}
+
 void draw_room(void *map_pt, window_t* window)
 {
     sfVector2f pos = {0, 0};
@@ -73,7 +67,7 @@ void draw_room(void *map_pt, window_t* window)
         for (int x = 0; map->room->room[y][x] != '\0'; x++) {
             pos.x = x * TILE_SIZE;
             pos.y = y * TILE_SIZE;
-            tile_asset = translate_map(map->room->room, y, x);
+            tile_asset = translate_map(map->room->room, y, x, map->room->type);
             c = map->room->room[y][x];
             tile = map->tile_list[tile_asset];
             sfSprite_setPosition(tile->img, pos);
