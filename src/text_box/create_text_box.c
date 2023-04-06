@@ -21,6 +21,10 @@ text_box_t *text_box_create(sfFont *font, sfTexture *rect_texture)
     ASSERT_MALLOC(new->box, NULL);
     sfRectangleShape_setSize(new->box, (sfVector2f){1820, 216});
     sfRectangleShape_setPosition(new->box, (sfVector2f){50, 814});
+    if (rect_texture)
+        sfRectangleShape_setTexture(new->box, rect_texture, sfTrue);
+    else
+        sfRectangleShape_setFillColor(new->box, sfBlack);
     new->font = font;
     new->title = sfText_create();
     ASSERT_MALLOC(new->title, NULL);
@@ -43,11 +47,12 @@ text_box_t *text_box_create(sfFont *font, sfTexture *rect_texture)
     return new;
 }
 
-char **format_text(char *text)
+static char **format_text(char *text)
 {
     char **new = NULL;
     int len = 0;
     int size = 1;
+    int y = 0;
 
     len = my_strlen(text);
     while (len > 0) {
@@ -56,11 +61,11 @@ char **format_text(char *text)
     }
     new = malloc(sizeof(char *) * size);
     for (int x = 0; x < size - 1; x++) {
-        malloc(sizeof(char) * 51);
-        for (int y = 0; y < 50; y++) {
+        new[x] = malloc(sizeof(char) * 51);
+        for (y = 0; y < 50 && text[x * 50 + y] != '\0'; y++) {
             new[x][y] = text[x * 50 + y];
         }
-        new[x][50] = '\0';
+        new[x][y] = '\0';
     }
     new[size - 1] = NULL;
     return new;
@@ -76,8 +81,10 @@ void text_box_modify(text_box_t *text_box, char *new_title, char *new_text, int 
     sfText_setString(text_box->text_line_2, text_box->to_print[1]);
 }
 
-void text_box_destroy(text_box_t *text_box)
+void text_box_destroy(void *item)
 {
+    text_box_t *text_box = item;
+
     sfRectangleShape_destroy(text_box->box);
     sfFont_destroy(text_box->font);
     sfText_destroy(text_box->title);
