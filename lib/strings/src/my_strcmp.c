@@ -14,3 +14,17 @@ int my_strcmp(char const *s1, char const *s2)
     }
     return (*s1 == *s2) ? 0 : (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
+
+int my_env_strcmp(char const *s1, char const *s2)
+{
+    int i = 0;
+    int len1 = my_strlen(s1);
+    int len2 = my_strlen(s2);
+
+    while ((i < len1 && i < len2) && s1[i] == s2[i]) {
+        i++;
+    }
+    if (s1[i] == '=')
+        return (0);
+    return (s1[i] - s2[i]);
+}
