@@ -37,6 +37,7 @@ SRC =	src/main.c	\
 		src/entities/player_camera.c		\
 		src/entities/player_controller.c	\
 		src/entities/player_movement.c	\
+		src/entities/player_animation.c 	\
 		src/entities/enemy_movement.c	\
 		src/entities/enemy_controller.c	\
 		src/collision/collider_create.c	\

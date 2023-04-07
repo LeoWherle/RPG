@@ -41,6 +41,9 @@
         FRONT_WALK,
         SIDE_WALK,
         BACK_WALK,
+        FRONT_DASH,
+        SIDE_DASH,
+        BACK_DASH,
     };
 
     typedef struct stats {
@@ -52,19 +55,28 @@
         float atk_speed;
     } stats_t;
 
+    typedef struct player_dash {
+        int is_dashing;
+        int vector_lock;
+        float dash_cooldown;
+        sfVector2f dash_vector;
+        sfTime dash_start;
+        sfTime dash_time;
+    } player_dash_t;
+
     typedef struct entity {
         enum entity_type type;
         enum animation_type_player animation;
         int facing_right;
         int sprite_size;
+        sfVector2f speed_vector;
         stats_t stats;
         collider_t *collider;
         sfSprite *sprite;
         sfTexture *texture;
         sfVector2f pos;
+        player_dash_t *dash;
         sfIntRect anim_rect;
-        sfClock *anim_clock;
-        sfTime anim_time;
         dependency_t *depend;
     } entity_t;
 
@@ -75,6 +87,10 @@
     void move_player(entity_t *player, window_t *window);
     void player_print(void *player, window_t *window);
     void player_update(void *player, window_t *window);
+    void player_animation(void *player, window_t *window);
+    void dash_animation(entity_t *player);
+    void animation_controller(entity_t *player);
+    void move_player_sprite(entity_t *player, window_t *window);
     void player_hitbox(entity_t *player);
     void enemy_update(void *enemy_void, window_t *window);
     void enemy_print(void *enemy_void, window_t *window);
