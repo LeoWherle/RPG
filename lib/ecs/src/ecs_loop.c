@@ -16,7 +16,7 @@ void print(item_t *item, window_t *window)
 {
     sfRenderWindow_clear(window->window, sfWhite);
     for (item_t *pr = item; pr; pr = pr->next) {
-        if (pr->item)
+        if (pr->print)
             pr->print(pr->item, window);
     }
     sfRenderWindow_display(window->window);
