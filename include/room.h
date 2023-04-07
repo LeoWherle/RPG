@@ -9,11 +9,13 @@
 #include <SFML/Graphics.h>
 #include <SFML/Window.h>
 #include <stdio.h>
+#include "item.h"
+#include "collision.h"
 
 #ifndef ROOM_H_
     #define ROOM_H_
     #define TILE_SIZE 60
-    #define TILE_NB 29
+    #define TILE_NB 30
     #define VOID_ID 0
     #define FLOOR_ID 1
     #define VOID_POS ((sfIntRect){2, 2, 20, 20})
@@ -45,6 +47,7 @@
     #define ENT_BOT_CL ((sfIntRect){102, 222, 40, 20})
     #define SAVE_PILLAR ((sfIntRect){208, 62, 28, 45})
     #define SAVED_PILLAR ((sfIntRect){236, 62, 28, 45})
+    #define TORCH ((sfIntRect){182, 0, 20, 22})
 
 
 typedef enum room_type_e {
@@ -75,10 +78,16 @@ typedef struct pos_s {
     int y;
 } pos_t;
 
+typedef struct map_s {
+    room_t *room;
+    tile_t **tile_list;
+    list_t *colliders;
+} map_t;
+
     room_t *get_room(room_t *room, room_type_t type);
     void print_room(char **room);
     void free_room(room_t *room);
-    void draw_room(sfRenderWindow *window, room_t *room, tile_t **tile_list);
+    void draw_room(void *map_pt, window_t* window);
     tile_t **init_tile_list(tile_t **tile_list);
     void free_tile_list(tile_t **tile_list);
     room_t *fill_collisions(room_t *room, char *buff, FILE *fd, size_t len);
@@ -87,5 +96,7 @@ typedef struct pos_s {
     char *get_specific_file(char *path, int nb);
     int draw_doors(char **map, int x, int y, int i);
     bool is_in(char c, char *str);
+    void free_map(void *map_pt);
+    map_t *init_map(void);
 
 #endif /* !ROOM_H_ */

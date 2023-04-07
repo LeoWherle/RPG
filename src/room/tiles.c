@@ -88,7 +88,8 @@ tile_t **init_tile_list(tile_t **tile_list)
     &DOOR_TOP_OP, &DOOR_BOT_OP, &DOOR_TOP_CL, &DOOR_BOT_CL, &LITTLE_CRIS_BL,
     &LITTLE_CRIS_PI, &LITTLE_ROCK, &LITTLE_STICK, &CHEST, &INTERN_TOP_LEFT,
     &INTERN_TOP_RIGHT, &INTERN_BOT_LEFT, &INTERN_BOT_RIGHT, &ENT_TOP_OP,
-    &ENT_BOT_OP, &ENT_TOP_CL, &ENT_BOT_CL, &SAVE_PILLAR, &SAVED_PILLAR, NULL};
+    &ENT_BOT_OP, &ENT_TOP_CL, &ENT_BOT_CL, &SAVE_PILLAR, &SAVED_PILLAR,
+    &TORCH, NULL};
 
     tile_list = malloc(sizeof(tile_t *) * (TILE_NB + 1));
     ASSERT_MALLOC(tile_list, NULL);

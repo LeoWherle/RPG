@@ -11,10 +11,11 @@
 #include <stdlib.h>
 #include "room.h"
 #include "errorhandling.h"
+#include "item.h"
 
 static int translate_map(char **map, int y, int x)
 {
-    char *img = ". -_[]lrLRppPP:;,~c<>{}eeEESs";
+    char *img = ". -_[]lrLRppPP:;,~c<>{}eeEESst";
     int i = 0;
     int temp = 0;
 
@@ -29,13 +30,8 @@ static int translate_map(char **map, int y, int x)
     return (VOID_ID);
 }
 
-static void draw_tile(sfRenderWindow *window, sfSprite *tile, sfSprite *floor,
-char c)
+static void draw_tile(sfRenderWindow *window, sfSprite *tile, char c)
 {
-
-    if (is_in(c, "c[]")) {
-        sfRenderWindow_drawSprite(window, floor, NULL);
-    }
     if (!is_in(c, "? "))
         sfRenderWindow_drawSprite(window, tile, NULL);
 }
@@ -63,25 +59,25 @@ static void draw_floor(sfRenderWindow *window, room_t *room, tile_t **tile_list)
     }
 }
 
-void draw_room(sfRenderWindow *window, room_t *room, tile_t **tile_list)
+void draw_room(void *map_pt, window_t* window)
 {
     sfVector2f pos = {0, 0};
     int tile_asset = 0;
     tile_t *tile = NULL;
     char c = 0;
-    tile_t *floor = tile_list[FLOOR_ID];
+    map_t *map = (map_t *)map_pt;
 
-    draw_floor(window, room, tile_list);
-    for (int y = 0; room->room[y] != NULL; y++) {
-        for (int x = 0; room->room[y][x] != '\0'; x++) {
+    sfRenderWindow_clear(window->window, map->room->bg_color);
+    draw_floor(window->window, map->room, map->tile_list);
+    for (int y = 0; map->room->room[y] != NULL; y++) {
+        for (int x = 0; map->room->room[y][x] != '\0'; x++) {
             pos.x = x * TILE_SIZE;
             pos.y = y * TILE_SIZE;
-            tile_asset = translate_map(room->room, y, x);
-            c = room->room[y][x];
-            tile = tile_list[tile_asset];
-            sfSprite_setPosition(floor->img, pos);
+            tile_asset = translate_map(map->room->room, y, x);
+            c = map->room->room[y][x];
+            tile = map->tile_list[tile_asset];
             sfSprite_setPosition(tile->img, pos);
-            draw_tile(window, tile->img, floor->img, c);
+            draw_tile(window->window, tile->img, c);
         }
     }
 }

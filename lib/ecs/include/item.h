@@ -44,14 +44,15 @@
         struct dependency *next;
     } dependency_t;
 
-    void item_loop(item_t *item, window_t *screen, bool (* cond)(sfEvent *));
+    void item_loop(item_t *item, window_t *screen, bool (* cond)(window_t *));
 
     window_t *window_create(sfVideoMode mode, int framerate,
                             char const *title, sfFloatRect view_rect);
     void window_destroy(window_t *window);
-    item_t *item_create(item_t *list, void *item,
-                        void (* act)(void *, window_t *),
-                        void (* print)(void *, window_t *));
+    item_t *item_create(item_t *list, void *item, void (* destroy)(void *));
     void item_list_destroy(item_t *item);
+    void item_set_func(item_t *item, void (* update)(void *, window_t *),
+                    void (* animate)(void *, sfTime *),
+                    void (* print)(void *, window_t *));
 
 #endif /*ITEM_H*/
