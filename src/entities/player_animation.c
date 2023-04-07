@@ -19,7 +19,13 @@ void move_player_sprite(entity_t *player, window_t *window)
     sfTime current = {0};
 
     current = sfClock_getElapsedTime(window->frame);
-    if (current.microseconds / 1000000. -
+    if (player->animation == SIDE_DASH)
+        player->anim_rect.left = 0;
+    else if (player->animation == FRONT_DASH)
+        player->anim_rect.left = 48;
+    else if (player->animation == BACK_DASH)
+        player->anim_rect.left = 48;
+    else if (current.microseconds / 1000000. -
     time.microseconds / 1000000. > INTERVAL) {
         time = current;
         player->anim_rect.left += 48;
