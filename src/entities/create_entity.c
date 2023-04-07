@@ -22,13 +22,13 @@ void set_stats(entity_t *entity, stats_t *stats)
     entity->stats.atk_speed = stats->atk_speed;
 }
 
-void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect)
+void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
+                sfVector2f origin)
 {
     entity->texture = sfTexture_createFromFile(path, NULL);
     entity->sprite = sfSprite_create();
     entity->anim_rect = anim_rect;
-    sfSprite_setOrigin(entity->sprite,
-    (sfVector2f){anim_rect.width / 2, anim_rect.height / 2});
+    sfSprite_setOrigin(entity->sprite, origin);
     sfSprite_setScale(entity->sprite, (sfVector2f){PLAYER_SIZE, PLAYER_SIZE});
     sfSprite_setTexture(entity->sprite, entity->texture, sfTrue);
     sfSprite_setTextureRect(entity->sprite, entity->anim_rect);
@@ -50,7 +50,7 @@ entity_t *create_player(window_t *window)
     player->pos = (sfVector2f){window->mode.width / 2,
     window->mode.height / 2};
     set_sprite(player, "assets/characters/player.png",
-    (sfIntRect){0, 0, 48, 48});
+    (sfIntRect){0, 0, 48, 48}, (sfVector2f){24, 24});
     set_stats(player, &stats);
     player->hurt = collider_create(NULL, HURTBOX, true, player);
     player->trig = (sfFloatRect){0, 0, 1, 1};
@@ -69,7 +69,8 @@ entity_t *create_slime(window_t *window)
     window->mode.height / 2};
     slime->sprite_size = 20;
     set_sprite(slime, "assets/characters/Slime.png",
-    (sfIntRect){0, 0, slime->sprite_size, slime->sprite_size});
+    (sfIntRect){0, 0, slime->sprite_size, slime->sprite_size},
+    (sfVector2f){10, 0});
     set_stats(slime, &stats);
     slime->hurt = collider_create(NULL, HURTBOX, true, slime);
     slime->trig = (sfFloatRect){0, 0, 1, 1};
