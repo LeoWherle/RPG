@@ -65,8 +65,8 @@ void check_dir(entity_t *player)
 {
     collider_t *col = NULL;
 
-    player->trig.left = player->pos.x;
-    player->trig.top = player->pos.y;
+    player->trig.left = player->pos.x + player->speed_vector.x;
+    player->trig.top = player->pos.y + player->speed_vector.y;
     col = collision_check(player->trigger, SOLID);
     if (col) {
         player->speed_vector.x = 0;
