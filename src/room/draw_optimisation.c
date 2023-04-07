@@ -11,7 +11,7 @@
 
 int stop_draw_on_close(window_t *window, int y)
 {
-    if (y % 10 == 0) {
+    if (y % 5 == 0) {
         sfRenderWindow_pollEvent(window->window, window->event);
         if (window->event->type == sfEvtClosed)
             return (1);
