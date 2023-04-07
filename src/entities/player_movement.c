@@ -31,8 +31,10 @@ void player_dash(entity_t *player, window_t *window)
         }
         player->speed_vector.x = player->dash->dash_vector.x * 3;
         player->speed_vector.y = player->dash->dash_vector.y * 3;
-    } else
+    } else {
+        player->dash->is_dashing = 0;
         player->dash->dash_cooldown -= 0.05;
+    }
 }
 
 void player_orientation(entity_t *player, window_t *window)
@@ -59,6 +61,19 @@ void player_orientation(entity_t *player, window_t *window)
     }
 }
 
+void check_dir(entity_t *player)
+{
+    collider_t *col = NULL;
+
+    player->trig.left = player->pos.x;
+    player->trig.top = player->pos.y;
+    col = collision_check(player->trigger, SOLID);
+    if (col) {
+        player->speed_vector.x = 0;
+        player->speed_vector.y = 0;
+    }
+}
+
 void move_player(entity_t *player, window_t *window)
 {
     player->speed_vector = (sfVector2f){0, 0};
@@ -78,6 +93,7 @@ void move_player(entity_t *player, window_t *window)
     }
     player_orientation(player, window);
     player_dash(player, window);
+    check_dir(player);
     player->pos.x += player->speed_vector.x;
     player->pos.y += player->speed_vector.y;
 }

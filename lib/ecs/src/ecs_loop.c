@@ -26,7 +26,7 @@ void execute(item_t *item, window_t *window)
 {
     if (item) {
         execute(item->next, window);
-        if (item->update && window->event->type >= 0)
+        if (item->update && window->event->type <= 23)
             item->update(item->item, window);
         if (item->animate)
             item->animate(item->item, window);
