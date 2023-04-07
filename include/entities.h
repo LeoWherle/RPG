@@ -71,12 +71,14 @@
         int sprite_size;
         sfVector2f speed_vector;
         stats_t stats;
-        collider_t *collider;
         sfSprite *sprite;
         sfTexture *texture;
         sfVector2f pos;
         player_dash_t *dash;
         sfIntRect anim_rect;
+        sfFloatRect trig;
+        collider_t *hurt;
+        collider_t *trigger;
         dependency_t *depend;
     } entity_t;
 

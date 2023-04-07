@@ -14,9 +14,11 @@
 
 void player_hitbox(entity_t *player)
 {
-    player->collider->hitbox->left = player->pos.x - 24;
-    player->collider->hitbox->top = player->pos.y - 24;
-    collision_check(player->collider, SOLID);
+    collider_t *hit_by = NULL;
+
+    player->hurt->hitbox->left = player->pos.x - 24;
+    player->hurt->hitbox->top = player->pos.y - 24;
+    hit_by = collision_check(player->hurt, HITBOX);
 }
 
 void player_update(void *player_void, window_t *window)

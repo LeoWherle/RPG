@@ -52,8 +52,9 @@ entity_t *create_player(window_t *window)
     set_sprite(player, "assets/characters/player.png",
     (sfIntRect){0, 0, 48, 48});
     set_stats(player, &stats);
-    player->collider = collider_create(&(sfFloatRect)
-    {player->pos.x - 24, player->pos.y - 24, 48, 48}, SOLID, true, player);
+    player->hurt = collider_create(NULL, HURTBOX, true, player);
+    player->trig = (sfFloatRect){0, 0, 1, 1};
+    player->trigger = collider_create(&player->trig, TRIGGER, false, player);
     set_camera(player, window);
     return player;
 }
