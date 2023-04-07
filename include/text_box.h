@@ -23,7 +23,8 @@
     } text_box_t;
 
     text_box_t *text_box_create(sfFont *font, sfTexture *rect_texture);
-    void text_box_modify(text_box_t *text_box, char *new_title, char *new_text, int text_delay);
+    void text_box_modify(text_box_t *text_box, char *new_title,
+                        char *new_text, int text_delay);
     void text_box_destroy(void *item);
     void text_box_update(void *item, window_t *window);
     void text_box_print(void *item, window_t *win);
