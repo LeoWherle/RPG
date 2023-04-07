@@ -46,9 +46,14 @@ entity_t *create_player(window_t *window)
     stats_t stats = {PLAYER_HP, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
     PLAYER_SPEED, PLAYER_ATK_SPEED};
 
+    player->dash = malloc(sizeof(player_dash_t));
     player->type = PLAYER_E;
     player->animation = FRONT_IDLE;
     player->anim_clock = sfClock_create();
+    player->dash->dash_clock = sfClock_create();
+    player->dash->is_dashing = 0;
+    player->dash->dash_cooldown = 0;
+    player->dash->vector_lock = 0;
     player->pos = (sfVector2f){window->mode.width / 2,
     window->mode.height / 2};
     set_sprite(player, "assets/characters/player.png",

@@ -13,7 +13,7 @@
 #include "entities.h"
 #include "collision.h"
 
-void player_animation(entity_t *player)
+/*void player_animation(entity_t *player)
 {
     player->anim_time = sfClock_getElapsedTime(player->anim_clock);
     if (player->anim_time.microseconds / 1000000.0 > INTERVAL) {
@@ -24,7 +24,42 @@ void player_animation(entity_t *player)
         player->anim_rect.left = 0;
 }
 
-void animation_controller(entity_t *player, sfVector2f speed_vector)
+void dash_animation(entity_t *player, sfVector2f speed_vector)
+{
+    if (player->dash->is_dashing == 1 && player->dash->dash_cooldown <= 0) {
+        if (speed_vector.x == 0 && speed_vector.y > 0)
+            player->animation = FRONT_DASH;
+        if (speed_vector.x == 0 && speed_vector.y < 0)
+            player->animation = BACK_DASH;
+        if (speed_vector.x > 0 || speed_vector.x < 0)
+            player->animation = SIDE_DASH;
+    }
+}*/
+
+void player_dash(entity_t *player, window_t *window)
+{
+    if (player->dash->dash_cooldown <= 0 && player->dash->is_dashing == 1) {
+        if (player->dash->vector_lock == 0) {
+            player->dash->vector_lock = 1;
+            player->anim_rect.left = 0;
+            player->dash->dash_start = sfClock_getElapsedTime(window->frame);
+            player->dash->dash_vector = player->speed_vector;
+        }
+        player->dash->dash_time = sfClock_getElapsedTime(window->frame);
+        if (player->dash->dash_time.microseconds / 1000000.0 - 
+        player->dash->dash_start.microseconds / 1000000.0 > 0.2) {
+            player->dash->is_dashing = 0;
+            player->dash->dash_cooldown = 2;
+            player->dash->vector_lock = 0;
+        }
+        player->speed_vector.x = player->dash->dash_vector.x * 3;
+        player->speed_vector.y = player->dash->dash_vector.y * 3;
+    }
+    else
+        player->dash->dash_cooldown -= 0.05;
+}
+
+/*void animation_controller(entity_t *player, sfVector2f speed_vector)
 {
     if (speed_vector.x != 0 || speed_vector.y != 0) {
         if (player->animation == FRONT_IDLE)
@@ -45,7 +80,7 @@ void animation_controller(entity_t *player, sfVector2f speed_vector)
             (sfVector2f){-PLAYER_SIZE, PLAYER_SIZE});
     }
     player_animation(player);
-}
+}*/
 
 void player_orientation(entity_t *player, window_t *window)
 {
@@ -73,29 +108,23 @@ void player_orientation(entity_t *player, window_t *window)
 
 void move_player(entity_t *player, window_t *window)
 {
-    sfVector2f speed_vector = {0, 0};
-
+    player->speed_vector = (sfVector2f){0, 0};
     if (sfKeyboard_isKeyPressed(sfKeyZ) || sfKeyboard_isKeyPressed(sfKeyUp))
-        speed_vector.y -= player->stats.speed;
+        player->speed_vector.y -= player->stats.speed;
     if (sfKeyboard_isKeyPressed(sfKeyS) || sfKeyboard_isKeyPressed(sfKeyDown))
-        speed_vector.y += player->stats.speed;
+        player->speed_vector.y += player->stats.speed;
     if (sfKeyboard_isKeyPressed(sfKeyQ) || sfKeyboard_isKeyPressed(sfKeyLeft))
-        speed_vector.x -= player->stats.speed;
+        player->speed_vector.x -= player->stats.speed;
     if (sfKeyboard_isKeyPressed(sfKeyD) || sfKeyboard_isKeyPressed(sfKeyRight))
-        speed_vector.x += player->stats.speed;
-    if (speed_vector.x != 0 && speed_vector.y != 0) {
-        speed_vector.x *= SQRT;
-        speed_vector.y *= SQRT;
+        player->speed_vector.x += player->stats.speed;
+    if (sfKeyboard_isKeyPressed(sfKeyLShift))
+        player->dash->is_dashing = 1;
+    if (player->speed_vector.x != 0 && player->speed_vector.y != 0) {
+        player->speed_vector.x *= SQRT;
+        player->speed_vector.y *= SQRT;
     }
-    player->pos.x += speed_vector.x;
-    player->pos.y += speed_vector.y;
     player_orientation(player, window);
-    animation_controller(player, speed_vector);
-}
-
-void player_hitbox(entity_t *player)
-{
-    player->collider->hitbox->left = player->pos.x - 24;
-    player->collider->hitbox->top = player->pos.y - 24;
-    collision_check(player->collider, SOLID);
+    player_dash(player, window);
+    player->pos.x += player->speed_vector.x;
+    player->pos.y += player->speed_vector.y;
 }
