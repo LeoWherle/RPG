@@ -52,6 +52,11 @@ static void draw_floor(window_t *window, room_t *room, tile_t **tile_list)
     sfVector2f center = sfView_getCenter(window->view);
 
     for (int y = 0; room->room[y] != NULL; y++) {
+        if (y % 5 == 0) {
+            sfRenderWindow_pollEvent(window->window, window->event);
+            if (window->event->type == sfEvtClosed)
+                return;
+        }
         for (int x = 0; room->room[y][x] != '\0'; x++) {
             pos.x = x * TILE_SIZE;
             pos.y = y * TILE_SIZE;
@@ -81,6 +86,11 @@ void draw_room(void *map_pt, window_t* window)
     sfRenderWindow_clear(window->window, map->room->bg_color);
     draw_floor(window, map->room, map->tile_list);
     for (int y = 0; map->room->room[y] != NULL; y++) {
+        if (y % 5 == 0) {
+            sfRenderWindow_pollEvent(window->window, window->event);
+            if (window->event->type == sfEvtClosed)
+                return;
+        }
         for (int x = 0; map->room->room[y][x] != '\0'; x++) {
             pos.x = x * TILE_SIZE;
             pos.y = y * TILE_SIZE;
