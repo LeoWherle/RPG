@@ -18,7 +18,6 @@ void player_dash(entity_t *player, window_t *window)
     if (player->dash->dash_cooldown <= 0 && player->dash->is_dashing == 1) {
         if (player->dash->vector_lock == 0) {
             player->dash->vector_lock = 1;
-            player->anim_rect.left = 0;
             player->dash->dash_start = sfClock_getElapsedTime(window->frame);
             player->dash->dash_vector = player->speed_vector;
         }
