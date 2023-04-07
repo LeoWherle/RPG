@@ -60,19 +60,6 @@ void player_orientation(entity_t *player, window_t *window)
     }
 }
 
-void check_dir(entity_t *player)
-{
-    collider_t *col = NULL;
-
-    player->trig.left = player->pos.x + player->speed_vector.x;
-    player->trig.top = player->pos.y + player->speed_vector.y;
-    col = collision_check(player->trigger, SOLID);
-    if (col) {
-        player->speed_vector.x = 0;
-        player->speed_vector.y = 0;
-    }
-}
-
 void move_player(entity_t *player, window_t *window)
 {
     player->speed_vector = (sfVector2f){0, 0};

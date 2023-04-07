@@ -22,15 +22,15 @@ void move_player_sprite(entity_t *player, window_t *window)
     if (player->animation == SIDE_DASH)
         player->anim_rect.left = 0;
     else if (player->animation == FRONT_DASH)
-        player->anim_rect.left = 48;
+        player->anim_rect.left = player->sprite_size;
     else if (player->animation == BACK_DASH)
-        player->anim_rect.left = 48;
+        player->anim_rect.left = player->sprite_size;
     else if (current.microseconds / 1000000. -
     time.microseconds / 1000000. > INTERVAL) {
         time = current;
-        player->anim_rect.left += 48;
+        player->anim_rect.left += player->sprite_size;
     }
-    if (player->anim_rect.left >= 288)
+    if (player->anim_rect.left >= player->sprite_size * 6)
         player->anim_rect.left = 0;
 }
 
@@ -62,7 +62,7 @@ void animation_controller(entity_t *player)
         if (player->animation == SIDE_IDLE)
             player->animation = SIDE_WALK;
     }
-    player->anim_rect.top = player->animation * 48;
+    player->anim_rect.top = player->animation * player->sprite_size;
     sfSprite_setTextureRect(player->sprite, player->anim_rect);
     if (player->animation == SIDE_IDLE || player->animation == SIDE_WALK
     || player->animation == SIDE_DASH) {

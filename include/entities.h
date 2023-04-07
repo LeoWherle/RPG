@@ -93,11 +93,14 @@
     void dash_animation(entity_t *player);
     void animation_controller(entity_t *player);
     void move_player_sprite(entity_t *player, window_t *window);
+    void move_enemy_sprite(entity_t *enemy, window_t *window);
     void player_hitbox(entity_t *player);
     void enemy_update(void *enemy_void, window_t *window);
     void enemy_print(void *enemy_void, window_t *window);
     void enemy_move(entity_t *enemy, window_t *window);
+    void enemy_animation(void *enemy_void, window_t *window);
     void set_camera(entity_t *player, window_t *window);
     void update_camera(entity_t *player, window_t *window);
+    void check_dir(entity_t *entity);
 
 #endif /* !ENTITIES_H */

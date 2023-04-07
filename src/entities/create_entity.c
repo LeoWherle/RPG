@@ -42,11 +42,11 @@ entity_t *create_player(window_t *window)
     PLAYER_SPEED, PLAYER_ATK_SPEED};
 
     player->dash = malloc(sizeof(player_dash_t));
-    player->type = PLAYER_E;
     player->animation = FRONT_IDLE;
     player->dash->is_dashing = 0;
     player->dash->dash_cooldown = 0;
     player->dash->vector_lock = 0;
+    player->sprite_size = 48;
     player->pos = (sfVector2f){window->mode.width / 2,
     window->mode.height / 2};
     set_sprite(player, "assets/characters/player.png",
@@ -64,7 +64,6 @@ entity_t *create_slime(window_t *window)
     entity_t *slime = malloc(sizeof(entity_t));
     stats_t stats = {100, 10, 0, 0, 2, 0};
 
-    slime->type = ENEMY;
     slime->animation = FRONT_IDLE;
     slime->pos = (sfVector2f){window->mode.width / 2,
     window->mode.height / 2};
@@ -72,5 +71,8 @@ entity_t *create_slime(window_t *window)
     set_sprite(slime, "assets/characters/Slime.png",
     (sfIntRect){0, 0, slime->sprite_size, slime->sprite_size});
     set_stats(slime, &stats);
+    slime->hurt = collider_create(NULL, HURTBOX, true, slime);
+    slime->trig = (sfFloatRect){0, 0, 1, 1};
+    slime->trigger = collider_create(&slime->trig, TRIGGER, false, slime);
     return slime;
 }
