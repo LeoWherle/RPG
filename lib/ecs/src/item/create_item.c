@@ -44,7 +44,7 @@ item_t *item_create(item_t *list, void *item, void (* destroy)(void *))
  * @param print the print function of the item
  */
 void item_set_func(item_t *item, void (* update)(void *, window_t *),
-                    void (* animate)(void *, sfTime *),
+                    void (* animate)(void *, window_t *),
                     void (* print)(void *, window_t *))
 {
     item->update = update;

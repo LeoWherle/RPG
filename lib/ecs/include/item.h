@@ -27,12 +27,13 @@
         sfView *view;
         sfEvent *event;
         sfRenderWindow *window;
+        int freeze_frame;
     } window_t;
 
     typedef struct item {
         void *item;
         void (* update)(void *, window_t *);
-        void (* animate)(void *, sfTime *);
+        void (* animate)(void *, window_t *);
         void (* print)(void *, window_t *);
         void (* destroy)(void *);
         struct item *next;
@@ -52,7 +53,7 @@
     item_t *item_create(item_t *list, void *item, void (* destroy)(void *));
     void item_list_destroy(item_t *item);
     void item_set_func(item_t *item, void (* update)(void *, window_t *),
-                    void (* animate)(void *, sfTime *),
+                    void (* animate)(void *, window_t *),
                     void (* print)(void *, window_t *));
 
 #endif /*ITEM_H*/

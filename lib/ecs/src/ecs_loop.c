@@ -16,20 +16,20 @@ void print(item_t *item, window_t *window)
 {
     sfRenderWindow_clear(window->window, sfWhite);
     for (item_t *pr = item; pr; pr = pr->next) {
-        if (pr->item)
+        if (pr->print)
             pr->print(pr->item, window);
     }
     sfRenderWindow_display(window->window);
 }
 
-void execute(item_t *item, sfTime *time, window_t *window)
+void execute(item_t *item, window_t *window)
 {
     if (item) {
-        execute(item->next, time, window);
-        if (item->update && window->event->type <= 23)
+        execute(item->next, window);
+        if (item->update && window->event->type >= 0)
             item->update(item->item, window);
         if (item->animate)
-            item->animate(item->item, time);
+            item->animate(item->item, window);
     }
 }
 
@@ -44,9 +44,13 @@ void item_loop(item_t *item, window_t *window, bool (* cond)(window_t *))
         time = sfClock_getElapsedTime(window->frame);
         if ((time.microseconds - prev_time.microseconds) / 1000000. >
             0.016666) {
-            execute(item, &time, window);
+            execute(item, window);
             print(item, window);
             time = prev_time;
+        }
+        while ((time.microseconds - prev_time.microseconds) / 1000000. <
+                0.016666 * window->freeze_frame) {
+            time = sfClock_getElapsedTime(window->frame);
         }
         sfRenderWindow_pollEvent(window->window, window->event);
     } while (!cond(window));
