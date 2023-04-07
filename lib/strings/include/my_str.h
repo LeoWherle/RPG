@@ -23,6 +23,7 @@
     int my_str_tablen(char **tab);
     char *my_strcat(char *dest, char const *src);
     int my_strcmp(char const *s1, char const *s2);
+    int my_env_strcmp(char const *s1, char const *s2);
     char *my_strcpy(char *dest, char const *src);
     int my_strlen(char const *str);
     char **str_to_word_array(char *str, char *sep);
