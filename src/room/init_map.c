@@ -30,13 +30,18 @@ void free_map(void *map_pt)
 list_t *add_in_colliders(list_t *colliders, char **collisions, int x, int y)
 {
     collider_t *collider = NULL;
+    sfFloatRect *rect = NULL;
 
     if (collisions[y][x] != '0') {
         collider = malloc(sizeof(collider_t));
         ASSERT_MALLOC(collider, NULL);
-        collider = collider_create(&((sfFloatRect){x * TILE_SIZE, y *
-        TILE_SIZE, TILE_SIZE, TILE_SIZE}), collisions[y][x] - '0',
-        true, NULL);
+        rect = malloc(sizeof(sfFloatRect));
+        ASSERT_MALLOC(rect, NULL);
+        rect->left = x * TILE_SIZE;
+        rect->top = y * TILE_SIZE;
+        rect->width = TILE_SIZE;
+        rect->height = TILE_SIZE;
+        collider = collider_create(rect, collisions[y][x] - '0', true, NULL);
         ASSERT_MALLOC(collider, NULL);
         colliders->interface->append(colliders, collider);
     }
