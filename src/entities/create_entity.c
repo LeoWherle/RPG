@@ -22,11 +22,6 @@ void set_stats(entity_t *entity, stats_t *stats)
     entity->stats.atk_speed = stats->atk_speed;
 }
 
-void set_hitbox(entity_t *entity, sfFloatRect *hitbox, tag_t type)
-{
-    entity->collider = collider_create(hitbox, type, true, entity);
-}
-
 void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect)
 {
     entity->texture = sfTexture_createFromFile(path, NULL);
@@ -49,8 +44,6 @@ entity_t *create_player(window_t *window)
     player->dash = malloc(sizeof(player_dash_t));
     player->type = PLAYER_E;
     player->animation = FRONT_IDLE;
-    player->anim_clock = sfClock_create();
-    player->dash->dash_clock = sfClock_create();
     player->dash->is_dashing = 0;
     player->dash->dash_cooldown = 0;
     player->dash->vector_lock = 0;
@@ -72,7 +65,6 @@ entity_t *create_slime(window_t *window)
 
     slime->type = ENEMY;
     slime->animation = FRONT_IDLE;
-    slime->anim_clock = sfClock_create();
     slime->pos = (sfVector2f){window->mode.width / 2,
     window->mode.height / 2};
     slime->sprite_size = 20;

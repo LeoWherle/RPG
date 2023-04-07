@@ -11,12 +11,16 @@
 #include "item.h"
 #include "entities.h"
 
-void enemy_animation(entity_t *enemy)
+void enemy_animation(entity_t *enemy, window_t *window)
 {
-    enemy->anim_time = sfClock_getElapsedTime(enemy->anim_clock);
-    if (enemy->anim_time.microseconds / 1000000.0 > INTERVAL) {
+    static sfTime time = {0};
+    sfTime current = {0};
+
+    current = sfClock_getElapsedTime(window->frame);
+    if (current.microseconds / 1000000. -
+    time.microseconds / 1000000. > INTERVAL) {
+        time = current;
         enemy->anim_rect.left += enemy->sprite_size;
-        sfClock_restart(enemy->anim_clock);
     }
     if (enemy->anim_rect.left >= enemy->sprite_size * 5)
         enemy->anim_rect.left = 0;
@@ -35,5 +39,5 @@ void enemy_move(entity_t *enemy, window_t *window)
     if (enemy->pos.y > target.y)
         enemy->pos.y -= enemy->stats.speed;
     sfSprite_setTextureRect(enemy->sprite, enemy->anim_rect);
-    enemy_animation(enemy);
+    enemy_animation(enemy, window);
 }

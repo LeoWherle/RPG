@@ -61,7 +61,6 @@
         float dash_cooldown;
         sfVector2f dash_vector;
         sfTime dash_start;
-        sfClock *dash_clock;
         sfTime dash_time;
     } player_dash_t;
 
@@ -78,8 +77,6 @@
         sfVector2f pos;
         player_dash_t *dash;
         sfIntRect anim_rect;
-        sfClock *anim_clock;
-        sfTime anim_time;
         dependency_t *depend;
     } entity_t;
 
@@ -90,10 +87,10 @@
     void move_player(entity_t *player, window_t *window);
     void player_print(void *player, window_t *window);
     void player_update(void *player, window_t *window);
-    void player_anim(void *player, sfTime *time);
+    void player_animation(void *player, window_t *window);
     void dash_animation(entity_t *player);
     void animation_controller(entity_t *player);
-    void player_animation(entity_t *player, window_t *window);
+    void move_player_sprite(entity_t *player, window_t *window);
     void player_hitbox(entity_t *player);
     void enemy_update(void *enemy_void, window_t *window);
     void enemy_print(void *enemy_void, window_t *window);

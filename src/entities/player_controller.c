@@ -23,7 +23,6 @@ void player_update(void *player_void, window_t *window)
 {
     entity_t *player = (entity_t *)player_void;
 
-    //player_hitbox(player);
     move_player(player, window);
     update_camera(player, window);
 }
@@ -36,11 +35,11 @@ void player_print(void *player_void, window_t *window)
     sfRenderWindow_drawSprite(window->window, player->sprite, NULL);
 }
 
-void player_anim(void *player_void, window_t *window)
+void player_animation(void *player_void, window_t *window)
 {
     entity_t *player = (entity_t *)player_void;
 
     dash_animation(player);
     animation_controller(player);
-    player_animation(player, window);
+    move_player_sprite(player, window);
 }

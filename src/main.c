@@ -43,7 +43,7 @@ item_t *item_creator(item_t *item, window_t *window)
 {
     item = item_create(item, create_player(window), destroy_player);
     ASSERT_MALLOC(item, NULL);
-    item_set_func(item, player_update, NULL, player_print);
+    item_set_func(item, player_update, player_animation, player_print);
     item = item_create(item, create_slime(window), destroy_enemy);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, enemy_update, NULL, enemy_print);

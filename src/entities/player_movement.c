@@ -13,29 +13,6 @@
 #include "entities.h"
 #include "collision.h"
 
-/*void player_animation(entity_t *player)
-{
-    player->anim_time = sfClock_getElapsedTime(player->anim_clock);
-    if (player->anim_time.microseconds / 1000000.0 > INTERVAL) {
-        player->anim_rect.left += 48;
-        sfClock_restart(player->anim_clock);
-    }
-    if (player->anim_rect.left >= 288)
-        player->anim_rect.left = 0;
-}
-
-void dash_animation(entity_t *player, sfVector2f speed_vector)
-{
-    if (player->dash->is_dashing == 1 && player->dash->dash_cooldown <= 0) {
-        if (speed_vector.x == 0 && speed_vector.y > 0)
-            player->animation = FRONT_DASH;
-        if (speed_vector.x == 0 && speed_vector.y < 0)
-            player->animation = BACK_DASH;
-        if (speed_vector.x > 0 || speed_vector.x < 0)
-            player->animation = SIDE_DASH;
-    }
-}*/
-
 void player_dash(entity_t *player, window_t *window)
 {
     if (player->dash->dash_cooldown <= 0 && player->dash->is_dashing == 1) {
@@ -46,7 +23,7 @@ void player_dash(entity_t *player, window_t *window)
             player->dash->dash_vector = player->speed_vector;
         }
         player->dash->dash_time = sfClock_getElapsedTime(window->frame);
-        if (player->dash->dash_time.microseconds / 1000000.0 - 
+        if (player->dash->dash_time.microseconds / 1000000.0 -
         player->dash->dash_start.microseconds / 1000000.0 > 0.2) {
             player->dash->is_dashing = 0;
             player->dash->dash_cooldown = 2;
@@ -54,33 +31,9 @@ void player_dash(entity_t *player, window_t *window)
         }
         player->speed_vector.x = player->dash->dash_vector.x * 3;
         player->speed_vector.y = player->dash->dash_vector.y * 3;
-    }
-    else
+    } else
         player->dash->dash_cooldown -= 0.05;
 }
-
-/*void animation_controller(entity_t *player, sfVector2f speed_vector)
-{
-    if (speed_vector.x != 0 || speed_vector.y != 0) {
-        if (player->animation == FRONT_IDLE)
-            player->animation = FRONT_WALK;
-        if (player->animation == BACK_IDLE)
-            player->animation = BACK_WALK;
-        if (player->animation == SIDE_IDLE)
-            player->animation = SIDE_WALK;
-    }
-    player->anim_rect.top = player->animation * 48;
-    sfSprite_setTextureRect(player->sprite, player->anim_rect);
-    if (player->animation == SIDE_IDLE || player->animation == SIDE_WALK) {
-        if (player->facing_right)
-            sfSprite_setScale(player->sprite,
-            (sfVector2f){PLAYER_SIZE, PLAYER_SIZE});
-        else
-            sfSprite_setScale(player->sprite,
-            (sfVector2f){-PLAYER_SIZE, PLAYER_SIZE});
-    }
-    player_animation(player);
-}*/
 
 void player_orientation(entity_t *player, window_t *window)
 {
