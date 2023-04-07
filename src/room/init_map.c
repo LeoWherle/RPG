@@ -8,12 +8,14 @@
 #include <stdlib.h>
 #include "errorhandling.h"
 #include "room.h"
+#include "cave.h"
+#include "collision.h"
 
 void free_colliders(void *collider)
 {
     collider_t *coll = (collider_t *)collider;
 
-    free(coll);
+    collider_destroy(coll);
 }
 
 void free_map(void *map_pt)
@@ -54,18 +56,23 @@ list_t *init_colliders(list_t *colliders, char **collisions)
     return (colliders);
 }
 
-map_t *init_map(void)
+map_t *init_map(room_type_t type)
 {
     map_t *map = NULL;
+    static int map_nb = 0;
 
     map = malloc(sizeof(map_t));
     ASSERT_MALLOC(map, NULL);
     map->room = NULL;
     map->tile_list = NULL;
-    map->tile_list = init_tile_list(map->tile_list);
+    if (type == CAVE_R)
+        map->tile_list = init_cave_tile_list(map->tile_list, map_nb);
+    if (type == VILLAGE_R)
+        map->tile_list = init_village_tile_list(map->tile_list, map_nb);
     ASSERT_MALLOC(map->tile_list, NULL);
-    map->room = get_room(map->room, EMPTY_R);
+    map->room = get_room(map->room, type);
     ASSERT_MALLOC(map->room, NULL);
     map->colliders = init_colliders(map->colliders, map->room->collisions);
+    map_nb++;
     return (map);
 }

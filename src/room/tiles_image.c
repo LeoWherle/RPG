@@ -13,48 +13,55 @@
 #include "errorhandling.h"
 #include "item.h"
 
-static int translate_map(char **map, int y, int x)
+static void draw_tile(sfRenderWindow *window, sfSprite *tile, char c,
+room_type_t type)
 {
-    char *img = ". -_[]lrLRppPP:;,~c<>{}eeEESst";
-    int i = 0;
-    int temp = 0;
-
-    while (img[i] != '\0') {
-        if (is_in(img[i], "pPeE") && (is_in(map[y][x], "pPeE"))
-        && (temp = draw_doors(map, x, y, i)) != -1)
-            return (temp);
-        if (map[y][x] == img[i])
-            return (i);
-        i++;
-    }
-    return (VOID_ID);
-}
-
-static void draw_tile(sfRenderWindow *window, sfSprite *tile, char c)
-{
-    if (!is_in(c, "? "))
+    if (type == CAVE_R && !is_in(c, "? "))
+        sfRenderWindow_drawSprite(window, tile, NULL);
+    if (type == VILLAGE_R && !is_in(c, "? []{}<>-_lrLR"))
         sfRenderWindow_drawSprite(window, tile, NULL);
 }
 
-static void draw_floor_tile(sfRenderWindow *window, sfSprite *floor, char c)
+static void draw_floor_tile(sfRenderWindow *window, sfSprite *floor, char c,
+room_type_t type)
 {
-    if (!is_in(c, "?[]{}<>-_lrLR"))
+    if (type == CAVE_R && !is_in(c, "?[]{}<>-_lrLR"))
+        sfRenderWindow_drawSprite(window, floor, NULL);
+    if (type == VILLAGE_R && !is_in(c, "?=/\\+"))
         sfRenderWindow_drawSprite(window, floor, NULL);
 }
 
-static void draw_floor(sfRenderWindow *window, room_t *room, tile_t **tile_list)
+static int translate_map(char **room, int y, int x, room_type_t type)
+{
+    int tile_asset = 0;
+
+    if (type == CAVE_R)
+        tile_asset = translate_cave(room, y, x);
+    if (type == VILLAGE_R)
+        tile_asset = translate_village(room, y, x);
+    return (tile_asset);
+}
+
+static void draw_floor(window_t *window, room_t *room, tile_t **tile_list)
 {
     sfVector2f pos = {0, 0};
     char c = 0;
     tile_t *floor = tile_list[FLOOR_ID];
+    tile_t *tile = NULL;
+    int tile_asset = 0;
+    sfVector2f center = sfView_getCenter(window->view);
 
     for (int y = 0; room->room[y] != NULL; y++) {
+        if (stop_draw_on_close(window, y)) return;
         for (int x = 0; room->room[y][x] != '\0'; x++) {
-            pos.x = x * TILE_SIZE;
-            pos.y = y * TILE_SIZE;
+            RENDER((pos = draw_in_rdr(center, x, y)).x);
             c = room->room[y][x];
             sfSprite_setPosition(floor->img, pos);
-            draw_floor_tile(window, floor->img, c);
+            draw_floor_tile(window->window, floor->img, c, room->type);
+            tile_asset = translate_map(room->room, y, x, room->type);
+            tile = tile_list[tile_asset];
+            sfSprite_setPosition(tile->img, pos);
+            draw_floor_tile(window->window, tile->img, c, room->type);
         }
     }
 }
@@ -66,18 +73,19 @@ void draw_room(void *map_pt, window_t* window)
     tile_t *tile = NULL;
     char c = 0;
     map_t *map = (map_t *)map_pt;
+    sfVector2f center = sfView_getCenter(window->view);
 
     sfRenderWindow_clear(window->window, map->room->bg_color);
-    draw_floor(window->window, map->room, map->tile_list);
+    draw_floor(window, map->room, map->tile_list);
     for (int y = 0; map->room->room[y] != NULL; y++) {
+        if (stop_draw_on_close(window, y)) return;
         for (int x = 0; map->room->room[y][x] != '\0'; x++) {
-            pos.x = x * TILE_SIZE;
-            pos.y = y * TILE_SIZE;
-            tile_asset = translate_map(map->room->room, y, x);
+            RENDER((pos = draw_in_rdr(center, x, y)).x);
+            tile_asset = translate_map(map->room->room, y, x, map->room->type);
             c = map->room->room[y][x];
             tile = map->tile_list[tile_asset];
             sfSprite_setPosition(tile->img, pos);
-            draw_tile(window->window, tile->img, c);
+            draw_tile(window->window, tile->img, c, map->room->type);
         }
     }
 }

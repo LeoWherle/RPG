@@ -37,6 +37,7 @@ int main(int ac, UNUSED char **av)
     ASSERT_MALLOC(item, 84);
     item_set_func(item, enemy_update, NULL, enemy_print);
     item = item_create(item, init_map(), free_map);
+    item = item_create(item, init_map(VILLAGE_R), free_map);
     ASSERT_MALLOC(item, 84);
     item_set_func(item, NULL, NULL, draw_room);
     item_loop(item, window, exit_ecs);
