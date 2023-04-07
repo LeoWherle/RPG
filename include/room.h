@@ -19,6 +19,7 @@
     #define FLOOR_ID 1
     #define RDR_DIST_X 1700
     #define RDR_DIST_Y 1800
+    #define RENDER(x) if (x == -1) continue;
 
 typedef enum room_type_e {
     VILLAGE_R,
@@ -69,5 +70,7 @@ typedef struct map_s {
     tile_t **init_cave_tile_list(tile_t **tile_list, int map_nb);
     int translate_cave(char **map, int y, int x);
     char *get_random_room(void);
+    sfVector2f draw_in_rdr(sfVector2f center, int x, int y);
+    int stop_draw_on_close(window_t *window, int y);
 
 #endif /* !ROOM_H_ */

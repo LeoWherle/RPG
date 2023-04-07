@@ -52,17 +52,9 @@ static void draw_floor(window_t *window, room_t *room, tile_t **tile_list)
     sfVector2f center = sfView_getCenter(window->view);
 
     for (int y = 0; room->room[y] != NULL; y++) {
-        if (y % 5 == 0) {
-            sfRenderWindow_pollEvent(window->window, window->event);
-            if (window->event->type == sfEvtClosed)
-                return;
-        }
+        if (stop_draw_on_close(window, y)) return;
         for (int x = 0; room->room[y][x] != '\0'; x++) {
-            pos.x = x * TILE_SIZE;
-            pos.y = y * TILE_SIZE;
-            if (pos.x < center.x - RDR_DIST_X || pos.x > center.x + RDR_DIST_X
-            || pos.y < center.y - RDR_DIST_Y || pos.y > center.y + RDR_DIST_Y)
-                continue;
+            RENDER((pos = draw_in_rdr(center, x, y)).x);
             c = room->room[y][x];
             sfSprite_setPosition(floor->img, pos);
             draw_floor_tile(window->window, floor->img, c, room->type);
@@ -86,17 +78,9 @@ void draw_room(void *map_pt, window_t* window)
     sfRenderWindow_clear(window->window, map->room->bg_color);
     draw_floor(window, map->room, map->tile_list);
     for (int y = 0; map->room->room[y] != NULL; y++) {
-        if (y % 5 == 0) {
-            sfRenderWindow_pollEvent(window->window, window->event);
-            if (window->event->type == sfEvtClosed)
-                return;
-        }
+        if (stop_draw_on_close(window, y)) return;
         for (int x = 0; map->room->room[y][x] != '\0'; x++) {
-            pos.x = x * TILE_SIZE;
-            pos.y = y * TILE_SIZE;
-            if (pos.x < center.x - RDR_DIST_X || pos.x > center.x + RDR_DIST_X
-            || pos.y < center.y - RDR_DIST_Y || pos.y > center.y + RDR_DIST_Y)
-                continue;
+            RENDER((pos = draw_in_rdr(center, x, y)).x);
             tile_asset = translate_map(map->room->room, y, x, map->room->type);
             c = map->room->room[y][x];
             tile = map->tile_list[tile_asset];
