@@ -106,7 +106,8 @@
     ///////////////////////////// DRAWING /////////////////////////////
 
     /**
-     * @brief iterate through the gui and draw all the items trough the list of items
+     * @brief iterate through the gui and draw all the items trough the list of
+     * items
      *
      * @param gui the gui to draw and it's sub gui's
      * @param window the window to draw the gui on
