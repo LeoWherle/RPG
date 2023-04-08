@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include "errorhandling.h"
 #include "room.h"
 #include "my_str.h"
@@ -57,7 +56,10 @@ static room_t *fill_room_lines(room_t *room, char *buff, FILE *fd, size_t len)
             y++;
         }
     }
-    room->bg_color = sfColor_fromRGB(34, 32, 52);
+    if (room->type == CAVE_R)
+        room->bg_color = sfColor_fromRGB(34, 32, 52);
+    if (room->type == VILLAGE_R)
+        room->bg_color = sfColor_fromRGB(56, 152, 255);
     room = fill_collisions(room, buff, fd, len);
     return (room);
 }
@@ -87,13 +89,12 @@ static room_t *open_room(room_t *room, char *path, room_type_t type)
 room_t *get_room(room_t *room, room_type_t type)
 {
     char *path = NULL;
-    int nb = get_file_nb("assets/rooms/caves");
     static int room_nb = 0;
 
-    if (nb <= 0) return (NULL);
-    srand(time(NULL));
-    nb = rand() % nb;
-    path = get_specific_file("assets/rooms/caves", nb);
+    if (type == CAVE_R)
+        path = get_random_room();
+    if (type == VILLAGE_R)
+        path = get_specific_file("assets/rooms/village", 0);
     ASSERT_MALLOC(path, NULL);
     if (room_nb != 0) free_room(room);
     room = malloc(sizeof(room_t));

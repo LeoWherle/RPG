@@ -13,5 +13,12 @@ void destroy_player(void *player_void)
 
     sfSprite_destroy(player->sprite);
     sfTexture_destroy(player->texture);
-    sfClock_destroy(player->anim_clock);
+}
+
+void destroy_enemy(void *enemy_void)
+{
+    entity_t *enemy = (entity_t *)enemy_void;
+
+    sfSprite_destroy(enemy->sprite);
+    sfTexture_destroy(enemy->texture);
 }

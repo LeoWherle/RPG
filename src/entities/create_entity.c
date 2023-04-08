@@ -10,36 +10,67 @@
 #include <stdlib.h>
 #include "item.h"
 #include "entities.h"
+#include "collision.h"
 
-void set_stats(entity_t *player)
+void set_stats(entity_t *entity, stats_t *stats)
 {
-    player->stats.hp = BASE_HP;
-    player->stats.atk = BASE_ATK;
-    player->stats.def = BASE_DEF;
-    player->stats.luck = BASE_LUCK;
-    player->stats.speed = BASE_SPEED;
-    player->stats.atk_speed = BASE_ATK_SPEED;
+    entity->stats.hp = stats->hp;
+    entity->stats.atk = stats->atk;
+    entity->stats.def = stats->def;
+    entity->stats.luck = stats->luck;
+    entity->stats.speed = stats->speed;
+    entity->stats.atk_speed = stats->atk_speed;
+}
+
+void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect)
+{
+    entity->texture = sfTexture_createFromFile(path, NULL);
+    entity->sprite = sfSprite_create();
+    entity->anim_rect = anim_rect;
+    sfSprite_setOrigin(entity->sprite,
+    (sfVector2f){anim_rect.width / 2, anim_rect.height / 2});
+    sfSprite_setScale(entity->sprite, (sfVector2f){PLAYER_SIZE, PLAYER_SIZE});
+    sfSprite_setTexture(entity->sprite, entity->texture, sfTrue);
+    sfSprite_setTextureRect(entity->sprite, entity->anim_rect);
+    sfSprite_setPosition(entity->sprite, entity->pos);
 }
 
 entity_t *create_player(window_t *window)
 {
     entity_t *player = malloc(sizeof(entity_t));
+    stats_t stats = {PLAYER_HP, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
+    PLAYER_SPEED, PLAYER_ATK_SPEED};
 
+    player->dash = malloc(sizeof(player_dash_t));
     player->type = PLAYER_E;
     player->animation = FRONT_IDLE;
-    player->texture = sfTexture_createFromFile
-    ("assets/characters/player.png", NULL);
-    player->sprite = sfSprite_create();
-    player->anim_clock = sfClock_create();
+    player->dash->is_dashing = 0;
+    player->dash->dash_cooldown = 0;
+    player->dash->vector_lock = 0;
     player->pos = (sfVector2f){window->mode.width / 2,
     window->mode.height / 2};
-    player->anim_rect = (sfIntRect){0, 0, 48, 48};
-    set_stats(player);
-    sfSprite_setOrigin(player->sprite, (sfVector2f){24, 24});
-    sfSprite_setScale(player->sprite, (sfVector2f){PLAYER_SIZE, PLAYER_SIZE});
-    sfSprite_setTexture(player->sprite, player->texture, sfTrue);
-    sfSprite_setTextureRect(player->sprite, player->anim_rect);
-    sfSprite_setPosition(player->sprite, player->pos);
+    set_sprite(player, "assets/characters/player.png",
+    (sfIntRect){0, 0, 48, 48});
+    set_stats(player, &stats);
+    player->hurt = collider_create(NULL, HURTBOX, true, player);
+    player->trig = (sfFloatRect){0, 0, 1, 1};
+    player->trigger = collider_create(&player->trig, TRIGGER, false, player);
     set_camera(player, window);
     return player;
+}
+
+entity_t *create_slime(window_t *window)
+{
+    entity_t *slime = malloc(sizeof(entity_t));
+    stats_t stats = {100, 10, 0, 0, 2, 0};
+
+    slime->type = ENEMY;
+    slime->animation = FRONT_IDLE;
+    slime->pos = (sfVector2f){window->mode.width / 2,
+    window->mode.height / 2};
+    slime->sprite_size = 20;
+    set_sprite(slime, "assets/characters/Slime.png",
+    (sfIntRect){0, 0, slime->sprite_size, slime->sprite_size});
+    set_stats(slime, &stats);
+    return slime;
 }

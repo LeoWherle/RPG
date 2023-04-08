@@ -1,6 +1,0 @@
-0 = no collision (example : floor)
-1 = collision (example : wall)
-2 = collision and can interact (example : chest)
-3 = collision and can interact to tp (example : door)
-8 = collision and damage if touched (example : spike)
-9 = collision and kill if touched (example : lava)
