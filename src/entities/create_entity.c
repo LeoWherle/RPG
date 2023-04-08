@@ -38,7 +38,7 @@ void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect)
 entity_t *create_player(window_t *window)
 {
     entity_t *player = malloc(sizeof(entity_t));
-    stats_t stats = {PLAYER_HP, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
+    stats_t stats = {50, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
     PLAYER_SPEED, PLAYER_ATK_SPEED};
 
     player->dash = malloc(sizeof(player_dash_t));

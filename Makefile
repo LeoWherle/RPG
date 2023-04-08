@@ -42,6 +42,11 @@ SRC =	src/main.c	\
 		src/entities/enemy_controller.c	\
 		src/collision/collider_create.c	\
 		src/collision/collider_aabb.c	\
+		src/gui/gui_create.c	\
+		src/gui/gui_draw.c	\
+		src/gui/gui_evaluate.c	\
+		src/gui/gui_setter.c	\
+		src/gui/gui_events.c 		\
 
 TEST_CRIT	=	\
 
