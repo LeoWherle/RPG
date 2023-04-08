@@ -70,13 +70,13 @@ gui_t *menu_create_main(gui_t *gui)
     return NULL;
 }
 
+// global_menu = menu_create_hud(global_menu);
+// ASSERT_POINTER(global_menu, NULL);
 gui_t *menu_create_all(void *menu_data, void *player_data, window_t *window)
 {
     gui_t *global_menu = (gui_t *)global_menu;
     entity_t *player = (entity_t *)player_data;
 
-    // global_menu = menu_create_hud(global_menu);
-    // ASSERT_POINTER(global_menu, NULL);
     global_menu = menu_create_main(global_menu);
     ASSERT_POINTER(global_menu, NULL)
     return global_menu;
