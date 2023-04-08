@@ -8,12 +8,12 @@
 #include <SFML/Graphics.h>
 #include "gui.h"
 
-void gui_hover(gui_t *gui, sfVector2i mouse_pos)
+void gui_hover(UNUSED gui_t *gui, UNUSED window_t *game)
 {
-
+    return;
 }
 
-void gui_pressed(gui_t *gui, sfVector2i mouse_pos)
+void gui_pressed(UNUSED gui_t *gui, UNUSED window_t *game)
 {
-
+    return;
 }
