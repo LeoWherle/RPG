@@ -14,7 +14,7 @@
  * @param state the state from the button to check
  * @return int return 1 if the state is set, 0 otherwise
  */
-int gui_state_is(gui_state_t status, gui_state_t state)
+inline int gui_state_is(gui_state_t status, gui_state_t state)
 {
     return ((status & state) != 0);
 }
@@ -24,10 +24,11 @@ int gui_state_is(gui_state_t status, gui_state_t state)
  *
  * @param status the state to add (can be multiple with |)
  * @param state the state from the button to modify
+ * @return int return the new state
  */
-void gui_state_set(gui_state_t status, gui_state_t *state)
+inline gui_state_t gui_state_set(gui_state_t status, gui_state_t state)
 {
-    *state |= status;
+    return state |= status;
 }
 
 /**
@@ -35,8 +36,9 @@ void gui_state_set(gui_state_t status, gui_state_t *state)
  *
  * @param status the state to remove (can be multiple with |)
  * @param state the state from the button to modify
+ * @return int return the new state
  */
-void gui_state_unset(gui_state_t status, gui_state_t *state)
+inline gui_state_t gui_state_unset(gui_state_t status, gui_state_t state)
 {
-    *state &= ~status;
+    return state &= ~status;
 }

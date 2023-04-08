@@ -14,8 +14,8 @@
         #define DEPRECATED __attribute__((deprecated))
         #define LIKELY(x)       __builtin_expect((x),1)
         #define UNLIKELY(x)     __builtin_expect((x),0)
-        #define ASSERT_MALLOC(ptr, retrn) if (UNLIKELY(ptr == NULL)) return retrn;
-        #define ASSERT_POINTER(ptr, retrn) if (pt == NULL) return retrn;
+        #define ASSERT_MALLOC(ptr, ret) if (UNLIKELY(ptr == NULL)) return ret;
+        #define ASSERT_POINTER(ptr, retrn) if (ptr == NULL) return retrn;
     #endif /* !ERRORHANDLING_H_ */
 
     typedef struct node_s node_t;
