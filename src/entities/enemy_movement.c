@@ -11,11 +11,12 @@
 #include "item.h"
 #include "entities.h"
 
-void enemy_animation(entity_t *enemy, window_t *window)
+void move_enemy_sprite(entity_t *enemy, window_t *window)
 {
     static sfTime time = {0};
     sfTime current = {0};
 
+    sfSprite_setTextureRect(enemy->sprite, enemy->anim_rect);
     current = sfClock_getElapsedTime(window->frame);
     if (current.microseconds / 1000000. -
     time.microseconds / 1000000. > INTERVAL) {
@@ -29,15 +30,11 @@ void enemy_animation(entity_t *enemy, window_t *window)
 void enemy_move(entity_t *enemy, window_t *window)
 {
     sfVector2f target = sfView_getCenter(window->view);
+    float angle = atan2(target.y - enemy->pos.y, target.x - enemy->pos.x);
 
-    if (enemy->pos.x < target.x)
-        enemy->pos.x += enemy->stats.speed;
-    if (enemy->pos.x > target.x)
-        enemy->pos.x -= enemy->stats.speed;
-    if (enemy->pos.y < target.y)
-        enemy->pos.y += enemy->stats.speed;
-    if (enemy->pos.y > target.y)
-        enemy->pos.y -= enemy->stats.speed;
-    sfSprite_setTextureRect(enemy->sprite, enemy->anim_rect);
-    enemy_animation(enemy, window);
+    enemy->speed_vector.x = cos(angle) * enemy->stats.speed;
+    enemy->speed_vector.y = sin(angle) * enemy->stats.speed;
+    check_dir(enemy);
+    enemy->pos.x += enemy->speed_vector.x;
+    enemy->pos.y += enemy->speed_vector.y;
 }

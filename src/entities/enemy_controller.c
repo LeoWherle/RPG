@@ -11,6 +11,15 @@
 #include "item.h"
 #include "entities.h"
 
+void enemy_hitbox(entity_t *enemy)
+{
+    collider_t *hit_by = NULL;
+
+    enemy->hurt->hitbox->left = enemy->pos.x - enemy->sprite_size / 2;
+    enemy->hurt->hitbox->top = enemy->pos.y - enemy->sprite_size / 2;
+    hit_by = collision_check(enemy->hurt, HITBOX);
+}
+
 void enemy_update(void *enemy_void, window_t *window)
 {
     entity_t *enemy = (entity_t *)enemy_void;
@@ -24,4 +33,11 @@ void enemy_print(void *enemy_void, window_t *window)
 
     sfSprite_setPosition(enemy->sprite, enemy->pos);
     sfRenderWindow_drawSprite(window->window, enemy->sprite, NULL);
+}
+
+void enemy_animation(void *enemy_void, window_t *window)
+{
+    entity_t *enemy = (entity_t *)enemy_void;
+
+    move_enemy_sprite(enemy, window);
 }
