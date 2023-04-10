@@ -21,7 +21,6 @@ weapon_t *weapon_create_lance(float cooldown, int strenght, sfVector2f size,
     new = malloc(sizeof(weapon_t));
     ASSERT_MALLOC(new, NULL);
     new->activated = false;
-    new->imobilisation = true;
     new->angle = 0.;
     new->cooldown = cooldown;
     new->strenght = strenght;

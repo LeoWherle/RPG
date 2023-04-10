@@ -22,7 +22,6 @@
         float angle;
         sfVector2f pos;
         bool activated;
-        bool imobilisation;
         int strenght;
         float cooldown;
         void (*use)(struct weapon *, window_t *);

@@ -17,7 +17,6 @@ void weapon_use(weapon_t *weapon, window_t *win)
     static sfTime prev_time = {0};
     sfTime time = {0};
 
-    printf("%f\n", weapon->angle);
     time = sfClock_getElapsedTime(win->frame);
     if ((time.microseconds - prev_time.microseconds) / 1000000. >
         weapon->cooldown && sfMouse_isButtonPressed(sfMouseLeft)) {
