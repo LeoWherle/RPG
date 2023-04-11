@@ -54,10 +54,17 @@ gui_t *create_gui(void)
 
 item_t *item_creator(item_t *item, window_t *window)
 {
+    map_t *map = NULL;
+
     gui_t *gui = create_gui();
     item = item_create(item, gui, &gui_destroy);
     ASSERT_POINTER(item, NULL);
     item_set_func(item, NULL, NULL, &gui_draw);
+    map = init_map(VILLAGE_R);
+    ASSERT_MALLOC(map, NULL);
+    item = item_create(item, map, free_map);
+    ASSERT_MALLOC(item, NULL);
+    item_set_func(item, NULL, NULL, draw_room_second);
     item = item_create(item, create_player(window), destroy_player);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, player_update, player_animation, player_print);
@@ -69,9 +76,9 @@ item_t *item_creator(item_t *item, window_t *window)
     item = item_create(item, create_slime(window), destroy_enemy);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, enemy_update, NULL, enemy_print);
-    item = item_create(item, init_map(VILLAGE_R), free_map);
+    item = item_create(item, map, NULL);
     ASSERT_MALLOC(item, NULL);
-    item_set_func(item, NULL, NULL, draw_room);
+    item_set_func(item, NULL, NULL, draw_room_first);
     return item;
 }
 

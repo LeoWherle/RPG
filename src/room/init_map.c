@@ -27,12 +27,12 @@ void free_map(void *map_pt)
     free(map);
 }
 
-list_t *add_in_colliders(list_t *colliders, char **collisions, int x, int y)
+list_t *add_in_colliders(list_t *colliders, char **room, int x, int y)
 {
     collider_t *collider = NULL;
     sfFloatRect *rect = NULL;
 
-    if (collisions[y][x] != '0') {
+    if (room[y][x] != '0') {
         collider = malloc(sizeof(collider_t));
         ASSERT_MALLOC(collider, NULL);
         rect = malloc(sizeof(sfFloatRect));
@@ -41,20 +41,20 @@ list_t *add_in_colliders(list_t *colliders, char **collisions, int x, int y)
         rect->top = y * TILE_SIZE;
         rect->width = TILE_SIZE;
         rect->height = TILE_SIZE;
-        collider = collider_create(rect, collisions[y][x] - '0', true, NULL);
+        collider = collider_create(rect, room[y][x] - '0', true, NULL);
         ASSERT_MALLOC(collider, NULL);
         colliders->interface->append(colliders, collider);
     }
     return (colliders);
 }
 
-list_t *init_colliders(list_t *colliders, char **collisions)
+list_t *init_colliders(list_t *colliders, char **room)
 {
     colliders = list_init();
     ASSERT_MALLOC(colliders, NULL);
-    for (int y = 0; collisions[y] != NULL; y++) {
-        for (int x = 0; collisions[y][x] != '\0'; x++) {
-            colliders = add_in_colliders(colliders, collisions, x, y);
+    for (int y = 0; room[y] != NULL; y++) {
+        for (int x = 0; room[y][x] != '\0'; x++) {
+            colliders = add_in_colliders(colliders, room, x, y);
             ASSERT_MALLOC(colliders, NULL);
         }
     }
@@ -77,7 +77,7 @@ map_t *init_map(room_type_t type)
     ASSERT_MALLOC(map->tile_list, NULL);
     map->room = get_room(map->room, type);
     ASSERT_MALLOC(map->room, NULL);
-    map->colliders = init_colliders(map->colliders, map->room->collisions);
+    map->colliders = init_colliders(map->colliders, map->room->room);
     map_nb++;
     return (map);
 }
