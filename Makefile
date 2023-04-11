@@ -40,13 +40,20 @@ SRC =	src/main.c	\
 		src/entities/player_animation.c 	\
 		src/entities/enemy_movement.c	\
 		src/entities/enemy_controller.c	\
+		src/entities/general_entity.c 		\
 		src/collision/collider_create.c	\
 		src/collision/collider_aabb.c	\
+<<<<<<< HEAD
 		src/gui/gui_create.c	\
 		src/gui/gui_draw.c	\
 		src/gui/gui_evaluate.c	\
 		src/gui/gui_setter.c	\
 		src/gui/gui_events.c 		\
+=======
+		src/weapon/weapon_create.c		\
+		src/weapon/weapon_use.c 		\
+		src/quick_create/rectangle.c	\
+>>>>>>> weapon
 
 TEST_CRIT	=	\
 

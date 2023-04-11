@@ -12,6 +12,7 @@
 #include <math.h>
 #include "item.h"
 #include "collision.h"
+#include "weapon.h"
 
 #ifndef ENTITIES_H
     #define ENTITIES_H
@@ -25,14 +26,9 @@
     #define PLAYER_ATK 10
     #define PLAYER_DEF 10
     #define PLAYER_LUCK 10
-
-    enum entity_type {
-        PLAYER_E = 0,
-        ENEMY,
-        NPC,
-        ITEM,
-        OTHER
-    };
+    #define PLAYER_DASH_COOLDOWN 3
+    #define PLAYER_SPRITE_SIZE 48
+    #define SLIME_SPRITE_SIZE 20
 
     enum animation_type_player {
         FRONT_IDLE = 0,
@@ -64,8 +60,14 @@
         sfTime dash_time;
     } player_dash_t;
 
+    typedef struct enemy {
+        int range;
+        int proj_range;
+        int spoted;
+    } enemy_t;
+
     typedef struct entity {
-        enum entity_type type;
+        enemy_t *enemy;
         enum animation_type_player animation;
         int facing_right;
         int sprite_size;
@@ -79,6 +81,7 @@
         sfFloatRect trig;
         collider_t *hurt;
         collider_t *trigger;
+        weapon_t *weapon;
         dependency_t *depend;
     } entity_t;
 
@@ -93,11 +96,14 @@
     void dash_animation(entity_t *player);
     void animation_controller(entity_t *player);
     void move_player_sprite(entity_t *player, window_t *window);
+    void move_enemy_sprite(entity_t *enemy, window_t *window);
     void player_hitbox(entity_t *player);
     void enemy_update(void *enemy_void, window_t *window);
     void enemy_print(void *enemy_void, window_t *window);
     void enemy_move(entity_t *enemy, window_t *window);
+    void enemy_animation(void *enemy_void, window_t *window);
     void set_camera(entity_t *player, window_t *window);
     void update_camera(entity_t *player, window_t *window);
+    void check_dir(entity_t *entity);
 
 #endif /* !ENTITIES_H */

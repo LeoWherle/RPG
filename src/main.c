@@ -8,6 +8,8 @@
 #include <SFML/System.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
 #include "item.h"
 #include "room.h"
 #include "entities.h"
@@ -75,8 +77,8 @@ item_t *item_creator(item_t *item, window_t *window)
     ASSERT_POINTER(hp, NULL);
     item = item_create(item, create_slime(window), destroy_enemy);
     ASSERT_MALLOC(item, NULL);
-    item_set_func(item, enemy_update, NULL, enemy_print);
-    item = item_create(item, map, NULL);
+    item_set_func(item, enemy_update, enemy_animation, enemy_print);
+    item = item_create(item, init_map(VILLAGE_R), free_map);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, NULL, NULL, draw_room_first);
     return item;
@@ -89,6 +91,7 @@ int main(int ac, UNUSED char *av[], char *env[])
 
     if (ac != 1 || detect_display(env) == -1)
         return 84;
+    srand(time(NULL));
     window = window_create((sfVideoMode){1920, 1080, 32}, 60,
             "Into the abyss", (sfFloatRect){0, 0, 1920, 1080});
     ASSERT_MALLOC(window, 84);
