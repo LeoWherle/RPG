@@ -60,7 +60,6 @@ static room_t *fill_room_lines(room_t *room, char *buff, FILE *fd, size_t len)
         room->bg_color = sfColor_fromRGB(34, 32, 52);
     if (room->type == VILLAGE_R)
         room->bg_color = sfColor_fromRGB(56, 152, 255);
-    room = fill_collisions(room, buff, fd, len);
     return (room);
 }
 
@@ -102,7 +101,6 @@ room_t *get_room(room_t *room, room_type_t type)
     room = open_room(room, path, type);
     ASSERT_MALLOC(room, NULL);
     ASSERT_MALLOC(room->room, NULL);
-    ASSERT_MALLOC(room->collisions, NULL);
     free(path);
     room_nb++;
     return (room);

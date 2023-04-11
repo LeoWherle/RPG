@@ -1,23 +1,20 @@
-# Lem-in
+# RPG
 - **Contributors:**
   - [Léo Wehrle - Rentmeister](https://github.com/leoWherle)
   - [Théodore Magna](https://github.com/TheodoreEpitech)
   - [Martin Sabatier](https://github.com/Nevi1)
   - [Nathanael Kimbembe-Croissant](https://github.com/Nathanael-Kimbembe)
 
-## Goal:
-  Ant-based calculation unit
-
 ## Language : C
 
-## Library : None
+## Libraries : CSFML - standart math library
 
 ## The only system calls allowed are the following ones:
-• read
-• write
-• malloc
-• free
-• getline
+ - malloc - free - memset
+ - (s)rand - stat
+ - (f)write - getline
+ - (f)open - (f)read - (f)close
+ - opendir - readdir - closedir
 
 ## Requirements :
   - gcc

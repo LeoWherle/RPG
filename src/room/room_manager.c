@@ -22,12 +22,6 @@ void free_room(room_t *room)
         i++;
     }
     free(room->room);
-    i = 0;
-    while (room->collisions[i] != NULL) {
-        free(room->collisions[i]);
-        i++;
-    }
-    free(room->collisions);
     free(room);
 }
 

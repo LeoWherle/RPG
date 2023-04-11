@@ -13,7 +13,7 @@
 #include "errorhandling.h"
 #include "item.h"
 
-static void draw_tile(sfRenderWindow *window, sfSprite *tile, char c,
+void draw_tile(sfRenderWindow *window, sfSprite *tile, char c,
 room_type_t type)
 {
     if (type == CAVE_R && !is_in(c, "? "))
@@ -31,7 +31,7 @@ room_type_t type)
         sfRenderWindow_drawSprite(window, floor, NULL);
 }
 
-static int translate_map(char **room, int y, int x, room_type_t type)
+int translate_map(char **room, int y, int x, room_type_t type)
 {
     int tile_asset = 0;
 
@@ -66,11 +66,10 @@ static void draw_floor(window_t *window, room_t *room, tile_t **tile_list)
     }
 }
 
-void draw_room(void *map_pt, window_t* window)
+void draw_room_first(void *map_pt, window_t* window)
 {
     sfVector2f pos = {0, 0};
     int tile_asset = 0;
-    tile_t *tile = NULL;
     char c = 0;
     map_t *map = (map_t *)map_pt;
     sfVector2f center = sfView_getCenter(window->view);
@@ -81,11 +80,12 @@ void draw_room(void *map_pt, window_t* window)
         if (stop_draw_on_close(window, y)) return;
         for (int x = 0; map->room->room[y][x] != '\0'; x++) {
             RENDER((pos = draw_in_rdr(center, x, y)).x);
+            RENDER_3D(center.y, pos.y);
             tile_asset = translate_map(map->room->room, y, x, map->room->type);
             c = map->room->room[y][x];
-            tile = map->tile_list[tile_asset];
-            sfSprite_setPosition(tile->img, pos);
-            draw_tile(window->window, tile->img, c, map->room->type);
+            sfSprite_setPosition(map->tile_list[tile_asset]->img, pos);
+            draw_tile(window->window, map->tile_list[tile_asset]->img, c,
+            map->room->type);
         }
     }
 }

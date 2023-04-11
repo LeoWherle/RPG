@@ -43,6 +43,11 @@ SRC =	src/main.c	\
 		src/entities/general_entity.c 		\
 		src/collision/collider_create.c	\
 		src/collision/collider_aabb.c	\
+		src/gui/gui_create.c	\
+		src/gui/gui_draw.c	\
+		src/gui/gui_evaluate.c	\
+		src/gui/gui_setter.c	\
+		src/gui/gui_events.c 		\
 		src/weapon/weapon_create.c		\
 		src/weapon/weapon_use.c 		\
 		src/quick_create/rectangle.c	\

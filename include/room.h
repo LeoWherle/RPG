@@ -20,6 +20,7 @@
     #define RDR_DIST_X 1700
     #define RDR_DIST_Y 1800
     #define RENDER(x) if (x == -1) continue;
+    #define RENDER_3D(pos, center) if (pos < center) continue;
 
 typedef enum room_type_e {
     VILLAGE_R,
@@ -28,7 +29,6 @@ typedef enum room_type_e {
 
 typedef struct room_s {
     char **room;
-    char **collisions;
     room_type_t type;
     int entity_nb;
     int height;
@@ -54,9 +54,9 @@ typedef struct map_s {
     room_t *get_room(room_t *room, room_type_t type);
     void print_room(char **room);
     void free_room(room_t *room);
-    void draw_room(void *map_pt, window_t* window);
+    void draw_room_first(void *map_pt, window_t* window);
+    void draw_room_second(void *map_pt, window_t* window);
     void free_tile_list(tile_t **tile_list);
-    room_t *fill_collisions(room_t *room, char *buff, FILE *fd, size_t len);
     char *fill_room(int c, char *buff, char **room, int y);
     int get_file_nb(char *path);
     char *get_specific_file(char *path, int nb);
@@ -72,5 +72,9 @@ typedef struct map_s {
     char *get_random_room(void);
     sfVector2f draw_in_rdr(sfVector2f center, int x, int y);
     int stop_draw_on_close(window_t *window, int y);
+    void draw_tile(sfRenderWindow *window, sfSprite *tile, char c,
+    room_type_t type);
+    int translate_map(char **room, int y, int x, room_type_t type);
+    sfFloatRect translate_collisions_village(char c);
 
 #endif /* !ROOM_H_ */

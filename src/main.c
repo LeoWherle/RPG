@@ -15,6 +15,8 @@
 #include "entities.h"
 #include "errorhandling.h"
 #include "my_str.h"
+#include "gui.h"
+#include "menu_values.h"
 
 bool exit_ecs(window_t *window)
 {
@@ -41,17 +43,44 @@ static int detect_display(char *env[])
     return (-1);
 }
 
+gui_t *create_gui(void)
+{
+    gui_t *gui = gui_create((sfVector2f){0, -0.48}, "assets/menu/options.png");
+    ASSERT_POINTER(gui, NULL);
+    gui_t *health_background = gui_sub_create(GUIPOS_HEALTH,
+"assets/menu/health_e.png", gui);
+    sfRectangleShape_setScale(health_background->shape, (sfVector2f){0.7, 0.7});
+    ASSERT_POINTER(health_background, NULL);
+    return gui;
+}
+
 item_t *item_creator(item_t *item, window_t *window)
 {
+    map_t *map = NULL;
+
+    gui_t *gui = create_gui();
+    item = item_create(item, gui, &gui_destroy);
+    ASSERT_POINTER(item, NULL);
+    item_set_func(item, NULL, NULL, &gui_draw);
+    map = init_map(VILLAGE_R);
+    ASSERT_MALLOC(map, NULL);
+    item = item_create(item, map, free_map);
+    ASSERT_MALLOC(item, NULL);
+    item_set_func(item, NULL, NULL, draw_room_second);
     item = item_create(item, create_player(window), destroy_player);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, player_update, player_animation, player_print);
+    gui_t *hp = gui_sub_create(GUIPOS_HEALTH, "assets/menu/health_f.png", gui);
+    entity_t *player = (entity_t *)(item->item);
+    hp->type = GUI_HEALTH_BAR;
+    hp->interactor = &player->stats;
+    ASSERT_POINTER(hp, NULL);
     item = item_create(item, create_slime(window), destroy_enemy);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, enemy_update, enemy_animation, enemy_print);
     item = item_create(item, init_map(VILLAGE_R), free_map);
     ASSERT_MALLOC(item, NULL);
-    item_set_func(item, NULL, NULL, draw_room);
+    item_set_func(item, NULL, NULL, draw_room_first);
     return item;
 }
 
