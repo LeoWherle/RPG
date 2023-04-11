@@ -21,6 +21,7 @@ void free_colliders(void *collider)
 void free_map(void *map_pt)
 {
     map_t *map = (map_t *)map_pt;
+
     free_room(map->room);
     free_tile_list(map->tile_list);
     map->colliders->interface->destroy(map->colliders, free_colliders);
