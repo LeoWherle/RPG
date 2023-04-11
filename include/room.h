@@ -57,7 +57,6 @@ typedef struct map_s {
     void draw_room_first(void *map_pt, window_t* window);
     void draw_room_second(void *map_pt, window_t* window);
     void free_tile_list(tile_t **tile_list);
-    room_t *fill_collisions(room_t *room, char *buff, FILE *fd, size_t len);
     char *fill_room(int c, char *buff, char **room, int y);
     int get_file_nb(char *path);
     char *get_specific_file(char *path, int nb);
@@ -76,5 +75,6 @@ typedef struct map_s {
     void draw_tile(sfRenderWindow *window, sfSprite *tile, char c,
     room_type_t type);
     int translate_map(char **room, int y, int x, room_type_t type);
+    sfFloatRect translate_collisions_village(char c);
 
 #endif /* !ROOM_H_ */

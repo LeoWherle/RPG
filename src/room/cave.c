@@ -10,6 +10,43 @@
 #include "room.h"
 #include "cave.h"
 
+static const sfFloatRect *vil_col_list[] = {
+    &((sfFloatRect){0, 0, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0, 0 - 1.5, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0 - 0.75, 0, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0 + 0.75, 0, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0, 0 - 0.5, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
+    &((sfFloatRect){0, 0 - 0.5, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
+    &((sfFloatRect){0, 0, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
+    &((sfFloatRect){0, 0, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
+    &((sfFloatRect){0 - 1, 0 - 2, 0, 0}),
+    &((sfFloatRect){0, 0 - 2, 0, 0}),
+    &((sfFloatRect){0 - 0.7, 0, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0 + 0.7, 0, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0 - 3.5, 0 - 2.5, TILE_SIZE * 7, TILE_SIZE * 2.5}),
+    &((sfFloatRect){0 - 0.9, 0 - 1.1, TILE_SIZE * 2.2, TILE_SIZE * 1.2}),
+    &((sfFloatRect){0 - 0.3, 0, TILE_SIZE * 1.4, TILE_SIZE}),
+    &((sfFloatRect){0 - 1.8, 0 - 1.2, TILE_SIZE * 4, TILE_SIZE * 1.5}),
+    &((sfFloatRect){0 - 0.5, 0 - 0.6, TILE_SIZE * 1.5, TILE_SIZE}),
+    &((sfFloatRect){0 - 1.5, 0 - 2.3, TILE_SIZE * 3.8, TILE_SIZE * 2.6}),
+    &((sfFloatRect){0 - 0.3, 0 - 0.4, TILE_SIZE * 1.4, TILE_SIZE * 0.9}),
+    &((sfFloatRect){0, 0, 0, 0}),
+    &((sfFloatRect){0 - 0.4, 0, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0 - 0.3, 0 - 2, TILE_SIZE, TILE_SIZE * 4}),
+    &((sfFloatRect){0 - 0.4, 0 - 0.75, TILE_SIZE * 1.4, TILE_SIZE * 0.9}),
+    &((sfFloatRect){0 - 0.4, 0 - 0.75, TILE_SIZE * 1.4, TILE_SIZE * 0.9}),
+    NULL};
+
+sfFloatRect translate_collisions_cave(char c)
+{
+    char *img = "_-[]lrLR}{><MtTFfOvG+|bp";
+
+    for (int i = 0; img[i] != '\0'; i++)
+        if (img[i] == c)
+            return (*vil_col_list[i]);
+    return (*vil_col_list[0]);
+}
+
 static int draw_doors(char **map, int x, int y, int i)
 {
     if (map[y][x] == 'p' && map[y - 1][x] == 'p')

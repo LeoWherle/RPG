@@ -32,16 +32,17 @@ list_t *add_in_colliders(list_t *colliders, char **room, int x, int y)
     collider_t *collider = NULL;
     sfFloatRect *rect = NULL;
 
-    if (room[y][x] != '0') {
+    if (!is_in(room[y][x], "? ;,:\\/")) {
         collider = malloc(sizeof(collider_t));
         ASSERT_MALLOC(collider, NULL);
         rect = malloc(sizeof(sfFloatRect));
         ASSERT_MALLOC(rect, NULL);
-        rect->left = x * TILE_SIZE;
-        rect->top = y * TILE_SIZE;
-        rect->width = TILE_SIZE;
-        rect->height = TILE_SIZE;
-        collider = collider_create(rect, room[y][x] - '0', true, NULL);
+        *rect = translate_collisions_village(room[y][x]);
+        rect->top = y + rect->top;
+        rect->left = x + rect->left;
+        rect->top *= TILE_SIZE;
+        rect->left *= TILE_SIZE;
+        collider = collider_create(rect, SOLID, true, NULL);
         ASSERT_MALLOC(collider, NULL);
         colliders->interface->append(colliders, collider);
     }
