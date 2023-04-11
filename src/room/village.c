@@ -38,7 +38,7 @@ static const sfFloatRect *vil_col_list[] = {
 
 sfFloatRect translate_collisions_village(char c)
 {
-    char *img = "_-[]lrLR}{><MtTFfOvG+|bp";
+    char img[] = "_-[]lrLR}{><MtTFfOvG+|bp";
 
     for (int i = 0; img[i] != '\0'; i++)
         if (img[i] == c)
@@ -48,9 +48,11 @@ sfFloatRect translate_collisions_village(char c)
 
 int translate_village(char **map, int y, int x)
 {
-    char *img = ". -_[]lrLR=/\\}{><MtTFfOvG+|,;:bp";
+    char img[] = ". -_[]lrLR=/\\}{><MtTFfOvG+|,;:bp";
     int i = 0;
 
+    if (map[y][x] == '$')
+        return (FLOOR_ID);
     while (img[i] != '\0') {
         if (map[y][x] == img[i])
             return (i);

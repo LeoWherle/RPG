@@ -54,11 +54,30 @@ gui_t *create_gui(void)
     return gui;
 }
 
-item_t *item_creator(item_t *item, window_t *window)
+static item_t *create_entity(item_t *item, window_t *window, gui_t *gui)
+{
+    gui_t *hp = NULL;
+    entity_t *player = NULL;
+
+    item = item_create(item, create_player(window), destroy_player);
+    ASSERT_MALLOC(item, NULL);
+    item_set_func(item, player_update, player_animation, player_print);
+    hp = gui_sub_create(GUIPOS_HEALTH, "assets/menu/health_f.png", gui);
+    player = (entity_t *)(item->item);
+    hp->type = GUI_HEALTH_BAR;
+    hp->interactor = &player->stats;
+    ASSERT_POINTER(hp, NULL);
+    item = item_create(item, create_slime(window), destroy_enemy);
+    ASSERT_MALLOC(item, NULL);
+    item_set_func(item, enemy_update, enemy_animation, enemy_print);
+    return (item);
+}
+
+item_t *create_item(item_t *item, window_t *window)
 {
     map_t *map = NULL;
-
     gui_t *gui = create_gui();
+
     item = item_create(item, gui, &gui_destroy);
     ASSERT_POINTER(item, NULL);
     item_set_func(item, NULL, NULL, &gui_draw);
@@ -67,17 +86,8 @@ item_t *item_creator(item_t *item, window_t *window)
     item = item_create(item, map, free_map);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, NULL, NULL, draw_room_second);
-    item = item_create(item, create_player(window), destroy_player);
+    item = create_entity(item, window, gui);
     ASSERT_MALLOC(item, NULL);
-    item_set_func(item, player_update, player_animation, player_print);
-    gui_t *hp = gui_sub_create(GUIPOS_HEALTH, "assets/menu/health_f.png", gui);
-    entity_t *player = (entity_t *)(item->item);
-    hp->type = GUI_HEALTH_BAR;
-    hp->interactor = &player->stats;
-    ASSERT_POINTER(hp, NULL);
-    item = item_create(item, create_slime(window), destroy_enemy);
-    ASSERT_MALLOC(item, NULL);
-    item_set_func(item, enemy_update, enemy_animation, enemy_print);
     item = item_create(item, map, NULL);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, NULL, NULL, draw_room_first);
@@ -95,7 +105,7 @@ int main(int ac, UNUSED char *av[], char *env[])
     window = window_create((sfVideoMode){1920, 1080, 32}, 60,
             "Into the abyss", (sfFloatRect){0, 0, 1920, 1080});
     ASSERT_MALLOC(window, 84);
-    item = item_creator(item, window);
+    item = create_item(item, window);
     ASSERT_MALLOC(item, 84);
     item_loop(item, window, exit_ecs);
     item_list_destroy(item);
