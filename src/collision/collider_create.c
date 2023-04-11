@@ -35,6 +35,7 @@ collider_t *collider_create(sfFloatRect *hitbox, tag_t type,
     new->activated = activate;
     new->owner = owner;
     new->to_collide = collider_list;
+    new->on_collision_entered = NULL;
     collider_list->interface->append(collider_list, new);
     return new;
 }

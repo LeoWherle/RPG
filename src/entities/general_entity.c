@@ -15,23 +15,22 @@
 
 void check_dir(entity_t *entity)
 {
-    collider_t *colh = NULL;
-    collider_t *colv = NULL;
-    collider_t *col = NULL;
+    sfVector2f speed = {0, 0};
 
-    entity->trig.left = entity->pos.x + entity->speed_vector.x;
-    entity->trig.top = entity->pos.y + entity->speed_vector.y;
-    col = collision_check(entity->trigger, SOLID);
-    if (col) {
-        entity->trig.left = entity->pos.x + entity->speed_vector.x;
-        entity->trig.top = entity->pos.y;
-        colh = collision_check(entity->trigger, SOLID);
-        if (colh)
-            entity->speed_vector.x = 0;
+    speed = entity->speed_vector;
+    if (speed.x == 0 && speed.y == 0)
+        return;
+    entity->trig.left = entity->pos.x + speed.x;
+    entity->trig.top = entity->pos.y + speed.y;
+    collision_check(entity->trigger);
+    if (speed.x != entity->speed_vector.x &&
+        speed.y != entity->speed_vector.y) {
+        entity->speed_vector = speed;
         entity->trig.left = entity->pos.x;
-        entity->trig.top = entity->pos.y + entity->speed_vector.y;
-        colv = collision_check(entity->trigger, SOLID);
-        if (colv)
-            entity->speed_vector.y = 0;
+        entity->trig.top = entity->pos.y + speed.y;
+        collision_check(entity->trigger);
+        entity->trig.left = entity->pos.x + speed.x;
+        entity->trig.top = entity->pos.y;
+        collision_check(entity->trigger);
     }
 }

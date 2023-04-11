@@ -15,7 +15,7 @@ void enemy_hitbox(entity_t *enemy)
 {
     collider_t *hit_by = NULL;
 
-    hit_by = collision_check(enemy->hurt, HITBOX);
+    collision_check(enemy->hurt);
 }
 
 void enemy_update(void *enemy_void, window_t *window)

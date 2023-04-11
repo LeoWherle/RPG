@@ -53,9 +53,10 @@ entity_t *create_player(window_t *window)
     set_sprite(player, "assets/characters/player.png",
     (sfIntRect){0, 0, 48, 48}, (sfVector2f){24, 24});
     set_stats(player, &stats);
-    player->hurt = collider_create(NULL, HURTBOX, true, player);
+    //player->hurt = collider_create(NULL, HURTBOX, true, player);
     player->trig = (sfFloatRect){0, 0, 1, 1};
     player->trigger = collider_create(&player->trig, TRIGGER, false, player);
+    player->trigger->on_collision_entered = move_trigger_enter;
     return player;
 }
 
@@ -75,8 +76,9 @@ entity_t *create_slime(window_t *window)
     (sfIntRect){0, 0, SLIME_SPRITE_SIZE, SLIME_SPRITE_SIZE},
     (sfVector2f){10, 0});
     set_stats(slime, &stats);
-    slime->hurt = collider_create(NULL, HURTBOX, true, slime);
+    //slime->hurt = collider_create(NULL, HURTBOX, true, slime);
     slime->trig = (sfFloatRect){0, 0, 1, 1};
     slime->trigger = collider_create(&slime->trig, TRIGGER, false, slime);
+    slime->trigger->on_collision_entered = move_trigger_enter;
     return slime;
 }

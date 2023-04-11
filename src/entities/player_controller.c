@@ -17,7 +17,7 @@ void player_hitbox(entity_t *player)
 {
     collider_t *hit_by = NULL;
 
-    hit_by = collision_check(player->hurt, HITBOX);
+    collision_check(player->hurt);
 }
 
 void player_update(void *player_void, window_t *window)
