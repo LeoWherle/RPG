@@ -43,7 +43,7 @@ entity_t *create_player(window_t *window)
     PLAYER_SPEED, PLAYER_ATK_SPEED};
 
     player->dash = malloc(sizeof(player_dash_t));
-    player->weapon = weapon_create_sword(0.3, 5, (sfVector2f){50, 50},
+    player->weapon = weapon_create_sword(0.5, 5, (sfVector2f){50, 50},
     "assets/items/sword.png");
     player->dash->is_dashing = 0;
     player->dash->dash_cooldown = 0;
@@ -51,7 +51,7 @@ entity_t *create_player(window_t *window)
     player->pos = (sfVector2f){window->mode.width / 2,
     window->mode.height / 2};
     set_sprite(player, "assets/characters/player.png",
-    (sfIntRect){0, 0, 48, 48}, (sfVector2f){25, 37});
+    (sfIntRect){0, 0, 48, 48}, (sfVector2f){24, 24});
     set_stats(player, &stats);
     player->hurt = collider_create(NULL, HURTBOX, true, player);
     player->trig = (sfFloatRect){0, 0, 1, 1};
