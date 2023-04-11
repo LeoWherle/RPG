@@ -28,17 +28,19 @@ void free_map(void *map_pt)
     free(map);
 }
 
-list_t *add_in_colliders(list_t *colliders, char **room, int x, int y)
+list_t *add_in_colliders(list_t *colliders, room_t *room, int x, int y)
 {
     collider_t *collider = NULL;
     sfFloatRect *rect = NULL;
 
-    if (!is_in(room[y][x], "? ;,:\\/")) {
+    if (!is_in(room->room[y][x], "? ;,:~\\/")) {
         collider = malloc(sizeof(collider_t));
         ASSERT_MALLOC(collider, NULL);
         rect = malloc(sizeof(sfFloatRect));
         ASSERT_MALLOC(rect, NULL);
-        *rect = translate_collisions_village(room[y][x]);
+        if (room->type == VILLAGE_R)
+            *rect = translate_collisions_village(room->room[y][x]);
+        if (room->type == CAVE_R) *rect = trans_col_cave(room->room[y][x]);
         rect->top = y + rect->top;
         rect->left = x + rect->left;
         rect->top *= TILE_SIZE;
@@ -50,12 +52,12 @@ list_t *add_in_colliders(list_t *colliders, char **room, int x, int y)
     return (colliders);
 }
 
-list_t *init_colliders(list_t *colliders, char **room)
+list_t *init_colliders(list_t *colliders, room_t *room)
 {
     colliders = list_init();
     ASSERT_MALLOC(colliders, NULL);
-    for (int y = 0; room[y] != NULL; y++) {
-        for (int x = 0; room[y][x] != '\0'; x++) {
+    for (int y = 0; room->room[y] != NULL; y++) {
+        for (int x = 0; room->room[y][x] != '\0'; x++) {
             colliders = add_in_colliders(colliders, room, x, y);
             ASSERT_MALLOC(colliders, NULL);
         }
@@ -79,7 +81,7 @@ map_t *init_map(room_type_t type)
     ASSERT_MALLOC(map->tile_list, NULL);
     map->room = get_room(map->room, type);
     ASSERT_MALLOC(map->room, NULL);
-    map->colliders = init_colliders(map->colliders, map->room->room);
+    map->colliders = init_colliders(map->colliders, map->room);
     map_nb++;
     return (map);
 }
