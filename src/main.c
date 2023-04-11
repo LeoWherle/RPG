@@ -41,15 +41,22 @@ static int detect_display(char *env[])
 
 item_t *item_creator(item_t *item, window_t *window)
 {
+    map_t *map = NULL;
+
+    map = init_map(VILLAGE_R);
+    ASSERT_MALLOC(map, NULL);
+    item = item_create(item, map, free_map);
+    ASSERT_MALLOC(item, NULL);
+    item_set_func(item, NULL, NULL, draw_room_second);
     item = item_create(item, create_player(window), destroy_player);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, player_update, player_animation, player_print);
     item = item_create(item, create_slime(window), destroy_enemy);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, enemy_update, NULL, enemy_print);
-    item = item_create(item, init_map(VILLAGE_R), free_map);
+    item = item_create(item, map, NULL);
     ASSERT_MALLOC(item, NULL);
-    item_set_func(item, NULL, NULL, draw_room);
+    item_set_func(item, NULL, NULL, draw_room_first);
     return item;
 }
 

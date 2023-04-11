@@ -26,25 +26,6 @@ void free_tile_list(tile_t **tile_list)
     free(tile_list);
 }
 
-room_t *fill_collisions(room_t *room, char *buff, FILE *fd, size_t len)
-{
-    int y = 0;
-    size_t c = 0;
-
-    room->collisions = malloc(sizeof(char *) * (room->height + 1));
-    ASSERT_MALLOC(room->collisions, NULL);
-    while ((int)c != -1) {
-        c = getline(&buff, &len, fd);
-        if ((int)c != -1) {
-            room->collisions[y] = malloc(sizeof(char) * (c + 1));
-            room->collisions[y] = fill_room(c, buff, room->collisions, y);
-            ASSERT_MALLOC(room->collisions[y], NULL);
-            y++;
-        }
-    }
-    return (room);
-}
-
 static int get_tile_nb(sfIntRect *rec_list[])
 {
     int i = 0;
