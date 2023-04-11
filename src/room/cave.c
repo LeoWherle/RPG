@@ -37,7 +37,7 @@ static const sfFloatRect *vil_col_list[] = {
     &((sfFloatRect){0 - 0.4, 0 - 0.75, TILE_SIZE * 1.4, TILE_SIZE * 0.9}),
     NULL};
 
-sfFloatRect translate_collisions_cave(char c)
+sfFloatRect trans_col_cave(char c)
 {
     char *img = "_-[]lrLR}{><MtTFfOvG+|bp";
 
