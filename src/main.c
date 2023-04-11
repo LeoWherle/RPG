@@ -78,7 +78,7 @@ item_t *item_creator(item_t *item, window_t *window)
     item = item_create(item, create_slime(window), destroy_enemy);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, enemy_update, enemy_animation, enemy_print);
-    item = item_create(item, init_map(VILLAGE_R), free_map);
+    item = item_create(item, map, NULL);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, NULL, NULL, draw_room_first);
     return item;
