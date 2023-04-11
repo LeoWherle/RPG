@@ -22,7 +22,6 @@ void weapon_use(weapon_t *weapon, window_t *win)
         weapon->cooldown && sfMouse_isButtonPressed(sfMouseLeft)) {
         weapon->activated = true;
         weapon->hitbox->activated = true;
-        sfRectangleShape_setRotation(weapon->weapon, weapon->angle + 90.);
         weapon->pos = sfView_getCenter(win->view);
         weapon->rect = sfRectangleShape_getGlobalBounds(weapon->weapon);
         prev_time = time;
@@ -42,14 +41,14 @@ void sword_use(weapon_t *sword, window_t *win)
         angle = sword->angle - 30;
     }
     time = sfClock_getElapsedTime(win->frame);
-    if ((time.microseconds - prev_time.microseconds) / 1000000. > 0.2) {
+    if ((time.microseconds - prev_time.microseconds) / 1000000. > 0.23) {
         prev_time = time;
         sword->activated = false;
         prev_time.microseconds = 0;
     }
     sfRectangleShape_setPosition(sword->weapon, (sfVector2f){player.x +
-        35 * cos(angle * M_PI / 180), player.y + 35 * sin(angle * M_PI /
-        180)});
+        10 * cos(angle * M_PI / 180) + 3, player.y + 10 * sin(angle * M_PI /
+        180) + 39});
     sfRectangleShape_setRotation(sword->weapon, angle);
     sword->rect = sfRectangleShape_getGlobalBounds(sword->weapon);
     angle += 10;

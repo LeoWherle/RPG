@@ -34,10 +34,10 @@ void player_print(void *player_void, window_t *window)
     entity_t *player = (entity_t *)player_void;
 
     sfSprite_setPosition(player->sprite, player->pos);
-    sfRenderWindow_drawSprite(window->window, player->sprite, NULL);
     if (player->weapon->activated)
         sfRenderWindow_drawRectangleShape(window->window,
         player->weapon->weapon, NULL);
+    sfRenderWindow_drawSprite(window->window, player->sprite, NULL);
 }
 
 void player_animation(void *player_void, window_t *window)
