@@ -34,43 +34,22 @@ void projectile_move_line(projectile_t *proj, window_t *win)
 void projectile_move_sinus(projectile_t *proj, window_t *win)
 {
     static float angle = 0.;
-    static sfVector2f speed_vect = {0};
+    static sfVector2f speed = {0};
 
-    if (speed_vect.x == 0 && speed_vect.y == 0) {
-        speed_vect.x = proj->move_vect.x;
-        speed_vect.y = proj->move_vect.y;
+    if (speed.x == 0 && speed.y == 0) {
+        speed.x = proj->move_vect.x;
+        speed.y = proj->move_vect.y;
     }
     if (angle < 1.57) {
-        proj->move_vect.x = speed_vect.x / sin(M_PI / 2) * sin((M_PI / 2) - angle);
-        proj->move_vect.y = speed_vect.y / sin(M_PI / 2) * sin(angle);
+        proj->move_vect.x = speed.x / sin(M_PI / 2) * sin((M_PI / 2) - angle);
+        proj->move_vect.y = speed.y / sin(M_PI / 2) * sin(angle);
     } else {
-        proj->move_vect.x = -speed_vect.x / sin(M_PI / 2) * sin((M_PI / 2) - angle);
-        proj->move_vect.y = speed_vect.y / sin(M_PI / 2) * sin(angle);
+        proj->move_vect.x = -speed.x / sin(M_PI / 2) *
+                            sin((M_PI / 2) - angle);
+        proj->move_vect.y = speed.y / sin(M_PI / 2) * sin(angle);
     }
     angle += 0.1;
     if (angle > 3.14)
         angle = 0.;
-    projectile_move_line(proj, win);
-}
-
-void projectile_move_boing(projectile_t *proj, window_t *win)
-{
-    static float angle = -1.57;
-    static sfVector2f speed_vect = {0};
-
-    if (speed_vect.x == 0 && speed_vect.y == 0) {
-        speed_vect.x = proj->move_vect.x;
-        speed_vect.y = proj->move_vect.y;
-    }
-    if (angle < 1.57) {
-        proj->move_vect.x = speed_vect.x / sin(M_PI / 2) * sin((M_PI / 2) - angle);
-        proj->move_vect.y = speed_vect.y / sin(M_PI / 2) * sin(angle);
-    } else {
-        proj->move_vect.x = speed_vect.x / sin(M_PI / 2) * sin((M_PI / 2) - angle);
-        proj->move_vect.y = speed_vect.y / sin(M_PI / 2) * sin(angle);
-    }
-    angle += 0.1;
-    if (angle > 1.57)
-        angle = -1.57;
     projectile_move_line(proj, win);
 }

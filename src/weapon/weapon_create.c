@@ -12,6 +12,7 @@
 #include "weapon.h"
 #include "errorhandling.h"
 #include "collision.h"
+#include "quick_create.h"
 
 weapon_t *weapon_create_lance(float cooldown, int strenght, sfVector2f size,
                         sfTexture *texture)
@@ -25,11 +26,9 @@ weapon_t *weapon_create_lance(float cooldown, int strenght, sfVector2f size,
     new->cooldown = cooldown;
     new->strenght = strenght;
     new->texture = texture;
-    new->weapon = sfRectangleShape_create();
+    new->weapon = rectangle_quick_create((sfFloatRect){0, 0, size.x, size.y},
+                                        texture, sfWhite);
     ASSERT_MALLOC(new->weapon, NULL;)
-    if (texture)
-        sfRectangleShape_setTexture(new->weapon, new->texture, sfTrue);
-    sfRectangleShape_setSize(new->weapon, size);
     sfRectangleShape_setOrigin(new->weapon, (sfVector2f){size.x / 2, size.y});
     new->rect = sfRectangleShape_getGlobalBounds(new->weapon);
     new->hitbox = collider_create(&new->rect, HITBOX, false, new);

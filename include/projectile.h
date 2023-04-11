@@ -25,8 +25,8 @@
         void (*move)(struct projectile *, window_t *);
     } projectile_t;
 
-    projectile_t *projectile_create(sfVector2f size, sfVector2f pos,
-                        sfVector2f move_vect, sfTexture *texture);
+    projectile_t *projectile_create(sfFloatRect rect, sfVector2f move_vect,
+        sfTexture *texture, void (*move)(struct projectile *, window_t *));
     void projectile_delete(void *node);
     void projectile_list_destroy(void *item);
     void projectile_move_sinus(projectile_t *proj, window_t *win);

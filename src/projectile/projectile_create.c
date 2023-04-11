@@ -11,21 +11,19 @@
 #include <stdlib.h>
 #include "projectile.h"
 #include "chained_list.h"
+#include "quick_create.h"
 
-projectile_t *projectile_create(sfVector2f size, sfVector2f pos,
-                        sfVector2f move_vect, sfTexture *texture)
+projectile_t *projectile_create(sfFloatRect rect, sfVector2f move_vect,
+            sfTexture *texture, void (*move)(struct projectile *, window_t *))
 {
     static list_t *projectile_list = NULL;
     projectile_t *new = NULL;
     new = malloc(sizeof(projectile_t));
     ASSERT_MALLOC(new, NULL);
     new->texture = texture;
-    new->rect = sfRectangleShape_create();
+    new->rect = rectangle_quick_create(rect, texture, sfWhite);
     ASSERT_MALLOC(new->rect, NULL);
-    sfRectangleShape_setSize(new->rect, size);
-    if (texture)
-        sfRectangleShape_setTexture(new->rect, texture, sfTrue);
-    new->pos = pos;
+    new->pos = sfRectangleShape_getPosition(new->rect);
     new->move_vect = move_vect;
     new->box = sfRectangleShape_getGlobalBounds(new->rect);
     new->hitbox = collider_create(&new->box, HITBOX, true, NULL);
@@ -36,6 +34,7 @@ projectile_t *projectile_create(sfVector2f size, sfVector2f pos,
     }
     projectile_list->interface->append(projectile_list, new);
     new->projectile_list = projectile_list;
+    new->move = move;
     return new;
 }
 

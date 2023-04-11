@@ -40,7 +40,8 @@ void lance_use(weapon_t *lance, window_t *win)
     time = sfClock_getElapsedTime(win->frame);
     if (velocity.x == 0 && velocity.y == 0) {
         prev_time = sfClock_getElapsedTime(win->frame);
-        velocity.x = 5. / sin(M_PI / 2) * sin((M_PI / 2) - (lance->angle * M_PI / 180.));
+        velocity.x = 5. / sin(M_PI / 2) * 
+                    sin((M_PI / 2) - (lance->angle * M_PI / 180.));
         velocity.y = 5. / sin(M_PI / 2) * sin(lance->angle * M_PI / 180.);
     }
     if ((time.microseconds - prev_time.microseconds) / 1000000. > 0.2) {
