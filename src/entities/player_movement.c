@@ -44,7 +44,7 @@ void player_orientation(entity_t *player, window_t *window)
     mouse_pos, window->view);
     float angle = atan2(absolute_pos.y - player->pos.y,
     absolute_pos.x - player->pos.x) * 180 / M_PI;
-
+    player->weapon->angle = angle;
     if (angle < 0)
         angle += 360;
     if (angle > 45 && angle < 135)

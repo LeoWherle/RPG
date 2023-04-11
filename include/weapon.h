@@ -27,10 +27,10 @@
         void (*use)(struct weapon *, window_t *);
     } weapon_t;
 
-    weapon_t *weapon_create_lance(float cooldown, int strenght, sfVector2f size,
-                        sfTexture *texture);
+    weapon_t *weapon_create_sword(float cooldown, int strenght, sfVector2f size,
+                        char *path);
     void weapon_destroy(weapon_t *weapon);
     void weapon_use(weapon_t *weapon, window_t *win);
-    void lance_use(weapon_t *lance, window_t *win);
+    void sword_use(weapon_t *lance, window_t *win);
 
 #endif /*WEAPON_H*/

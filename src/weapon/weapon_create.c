@@ -14,8 +14,8 @@
 #include "collision.h"
 #include "quick_create.h"
 
-weapon_t *weapon_create_lance(float cooldown, int strenght, sfVector2f size,
-                        sfTexture *texture)
+weapon_t *weapon_create_sword(float cooldown, int strenght, sfVector2f size,
+                        char *path)
 {
     weapon_t *new = NULL;
 
@@ -25,16 +25,17 @@ weapon_t *weapon_create_lance(float cooldown, int strenght, sfVector2f size,
     new->angle = 0.;
     new->cooldown = cooldown;
     new->strenght = strenght;
-    new->texture = texture;
+    new->texture = sfTexture_createFromFile(path, NULL);
+    ASSERT_MALLOC(new->texture, NULL);
     new->weapon = rectangle_quick_create((sfFloatRect){0, 0, size.x, size.y},
-                                        texture, sfWhite);
+                                        new->texture, sfWhite);
     ASSERT_MALLOC(new->weapon, NULL;)
-    sfRectangleShape_setOrigin(new->weapon, (sfVector2f){size.x / 2, size.y});
+    sfRectangleShape_setOrigin(new->weapon, (sfVector2f){0, size.y});
     new->rect = sfRectangleShape_getGlobalBounds(new->weapon);
     new->hitbox = collider_create(&new->rect, HITBOX, false, new);
     ASSERT_MALLOC(new->hitbox, NULL);
     new->pos = (sfVector2f){0, 0};
-    new->use = lance_use;
+    new->use = sword_use;
     return new;
 }
 

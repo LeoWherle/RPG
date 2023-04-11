@@ -12,6 +12,7 @@
 #include <math.h>
 #include "item.h"
 #include "collision.h"
+#include "weapon.h"
 
 #ifndef ENTITIES_H
     #define ENTITIES_H
@@ -80,6 +81,7 @@
         sfFloatRect trig;
         collider_t *hurt;
         collider_t *trigger;
+        weapon_t *weapon;
         dependency_t *depend;
     } entity_t;
 

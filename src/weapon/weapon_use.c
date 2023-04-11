@@ -31,26 +31,26 @@ void weapon_use(weapon_t *weapon, window_t *win)
         weapon->use(weapon, win);
 }
 
-void lance_use(weapon_t *lance, window_t *win)
+void sword_use(weapon_t *sword, window_t *win)
 {
+    static float angle = 0;
     static sfTime prev_time = {0};
-    static sfVector2f velocity = {0};
     sfTime time = {0};
-
-    time = sfClock_getElapsedTime(win->frame);
-    if (velocity.x == 0 && velocity.y == 0) {
+    sfVector2f player = sfView_getCenter(win->view);
+    if (prev_time.microseconds == 0) {
         prev_time = sfClock_getElapsedTime(win->frame);
-        velocity.x = 5. / sin(M_PI / 2) * 
-                    sin((M_PI / 2) - (lance->angle * M_PI / 180.));
-        velocity.y = 5. / sin(M_PI / 2) * sin(lance->angle * M_PI / 180.);
+        angle = sword->angle - 30;
     }
+    time = sfClock_getElapsedTime(win->frame);
     if ((time.microseconds - prev_time.microseconds) / 1000000. > 0.2) {
-        lance->activated = false;
-        lance->hitbox->activated = false;
-        velocity = (sfVector2f){0, 0};
+        prev_time = time;
+        sword->activated = false;
+        prev_time.microseconds = 0;
     }
-    lance->pos.x += velocity.x;
-    lance->pos.y += velocity.y;
-    sfRectangleShape_setPosition(lance->weapon, lance->pos);
-    lance->rect = sfRectangleShape_getGlobalBounds(lance->weapon);
+    sfRectangleShape_setPosition(sword->weapon, (sfVector2f){player.x +
+        35 * cos(angle * M_PI / 180), player.y + 35 * sin(angle * M_PI /
+        180)});
+    sfRectangleShape_setRotation(sword->weapon, angle);
+    sword->rect = sfRectangleShape_getGlobalBounds(sword->weapon);
+    angle += 10;
 }
