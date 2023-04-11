@@ -25,7 +25,7 @@ void player_dash(entity_t *player, window_t *window)
         if (player->dash->dash_time.microseconds / 1000000.0 -
         player->dash->dash_start.microseconds / 1000000.0 > 0.2) {
             player->dash->is_dashing = 0;
-            player->dash->dash_cooldown = 2;
+            player->dash->dash_cooldown = PLAYER_DASH_COOLDOWN;
             player->dash->vector_lock = 0;
         }
         player->speed_vector.x = player->dash->dash_vector.x * 3;
@@ -34,6 +34,7 @@ void player_dash(entity_t *player, window_t *window)
         player->dash->is_dashing = 0;
         player->dash->dash_cooldown -= 0.05;
     }
+    check_dir(player);
 }
 
 void player_orientation(entity_t *player, window_t *window)
@@ -71,7 +72,8 @@ void move_player(entity_t *player, window_t *window)
         player->speed_vector.x -= player->stats.speed;
     if (sfKeyboard_isKeyPressed(sfKeyD) || sfKeyboard_isKeyPressed(sfKeyRight))
         player->speed_vector.x += player->stats.speed;
-    if (sfKeyboard_isKeyPressed(sfKeyLShift))
+    if (sfKeyboard_isKeyPressed(sfKeyLShift) &&
+    (player->speed_vector.x != 0 || player->speed_vector.y != 0))
         player->dash->is_dashing = 1;
     if (player->speed_vector.x != 0 && player->speed_vector.y != 0) {
         player->speed_vector.x *= SQRT;
@@ -79,7 +81,6 @@ void move_player(entity_t *player, window_t *window)
     }
     player_orientation(player, window);
     player_dash(player, window);
-    check_dir(player);
     player->pos.x += player->speed_vector.x;
     player->pos.y += player->speed_vector.y;
 }

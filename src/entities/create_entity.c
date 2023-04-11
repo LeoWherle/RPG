@@ -42,11 +42,9 @@ entity_t *create_player(window_t *window)
     PLAYER_SPEED, PLAYER_ATK_SPEED};
 
     player->dash = malloc(sizeof(player_dash_t));
-    player->animation = FRONT_IDLE;
     player->dash->is_dashing = 0;
     player->dash->dash_cooldown = 0;
     player->dash->vector_lock = 0;
-    player->sprite_size = 48;
     player->pos = (sfVector2f){window->mode.width / 2,
     window->mode.height / 2};
     set_sprite(player, "assets/characters/player.png",
@@ -64,12 +62,15 @@ entity_t *create_slime(window_t *window)
     entity_t *slime = malloc(sizeof(entity_t));
     stats_t stats = {100, 10, 0, 0, 2, 0};
 
-    slime->animation = FRONT_IDLE;
-    slime->pos = (sfVector2f){window->mode.width / 2,
+    slime->enemy = malloc(sizeof(enemy_t));
+    slime->pos = (sfVector2f){window->mode.width / 2 - 500,
     window->mode.height / 2};
-    slime->sprite_size = 20;
+    slime->sprite_size = SLIME_SPRITE_SIZE;
+    slime->enemy->range = 300;
+    slime->enemy->proj_range = -24;
+    slime->enemy->spoted = 0;
     set_sprite(slime, "assets/characters/Slime.png",
-    (sfIntRect){0, 0, slime->sprite_size, slime->sprite_size},
+    (sfIntRect){0, 0, SLIME_SPRITE_SIZE, SLIME_SPRITE_SIZE},
     (sfVector2f){10, 0});
     set_stats(slime, &stats);
     slime->hurt = collider_create(NULL, HURTBOX, true, slime);

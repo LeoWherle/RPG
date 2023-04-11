@@ -16,8 +16,6 @@ void player_hitbox(entity_t *player)
 {
     collider_t *hit_by = NULL;
 
-    player->hurt->hitbox->left = player->pos.x - 24;
-    player->hurt->hitbox->top = player->pos.y - 24;
     hit_by = collision_check(player->hurt, HITBOX);
 }
 
