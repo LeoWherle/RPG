@@ -102,7 +102,6 @@
     void enemy_print(void *enemy_void, window_t *window);
     void enemy_move(entity_t *enemy, window_t *window);
     void enemy_animation(void *enemy_void, window_t *window);
-    void set_camera(entity_t *player, window_t *window);
     void update_camera(entity_t *player, window_t *window);
     void check_dir(entity_t *entity);
 
