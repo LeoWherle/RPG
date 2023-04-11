@@ -15,8 +15,6 @@ void enemy_hitbox(entity_t *enemy)
 {
     collider_t *hit_by = NULL;
 
-    enemy->hurt->hitbox->left = enemy->pos.x - enemy->sprite_size / 2;
-    enemy->hurt->hitbox->top = enemy->pos.y - enemy->sprite_size / 2;
     hit_by = collision_check(enemy->hurt, HITBOX);
 }
 

@@ -8,6 +8,8 @@
 #include <SFML/System.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
 #include "item.h"
 #include "room.h"
 #include "entities.h"
@@ -60,6 +62,7 @@ int main(int ac, UNUSED char *av[], char *env[])
 
     if (ac != 1 || detect_display(env) == -1)
         return 84;
+    srand(time(NULL));
     window = window_create((sfVideoMode){1920, 1080, 32}, 60,
             "Into the abyss", (sfFloatRect){0, 0, 1920, 1080});
     ASSERT_MALLOC(window, 84);

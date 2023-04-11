@@ -25,14 +25,9 @@
     #define PLAYER_ATK 10
     #define PLAYER_DEF 10
     #define PLAYER_LUCK 10
-
-    enum entity_type {
-        PLAYER_E = 0,
-        ENEMY,
-        NPC,
-        ITEM,
-        OTHER
-    };
+    #define PLAYER_DASH_COOLDOWN 3
+    #define PLAYER_SPRITE_SIZE 48
+    #define SLIME_SPRITE_SIZE 20
 
     enum animation_type_player {
         FRONT_IDLE = 0,
@@ -64,8 +59,14 @@
         sfTime dash_time;
     } player_dash_t;
 
+    typedef struct enemy {
+        int range;
+        int proj_range;
+        int spoted;
+    } enemy_t;
+
     typedef struct entity {
-        enum entity_type type;
+        enemy_t *enemy;
         enum animation_type_player animation;
         int facing_right;
         int sprite_size;
