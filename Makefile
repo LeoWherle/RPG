@@ -51,6 +51,7 @@ SRC =	src/main.c	\
 		src/weapon/weapon_create.c		\
 		src/weapon/weapon_use.c 		\
 		src/quick_create/rectangle.c	\
+		src/quick_create/item_creator.c	\
 
 TEST_CRIT	=	\
 
