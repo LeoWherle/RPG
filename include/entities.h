@@ -78,7 +78,6 @@
         sfVector2f pos;
         player_dash_t *dash;
         sfIntRect anim_rect;
-        sfFloatRect trig;
         collider_t *hurt;
         collider_t *trigger;
         weapon_t *weapon;

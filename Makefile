@@ -44,6 +44,7 @@ SRC =	src/main.c	\
 		src/collision/collider_create.c	\
 		src/collision/collider_aabb.c	\
 		src/collision/move_trigger_enter.c	\
+		src/collision/hitbox_manager.c 			\
 		src/gui/gui_create.c	\
 		src/gui/gui_draw.c	\
 		src/gui/gui_evaluate.c	\
