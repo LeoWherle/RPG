@@ -15,23 +15,31 @@ sfFloatRect get_player_bounds(entity_t *player)
 {
     sfFloatRect bounds;
 
-    bounds = sfSprite_getGlobalBounds(player->sprite);
-    bounds.left += 19;
-    bounds.top += 23;
-    bounds.width -= 19;
-    bounds.height -= 8;
+    bounds.left = player->pos.x - 15;
+    bounds.top = player->pos.y - 5;
+    bounds.width = 33;
+    bounds.height = 53;
     return bounds;
 }
 
 void invicibility_frames(entity_t *player, window_t *window)
 {
-    static sfTime time = {0};
+    static sfTime time_inv = {0};
+    static sfTime time_cool = {0};
     static int is_invisible = true;
-    sfTime current = {0};
+    sfTime current_inv = {0};
+    sfTime current_cool = {0};
 
-    current = sfClock_getElapsedTime(window->frame);
-    if ((current.microseconds - time.microseconds) / 1000000. > 0.15) {
-        time = current;
+    if (time_cool.microseconds == 0)
+        time_cool = sfClock_getElapsedTime(window->frame);
+    current_inv = sfClock_getElapsedTime(window->frame);
+    current_cool = sfClock_getElapsedTime(window->frame);
+    if ((current_cool.microseconds - time_cool.microseconds) / 1000000. > 1) {
+        time_cool.microseconds = 0;
+        player->got_hit = false;
+    }
+    if ((current_inv.microseconds - time_inv.microseconds) / 1000000. > 0.15) {
+        time_inv = current_inv;
         is_invisible = !is_invisible;
     }
     if (!is_invisible)

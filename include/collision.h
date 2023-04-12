@@ -38,5 +38,6 @@
     void collider_destroy(collider_t *collider);
 
     void move_trigger_enter(collider_t *main, collider_t *sub);
+    void on_hurtbox_enter(collider_t *main, collider_t *sub);
 
 #endif /*COLLISION_H*/

@@ -18,6 +18,8 @@ void player_update(void *player_void, window_t *window)
     entity_t *player = (entity_t *)player_void;
 
     move_player(player, window);
+    player->hitbox = get_player_bounds(player);
+    collision_check(player->hurt);
     weapon_use(player->weapon, window);
     update_camera(player, window);
 }

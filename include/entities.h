@@ -20,6 +20,7 @@
 
     #define SQRT 0.70710678118
     #define INTERVAL 0.1
+
     #define PLAYER_SIZE 3
     #define PLAYER_SPEED 5
     #define PLAYER_ATK_SPEED 1
@@ -29,6 +30,9 @@
     #define PLAYER_LUCK 10
     #define PLAYER_DASH_COOLDOWN 3
     #define PLAYER_SPRITE_SIZE 48
+
+    #define CLOSE_RANGE -24
+
     #define SLIME_SPRITE_SIZE 20
 
     enum animation_type_player {
@@ -82,6 +86,7 @@
         sfIntRect anim_rect;
         collider_t *hurt;
         collider_t *trigger;
+        sfFloatRect hitbox;
         weapon_t *weapon;
         dependency_t *depend;
     } entity_t;
