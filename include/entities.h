@@ -25,6 +25,7 @@
     #define PLAYER_ATK 10
     #define PLAYER_DEF 10
     #define PLAYER_LUCK 10
+    #define PLAYER_EXP_CAP 100
     #define PLAYER_DASH_COOLDOWN 3
     #define PLAYER_SPRITE_SIZE 48
     #define SLIME_SPRITE_SIZE 20
@@ -41,13 +42,22 @@
         BACK_DASH,
     };
 
+    typedef struct exp{
+        unsigned int level;
+        unsigned int current_exp;
+        unsigned int exp_cap;
+        float mult;
+    } exp_t;
+
     typedef struct stats {
+        float max_hp;
         float hp;
         float atk;
         float def;
         float luck;
         float speed;
         float atk_speed;
+        exp_t exp;
     } stats_t;
 
     typedef struct player_dash {
