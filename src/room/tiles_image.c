@@ -20,6 +20,8 @@ room_type_t type)
         sfRenderWindow_drawSprite(window, tile, NULL);
     if (type == VILLAGE_R && !is_in(c, "? []{}<>-_lrLR$;,:"))
         sfRenderWindow_drawSprite(window, tile, NULL);
+    if (type == HOUSE_R && !is_in(c, "? "))
+        sfRenderWindow_drawSprite(window, tile, NULL);
 }
 
 static void draw_floor_tile(sfRenderWindow *window, sfSprite *floor, char c,
@@ -28,6 +30,8 @@ room_type_t type)
     if (type == CAVE_R && !is_in(c, "?[]{}<>-_lrLR"))
         sfRenderWindow_drawSprite(window, floor, NULL);
     if (type == VILLAGE_R && !is_in(c, "?=/\\+"))
+        sfRenderWindow_drawSprite(window, floor, NULL);
+    if (type == HOUSE_R && !is_in(c, "?"))
         sfRenderWindow_drawSprite(window, floor, NULL);
 }
 
@@ -39,6 +43,8 @@ int translate_map(char **room, int y, int x, room_type_t type)
         tile_asset = translate_cave(room, y, x);
     if (type == VILLAGE_R)
         tile_asset = translate_village(room, y, x);
+    if (type == HOUSE_R)
+        tile_asset = translate_house(room, y, x);
     return (tile_asset);
 }
 

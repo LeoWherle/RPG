@@ -25,6 +25,7 @@
 typedef enum room_type_e {
     VILLAGE_R,
     CAVE_R,
+    HOUSE_R,
 } room_type_t;
 
 typedef struct room_s {
@@ -79,5 +80,10 @@ typedef struct map_s {
     sfFloatRect trans_col_cave(char c);
     list_t *handle_angle(list_t *colliders, room_t *room, int x, int y);
     list_t *add_in_colliders(list_t *colliders, room_t *room, int x, int y);
+    tile_t **init_house_tile_list(tile_t **tile_list, int map_nb);
+    int translate_house(char **map, int y, int x);
+    sfFloatRect translate_collisions_house(char c);
+    sfFloatRect *translate_collisions(char c, sfFloatRect *rect,
+    room_type_t type);
 
 #endif /* !ROOM_H_ */

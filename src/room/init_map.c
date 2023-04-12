@@ -38,9 +38,7 @@ list_t *add_in_colliders(list_t *colliders, room_t *room, int x, int y)
         ASSERT_MALLOC(collider, NULL);
         rect = malloc(sizeof(sfFloatRect));
         ASSERT_MALLOC(rect, NULL);
-        if (room->type == VILLAGE_R)
-            *rect = translate_collisions_village(room->room[y][x]);
-        if (room->type == CAVE_R) *rect = trans_col_cave(room->room[y][x]);
+        rect = translate_collisions(room->room[y][x], rect, room->type);
         rect->top = y + rect->top;
         rect->left = x + rect->left;
         rect->top *= TILE_SIZE;
@@ -80,6 +78,8 @@ map_t *init_map(room_type_t type)
         map->tile_list = init_cave_tile_list(map->tile_list, map_nb);
     if (type == VILLAGE_R)
         map->tile_list = init_village_tile_list(map->tile_list, map_nb);
+    if (type == HOUSE_R)
+        map->tile_list = init_house_tile_list(map->tile_list, map_nb);
     ASSERT_MALLOC(map->tile_list, NULL);
     map->room = get_room(map->room, type);
     ASSERT_MALLOC(map->room, NULL);
