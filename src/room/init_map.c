@@ -33,7 +33,7 @@ list_t *add_in_colliders(list_t *colliders, room_t *room, int x, int y)
     collider_t *collider = NULL;
     sfFloatRect *rect = NULL;
 
-    if (!is_in(room->room[y][x], "? ;,:~$")) {
+    if (!is_in(room->room[y][x], "? ;,:~$#")) {
         collider = malloc(sizeof(collider_t));
         ASSERT_MALLOC(collider, NULL);
         rect = malloc(sizeof(sfFloatRect));
