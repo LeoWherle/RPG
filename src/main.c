@@ -54,12 +54,12 @@ gui_t *create_gui(void)
     return gui;
 }
 
-static item_t *create_entity(item_t *item, window_t *window, gui_t *gui)
+static item_t *create_entity(item_t *item, window_t *window, gui_t *gui, map_t *map)
 {
     gui_t *hp = NULL;
     entity_t *player = NULL;
 
-    item = item_create(item, create_player(window), destroy_player);
+    item = item_create(item, create_player(window, map), destroy_player);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, player_update, player_animation, player_print);
     hp = gui_sub_create(GUIPOS_HEALTH, "assets/menu/health_f.png", gui);
@@ -86,7 +86,7 @@ item_t *create_item(item_t *item, window_t *window)
     item = item_create(item, map, free_map);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, NULL, NULL, draw_room_second);
-    item = create_entity(item, window, gui);
+    item = create_entity(item, window, gui, map);
     ASSERT_MALLOC(item, NULL);
     item = item_create(item, map, NULL);
     ASSERT_MALLOC(item, NULL);

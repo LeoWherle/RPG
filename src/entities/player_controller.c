@@ -13,13 +13,6 @@
 #include "errorhandling.h"
 #include "weapon.h"
 
-void player_hitbox(entity_t *player)
-{
-    collider_t *hit_by = NULL;
-
-    collision_check(player->hurt);
-}
-
 void player_update(void *player_void, window_t *window)
 {
     entity_t *player = (entity_t *)player_void;
@@ -37,7 +30,10 @@ void player_print(void *player_void, window_t *window)
     if (player->weapon->activated)
         sfRenderWindow_drawRectangleShape(window->window,
         player->weapon->weapon, NULL);
-    sfRenderWindow_drawSprite(window->window, player->sprite, NULL);
+    if (player->got_hit == 1)
+        invicibility_frames(player, window);
+    else
+        sfRenderWindow_drawSprite(window->window, player->sprite, NULL);
 }
 
 void player_animation(void *player_void, window_t *window)

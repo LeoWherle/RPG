@@ -12,6 +12,7 @@
 #include "entities.h"
 #include "collision.h"
 #include "weapon.h"
+#include "room.h"
 
 void set_stats(entity_t *entity, stats_t *stats)
 {
@@ -36,10 +37,10 @@ void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
     sfSprite_setPosition(entity->sprite, entity->pos);
 }
 
-entity_t *create_player(window_t *window)
+entity_t *create_player(window_t *window, map_t *map)
 {
     entity_t *player = malloc(sizeof(entity_t));
-    stats_t stats = {50, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
+    stats_t stats = {PLAYER_HP, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
     PLAYER_SPEED, PLAYER_ATK_SPEED};
 
     player->dash = malloc(sizeof(player_dash_t));
@@ -48,8 +49,7 @@ entity_t *create_player(window_t *window)
     player->dash->is_dashing = 0;
     player->dash->dash_cooldown = 0;
     player->dash->vector_lock = 0;
-    player->pos = (sfVector2f){window->mode.width / 2,
-    window->mode.height / 2};
+    player->got_hit = 0;
     set_sprite(player, "assets/characters/player.png",
     (sfIntRect){0, 0, 48, 48}, (sfVector2f){24, 24});
     set_stats(player, &stats);
