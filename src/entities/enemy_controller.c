@@ -17,6 +17,13 @@ void enemy_update(void *enemy_void, window_t *window)
 
     enemy_move(enemy, window);
     enemy->hitbox = sfSprite_getGlobalBounds(enemy->sprite);
+    if (enemy->knockback)
+        ennemy_knockback(enemy, window);
+    check_dir(enemy);
+    enemy->pos.x += enemy->speed_vector.x;
+    enemy->pos.y += enemy->speed_vector.y;
+    if (enemy->weapon->use)
+        enemy->weapon->use(enemy->weapon, window);
 }
 
 void enemy_print(void *enemy_void, window_t *window)

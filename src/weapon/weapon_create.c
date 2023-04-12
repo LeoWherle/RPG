@@ -14,6 +14,27 @@
 #include "collision.h"
 #include "quick_create.h"
 
+weapon_t *body_damage(sfVector2f size, int strength)
+{
+    weapon_t *new = NULL;
+
+    new = malloc(sizeof(weapon_t));
+    ASSERT_MALLOC(new, NULL);
+    new->activated = true;
+    new->angle = 0.;
+    new->cooldown = 0;
+    new->strenght = strength;
+    new->weapon = rectangle_quick_create((sfFloatRect){0, 0, size.x, size.y},
+                                        NULL, sfWhite);
+    ASSERT_MALLOC(new->weapon, NULL;)
+    new->rect = sfRectangleShape_getGlobalBounds(new->weapon);
+    new->hitbox = collider_create(&new->rect, HITBOX, true, new);
+    ASSERT_MALLOC(new->hitbox, NULL);
+    new->pos = (sfVector2f){0, 0};
+    new->use = body_use;
+    return new;
+}
+
 weapon_t *weapon_create_sword(float cooldown, int strenght, sfVector2f size,
                         char *path)
 {
@@ -32,7 +53,7 @@ weapon_t *weapon_create_sword(float cooldown, int strenght, sfVector2f size,
     ASSERT_MALLOC(new->weapon, NULL;)
     sfRectangleShape_setOrigin(new->weapon, (sfVector2f){0, size.y});
     new->rect = sfRectangleShape_getGlobalBounds(new->weapon);
-    new->hitbox = collider_create(&new->rect, HITBOX, false, new);
+    new->hitbox = collider_create(&new->rect, PLAYER_HITBOX, false, new);
     ASSERT_MALLOC(new->hitbox, NULL);
     new->pos = (sfVector2f){0, 0};
     new->use = sword_use;

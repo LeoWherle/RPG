@@ -72,17 +72,19 @@
     } enemy_t;
 
     typedef struct entity {
-        enemy_t *enemy;
+        enemy_t enemy;
         enum animation_type_player animation;
         int facing_right;
         int sprite_size;
         int got_hit;
+        float hit_angle;
+        int knockback;
         sfVector2f speed_vector;
         stats_t stats;
         sfSprite *sprite;
         sfTexture *texture;
         sfVector2f pos;
-        player_dash_t *dash;
+        player_dash_t dash;
         sfIntRect anim_rect;
         collider_t *hurt;
         collider_t *trigger;
@@ -120,6 +122,8 @@
 
     //COMBAT
     void invicibility_frames(entity_t *player, window_t *window);
+    void player_knockback(entity_t *player, window_t *window);
+    void ennemy_knockback(entity_t *enemy, window_t *window);
     sfFloatRect get_player_bounds(entity_t *player);
 
     //OTHER

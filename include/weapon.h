@@ -29,8 +29,10 @@
 
     weapon_t *weapon_create_sword(float cooldown, int strenght, sfVector2f size,
                         char *path);
+    weapon_t *body_damage(sfVector2f size, int strength);
     void weapon_destroy(weapon_t *weapon);
     void weapon_use(weapon_t *weapon, window_t *win);
     void sword_use(weapon_t *lance, window_t *win);
+    void body_use(weapon_t *body, window_t *win);
 
 #endif /*WEAPON_H*/

@@ -36,7 +36,7 @@ void move_player_sprite(entity_t *player, window_t *window)
 
 void dash_animation(entity_t *player)
 {
-    if (player->dash->is_dashing == 1 && player->dash->dash_cooldown <= 0) {
+    if (player->dash.is_dashing == 1 && player->dash.dash_cooldown <= 0) {
         if (player->speed_vector.x == 0 && player->speed_vector.y > 0)
             player->animation = FRONT_DASH;
         if (player->speed_vector.x == 0 && player->speed_vector.y < 0)

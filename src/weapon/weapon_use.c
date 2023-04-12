@@ -11,6 +11,7 @@
 #include "weapon.h"
 #include "item.h"
 #include "entities.h"
+#include "errorhandling.h"
 
 void weapon_use(weapon_t *weapon, window_t *win)
 {
@@ -28,6 +29,16 @@ void weapon_use(weapon_t *weapon, window_t *win)
     }
     if (weapon->activated)
         weapon->use(weapon, win);
+}
+
+void body_use(weapon_t *body, UNUSED window_t *win)
+{
+    entity_t *entity = NULL;
+
+    entity = body->hitbox->owner;
+    sfRectangleShape_setPosition(body->weapon, entity->pos);
+    body->rect = sfRectangleShape_getGlobalBounds(body->weapon);
+    body->rect.left -= 30;
 }
 
 void sword_use(weapon_t *sword, window_t *win)
