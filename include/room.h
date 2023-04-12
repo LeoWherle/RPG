@@ -77,5 +77,7 @@ typedef struct map_s {
     int translate_map(char **room, int y, int x, room_type_t type);
     sfFloatRect translate_collisions_village(char c);
     sfFloatRect trans_col_cave(char c);
+    list_t *handle_angle(list_t *colliders, room_t *room, int x, int y);
+    list_t *add_in_colliders(list_t *colliders, room_t *room, int x, int y);
 
 #endif /* !ROOM_H_ */
