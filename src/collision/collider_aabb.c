@@ -26,8 +26,7 @@ void collision_check(collider_t *to_check)
         act = node->data;
         if (act->activated &&
             sfFloatRect_intersects(to_check->hitbox, act->hitbox, NULL)) {
-            if (to_check->on_collision_entered)
-                to_check->on_collision_entered(to_check, act);
+            to_check->on_collision_entered(to_check, act);
         }
         node = node->next;
     }
