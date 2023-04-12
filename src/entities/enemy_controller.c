@@ -11,13 +11,6 @@
 #include "item.h"
 #include "entities.h"
 
-void enemy_hitbox(entity_t *enemy)
-{
-    collider_t *hit_by = NULL;
-
-    hit_by = collision_check(enemy->hurt, HITBOX);
-}
-
 void enemy_update(void *enemy_void, window_t *window)
 {
     entity_t *enemy = (entity_t *)enemy_void;

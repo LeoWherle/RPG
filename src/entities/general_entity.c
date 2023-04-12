@@ -12,6 +12,7 @@
 #include "item.h"
 #include "entities.h"
 #include "collision.h"
+#include "room.h"
 
 void check_dir(entity_t *entity)
 {
@@ -33,5 +34,27 @@ void check_dir(entity_t *entity)
         colv = collision_check(entity->trigger, SOLID);
         if (colv)
             entity->speed_vector.y = 0;
+    }
+}
+
+int check_spawn(entity_t *entity, int i, char sign, char **map)
+{
+    for (int j = 0; map[i][j] != '\0'; j++) {
+        if (map[i][j] == sign) {
+            entity->pos.x = j * TILE_SIZE;
+            entity->pos.y = i * TILE_SIZE;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void spawn_point(entity_t *entity, char sign)
+{
+    map_t *map = (map_t *)entity->depend->dependency;
+
+    for (int i = 0; map->room->room[i]; i++) {
+        if (check_spawn(entity, i, sign, map->room->room))
+            return;
     }
 }
