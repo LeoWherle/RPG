@@ -12,26 +12,50 @@
 #include "item.h"
 #include "entities.h"
 #include "collision.h"
+#include "room.h"
 
 void check_dir(entity_t *entity)
 {
-    collider_t *colh = NULL;
-    collider_t *colv = NULL;
-    collider_t *col = NULL;
+    sfVector2f speed = {0, 0};
+    sfFloatRect trig = {0, 0, 1, 1};
 
-    entity->trig.left = entity->pos.x + entity->speed_vector.x;
-    entity->trig.top = entity->pos.y + entity->speed_vector.y;
-    col = collision_check(entity->trigger, SOLID);
-    if (col) {
-        entity->trig.left = entity->pos.x + entity->speed_vector.x;
-        entity->trig.top = entity->pos.y;
-        colh = collision_check(entity->trigger, SOLID);
-        if (colh)
-            entity->speed_vector.x = 0;
-        entity->trig.left = entity->pos.x;
-        entity->trig.top = entity->pos.y + entity->speed_vector.y;
-        colv = collision_check(entity->trigger, SOLID);
-        if (colv)
-            entity->speed_vector.y = 0;
+    entity->trigger->hitbox = &trig;
+    speed = entity->speed_vector;
+    if (speed.x == 0 && speed.y == 0)
+        return;
+    trig.left = entity->pos.x + speed.x;
+    trig.top = entity->pos.y + speed.y;
+    collision_check(entity->trigger);
+    if (speed.x != entity->speed_vector.x &&
+        speed.y != entity->speed_vector.y) {
+        entity->speed_vector = speed;
+        trig.left = entity->pos.x;
+        trig.top = entity->pos.y + speed.y;
+        collision_check(entity->trigger);
+        trig.left = entity->pos.x + speed.x;
+        trig.top = entity->pos.y;
+        collision_check(entity->trigger);
+    }
+}
+
+int check_spawn(entity_t *entity, int i, char sign, char **map)
+{
+    for (int j = 0; map[i][j] != '\0'; j++) {
+        if (map[i][j] == sign) {
+            entity->pos.x = j * TILE_SIZE;
+            entity->pos.y = i * TILE_SIZE;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void spawn_point(entity_t *entity, char sign)
+{
+    map_t *map = (map_t *)entity->depend->dependency;
+
+    for (int i = 0; map->room->room[i]; i++) {
+        if (check_spawn(entity, i, sign, map->room->room))
+            return;
     }
 }

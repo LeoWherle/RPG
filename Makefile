@@ -42,8 +42,11 @@ SRC =	src/main.c	\
 		src/entities/enemy_movement.c	\
 		src/entities/enemy_controller.c	\
 		src/entities/general_entity.c 		\
+		src/entities/player_combat.c 		\
 		src/collision/collider_create.c	\
 		src/collision/collider_aabb.c	\
+		src/collision/move_trigger_enter.c	\
+		src/collision/hitbox_manager.c 			\
 		src/gui/gui_create.c	\
 		src/gui/gui_draw.c	\
 		src/gui/gui_evaluate.c	\

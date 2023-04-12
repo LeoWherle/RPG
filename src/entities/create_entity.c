@@ -12,6 +12,7 @@
 #include "entities.h"
 #include "collision.h"
 #include "weapon.h"
+#include "room.h"
 
 void set_stats(entity_t *entity, stats_t *stats)
 {
@@ -36,10 +37,10 @@ void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
     sfSprite_setPosition(entity->sprite, entity->pos);
 }
 
-entity_t *create_player(window_t *window)
+entity_t *create_player(window_t *window, map_t *map)
 {
     entity_t *player = malloc(sizeof(entity_t));
-    stats_t stats = {50, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
+    stats_t stats = {PLAYER_HP, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
     PLAYER_SPEED, PLAYER_ATK_SPEED};
 
     player->dash = malloc(sizeof(player_dash_t));
@@ -48,14 +49,20 @@ entity_t *create_player(window_t *window)
     player->dash->is_dashing = 0;
     player->dash->dash_cooldown = 0;
     player->dash->vector_lock = 0;
-    player->pos = (sfVector2f){window->mode.width / 2,
-    window->mode.height / 2};
+    player->got_hit = 0;
     set_sprite(player, "assets/characters/player.png",
     (sfIntRect){0, 0, 48, 48}, (sfVector2f){24, 24});
     set_stats(player, &stats);
-    player->hurt = collider_create(NULL, HURTBOX, true, player);
-    player->trig = (sfFloatRect){0, 0, 1, 1};
-    player->trigger = collider_create(&player->trig, TRIGGER, false, player);
+    player->hitbox = get_player_bounds(player);
+    player->hurt = collider_create(&player->hitbox, HURTBOX, true, player);
+    player->hurt->owner = player;
+    player->hurt->on_collision_entered = on_hurtbox_enter;
+    player->trigger = collider_create(NULL, TRIGGER, false, player);
+    player->trigger->on_collision_entered = move_trigger_enter;
+    player->depend = malloc(sizeof(dependency_t));
+    player->depend->dependency = map;
+    player->depend->next = NULL;
+    spawn_point(player, '$');
     return player;
 }
 
@@ -69,14 +76,16 @@ entity_t *create_slime(window_t *window)
     window->mode.height / 2};
     slime->sprite_size = SLIME_SPRITE_SIZE;
     slime->enemy->range = 300;
-    slime->enemy->proj_range = -24;
+    slime->enemy->proj_range = CLOSE_RANGE;
     slime->enemy->spoted = 0;
     set_sprite(slime, "assets/characters/Slime.png",
     (sfIntRect){0, 0, SLIME_SPRITE_SIZE, SLIME_SPRITE_SIZE},
     (sfVector2f){10, 0});
     set_stats(slime, &stats);
-    slime->hurt = collider_create(NULL, HURTBOX, true, slime);
-    slime->trig = (sfFloatRect){0, 0, 1, 1};
-    slime->trigger = collider_create(&slime->trig, TRIGGER, false, slime);
+    slime->hitbox = sfSprite_getGlobalBounds(slime->sprite);
+    slime->hurt = collider_create(&slime->hitbox, HURTBOX, true, slime);
+    slime->hurt->owner = slime;
+    slime->trigger = collider_create(NULL, TRIGGER, false, slime);
+    slime->trigger->on_collision_entered = move_trigger_enter;
     return slime;
 }
