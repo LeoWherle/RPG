@@ -11,35 +11,35 @@
 #include "cave.h"
 
 static const sfFloatRect *vil_col_list[] = {
-    &((sfFloatRect){0, 0, TILE_SIZE, TILE_SIZE}),
-    &((sfFloatRect){0, 0 - 1.5, TILE_SIZE, TILE_SIZE}),
-    &((sfFloatRect){0 - 0.75, 0, TILE_SIZE, TILE_SIZE}),
-    &((sfFloatRect){0 + 0.75, 0, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0.35, -0.6, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){-0.35, -0.6, TILE_SIZE, TILE_SIZE}),
     &((sfFloatRect){0, 0 - 0.5, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
-    &((sfFloatRect){0, 0 - 0.5, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
+    &((sfFloatRect){-0.4, 0 - 0.5, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
     &((sfFloatRect){0, 0, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
     &((sfFloatRect){0, 0, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
-    &((sfFloatRect){0 - 1, 0 - 2, 0, 0}),
-    &((sfFloatRect){0, 0 - 2, 0, 0}),
-    &((sfFloatRect){0 - 0.7, 0, TILE_SIZE, TILE_SIZE}),
-    &((sfFloatRect){0 + 0.7, 0, TILE_SIZE, TILE_SIZE}),
-    &((sfFloatRect){0 - 3.5, 0 - 2.5, TILE_SIZE * 7, TILE_SIZE * 2.5}),
-    &((sfFloatRect){0 - 0.9, 0 - 1.1, TILE_SIZE * 2.2, TILE_SIZE * 1.2}),
-    &((sfFloatRect){0 - 0.3, 0, TILE_SIZE * 1.4, TILE_SIZE}),
-    &((sfFloatRect){0 - 1.8, 0 - 1.2, TILE_SIZE * 4, TILE_SIZE * 1.5}),
-    &((sfFloatRect){0 - 0.5, 0 - 0.6, TILE_SIZE * 1.5, TILE_SIZE}),
-    &((sfFloatRect){0 - 1.5, 0 - 2.3, TILE_SIZE * 3.8, TILE_SIZE * 2.6}),
-    &((sfFloatRect){0 - 0.3, 0 - 0.4, TILE_SIZE * 1.4, TILE_SIZE * 0.9}),
-    &((sfFloatRect){0, 0, 0, 0}),
-    &((sfFloatRect){0 - 0.4, 0, TILE_SIZE, TILE_SIZE}),
-    &((sfFloatRect){0 - 0.3, 0 - 2, TILE_SIZE, TILE_SIZE * 4}),
-    &((sfFloatRect){0 - 0.4, 0 - 0.75, TILE_SIZE * 1.4, TILE_SIZE * 0.9}),
-    &((sfFloatRect){0 - 0.4, 0 - 0.75, TILE_SIZE * 1.4, TILE_SIZE * 0.9}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0 - 0.4, 0 - 0.75, TILE_SIZE * 1.7, TILE_SIZE * 0.9}),
+    &((sfFloatRect){-0.3, -0.9, TILE_SIZE * 1.3, TILE_SIZE * 1.3}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 1.3, TILE_SIZE * 1.3}),
+    &((sfFloatRect){-0.3, -0.9, TILE_SIZE * 1.3, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 1.3, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){-0.3, 0, TILE_SIZE * 2, TILE_SIZE * 1.4}),
+    &((sfFloatRect){-0.3, 0, TILE_SIZE * 2, TILE_SIZE * 1.4}),
+    &((sfFloatRect){0.1, 0, TILE_SIZE * 0.9, TILE_SIZE * 0.5}),
     NULL};
 
-sfFloatRect translate_collisions_cave(char c)
+sfFloatRect trans_col_cave(char c)
 {
-    char *img = "_-[]lrLR}{><MtTFfOvG+|bp";
+    char img[] = "-_[]lrLRppPPc<>{}eeEESst";
 
     for (int i = 0; img[i] != '\0'; i++)
         if (img[i] == c)
@@ -76,10 +76,12 @@ char *get_random_room(void)
 
 int translate_cave(char **map, int y, int x)
 {
-    char *img = ". -_[]lrLRppPP:;,~c<>{}eeEESst";
+    char img[] = ". -_[]lrLRppPP:;,~c<>{}eeEESst";
     int i = 0;
     int temp = 0;
 
+    if (map[y][x] == '$')
+        return (FLOOR_ID);
     while (img[i] != '\0') {
         if (is_in(img[i], "pPeE") && (is_in(map[y][x], "pPeE"))
         && (temp = draw_doors(map, x, y, i)) != -1)

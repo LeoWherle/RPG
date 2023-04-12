@@ -76,5 +76,6 @@ typedef struct map_s {
     room_type_t type);
     int translate_map(char **room, int y, int x, room_type_t type);
     sfFloatRect translate_collisions_village(char c);
+    sfFloatRect trans_col_cave(char c);
 
 #endif /* !ROOM_H_ */
