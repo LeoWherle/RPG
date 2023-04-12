@@ -36,11 +36,12 @@ static const sfFloatRect *vil_col_list[] = {
     &((sfFloatRect){0 - 0.4, 0 - 0.75, TILE_SIZE * 1.4, TILE_SIZE * 0.9}),
     &((sfFloatRect){0, -1, TILE_SIZE, TILE_SIZE}),
     &((sfFloatRect){0, -1, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){-2.1, -4, TILE_SIZE * 4.6, TILE_SIZE * 4}),
     NULL};
 
 sfFloatRect translate_collisions_village(char c)
 {
-    char img[] = "_-[]lrLR}{><MtTFfOvG+|bp\\/";
+    char img[] = "_-[]lrLR}{><MtTFfOvG+|bp\\/C";
 
     for (int i = 0; img[i] != '\0'; i++)
         if (img[i] == c)
@@ -50,7 +51,7 @@ sfFloatRect translate_collisions_village(char c)
 
 int translate_village(char **map, int y, int x)
 {
-    char img[] = ". -_[]lrLR=/\\}{><MtTFfOvG+|,;:bp";
+    char img[] = ". -_[]lrLR=/\\}{><MtTFfOvG+|,;:bpC";
     int i = 0;
 
     if (map[y][x] == '$')
@@ -89,7 +90,7 @@ tile_t **init_village_tile_list(tile_t **tile_list, int map_nb)
     &INTERN_BOT_LEFT, &INTERN_BOT_RIGHT, &TREE_HOUSE, &TREE_TRUNK, &TREE,
     &FRUIT_MERCHANT, &FLOWER_POT, &OBSERVATORY, &TUTORIAL_MAN, &BIG_HOLE,
     &HOLE_ISL, &BARRIER, &RED_FLOWER, &WHITE_FLOWER, &BLUE_FLOWER, &BUSH, &ROCK,
-    NULL};
+    &CAVE_TOWER, NULL};
 
     if (map_nb != 0)
         free(tile_list);
