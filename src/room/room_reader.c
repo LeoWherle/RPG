@@ -60,6 +60,8 @@ static room_t *fill_room_lines(room_t *room, char *buff, FILE *fd, size_t len)
         room->bg_color = sfColor_fromRGB(34, 32, 52);
     if (room->type == VILLAGE_R)
         room->bg_color = sfColor_fromRGB(56, 152, 255);
+    if (room->type == HOUSE_R)
+        room->bg_color = sfColor_fromRGB(56, 41, 43);
     return (room);
 }
 
@@ -94,6 +96,8 @@ room_t *get_room(room_t *room, room_type_t type)
         path = get_random_room();
     if (type == VILLAGE_R)
         path = get_specific_file("assets/rooms/village", 0);
+    if (type == HOUSE_R)
+        path = get_specific_file("assets/rooms/bedroom", 0);
     ASSERT_MALLOC(path, NULL);
     if (room_nb != 0) free_room(room);
     room = malloc(sizeof(room_t));

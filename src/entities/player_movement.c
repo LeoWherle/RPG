@@ -60,9 +60,18 @@ void player_orientation(entity_t *player, window_t *window)
     }
 }
 
-void move_player(entity_t *player, window_t *window)
+static void reduce_player_speed(entity_t *player)
 {
     player->speed_vector = (sfVector2f){0, 0};
+    if (player->weapon->activated)
+        player->stats.speed = PLAYER_SPEED - 2;
+    else
+        player->stats.speed = PLAYER_SPEED;
+}
+
+void move_player(entity_t *player, window_t *window)
+{
+    reduce_player_speed(player);
     if (sfKeyboard_isKeyPressed(sfKeyZ) || sfKeyboard_isKeyPressed(sfKeyUp))
         player->speed_vector.y -= player->stats.speed;
     if (sfKeyboard_isKeyPressed(sfKeyS) || sfKeyboard_isKeyPressed(sfKeyDown))
