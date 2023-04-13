@@ -40,7 +40,7 @@ void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
 entity_t *create_player(map_t *map)
 {
     entity_t *player = malloc(sizeof(entity_t));
-    stats_t stats = {PLAYER_HP, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
+    stats_t stats = {100, PLAYER_HP, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
     PLAYER_SPEED, PLAYER_ATK_SPEED};
 
     player->weapon = weapon_create_sword(0.5, 5, (sfVector2f){50, 50},
@@ -70,7 +70,7 @@ entity_t *create_player(map_t *map)
 entity_t *create_slime(sfVector2f pos)
 {
     entity_t *slime = malloc(sizeof(entity_t));
-    stats_t stats = {100, 10, 0, 0, 2, 0};
+    stats_t stats = {100, 100, 10, 0, 0, 2, 0};
 
     slime->pos = pos;
     slime->sprite_size = SLIME_SPRITE_SIZE;

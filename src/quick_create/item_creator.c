@@ -32,7 +32,7 @@ map_t *map)
     gui_t *hp = NULL;
     entity_t *player = NULL;
 
-    item = item_create(item, create_player(window, map), destroy_player);
+    item = item_create(item, create_player(map), destroy_player);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, player_update, player_animation, player_print);
     hp = gui_sub_create(GUIPOS_HEALTH, "assets/menu/health_f.png", gui);
@@ -40,9 +40,6 @@ map_t *map)
     hp->type = GUI_HEALTH_BAR;
     hp->interactor = &player->stats;
     ASSERT_POINTER(hp, NULL);
-    item = item_create(item, create_slime(window), destroy_enemy);
-    ASSERT_MALLOC(item, NULL);
-    item_set_func(item, enemy_update, enemy_animation, enemy_print);
     return (item);
 }
 
@@ -54,11 +51,7 @@ item_t *create_item(item_t *item, window_t *window)
     item = item_create(item, gui, &gui_destroy);
     ASSERT_POINTER(item, NULL);
     item_set_func(item, NULL, NULL, &gui_draw);
-<<<<<<< HEAD
-    map = init_map(VILLAGE_R);
-=======
     map = init_map(VILLAGE_R, map);
->>>>>>> dev
     ASSERT_MALLOC(map, NULL);
     item = item_create(item, map, free_map);
     ASSERT_MALLOC(item, NULL);
