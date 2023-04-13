@@ -53,7 +53,12 @@ SRC =	src/main.c	\
 		src/gui/gui_events.c 		\
 		src/weapon/weapon_create.c		\
 		src/weapon/weapon_use.c 		\
+		src/weapon/bow/bow_create.c	\
+		src/weapon/bow/bow_use.c	\
 		src/quick_create/rectangle.c	\
+		src/projectile/projectile_create.c	\
+		src/projectile/projectile_ecs.c	\
+		src/projectile/projectile_move.c	\
 
 TEST_CRIT	=	\
 

@@ -17,6 +17,7 @@
 #include "my_str.h"
 #include "gui.h"
 #include "menu_values.h"
+#include "projectile.h"
 
 bool exit_ecs(window_t *window)
 {
@@ -58,6 +59,7 @@ static item_t *create_entity(item_t *item, window_t *window, gui_t *gui, map_t *
 {
     gui_t *hp = NULL;
     entity_t *player = NULL;
+    projectile_t *proj = NULL;
 
     item = item_create(item, create_player(window, map), destroy_player);
     ASSERT_MALLOC(item, NULL);
@@ -70,6 +72,11 @@ static item_t *create_entity(item_t *item, window_t *window, gui_t *gui, map_t *
     item = item_create(item, create_slime(window), destroy_enemy);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, enemy_update, enemy_animation, enemy_print);
+    proj = projectile_create((sfFloatRect){0}, (sfVector2f){0}, NULL, NULL);
+    item = item_create(item, proj->projectile_list, projectile_list_destroy);
+    ASSERT_MALLOC(item, NULL);
+    item_set_func(item, projectile_update, NULL, projectile_print);
+    node_delete(proj->projectile_list, proj, projectile_delete);
     return (item);
 }
 
