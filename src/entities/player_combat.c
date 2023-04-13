@@ -22,6 +22,24 @@ sfFloatRect get_player_bounds(entity_t *player)
     return bounds;
 }
 
+void player_knockback(entity_t *player, window_t *window)
+{
+    static sfTime time = {0};
+    sfTime current = {0};
+
+    if (time.microseconds == 0)
+        time = sfClock_getElapsedTime(window->frame);
+    current = sfClock_getElapsedTime(window->frame);
+    if ((current.microseconds - time.microseconds) / 1000000. > 0.2) {
+        time.microseconds = 0;
+        player->knockback = false;
+    }
+    if (player->knockback) {
+        player->speed_vector.x = cos(player->hit_angle * M_PI / 180) * 8;
+        player->speed_vector.y = sin(player->hit_angle * M_PI / 180) * 8;
+    }
+}
+
 void invicibility_frames(entity_t *player, window_t *window)
 {
     static sfTime time_inv = {0};

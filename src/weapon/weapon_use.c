@@ -11,6 +11,7 @@
 #include "weapon.h"
 #include "item.h"
 #include "entities.h"
+#include "errorhandling.h"
 
 void weapon_use(weapon_t *weapon, window_t *win)
 {
@@ -30,6 +31,16 @@ void weapon_use(weapon_t *weapon, window_t *win)
         weapon->use(weapon, win);
 }
 
+void body_use(weapon_t *body, UNUSED window_t *win)
+{
+    entity_t *entity = NULL;
+
+    entity = body->hitbox->owner;
+    sfRectangleShape_setPosition(body->weapon, entity->pos);
+    body->rect = sfRectangleShape_getGlobalBounds(body->weapon);
+    body->rect.left -= 30;
+}
+
 void sword_use(weapon_t *sword, window_t *win)
 {
     static float angle = 0;
@@ -42,8 +53,8 @@ void sword_use(weapon_t *sword, window_t *win)
     }
     time = sfClock_getElapsedTime(win->frame);
     if ((time.microseconds - prev_time.microseconds) / 1000000. > 0.23) {
-        prev_time = time;
         sword->activated = false;
+        sword->hitbox->activated = false;
         prev_time.microseconds = 0;
     }
     sfRectangleShape_setPosition(sword->weapon, (sfVector2f){player.x +
