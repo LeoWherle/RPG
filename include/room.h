@@ -63,7 +63,7 @@ typedef struct map_s {
     char *get_specific_file(char *path, int nb);
     bool is_in(char c, char *str);
     void free_map(void *map_pt);
-    map_t *init_map(room_type_t type);
+    map_t *init_map(room_type_t type, map_t *map);
     tile_t **fill_tile_list(char **tiles, tile_t **tile_list,
     sfIntRect *rec_list[]);
     tile_t **init_village_tile_list(tile_t **tile_list, int map_nb);
@@ -78,12 +78,11 @@ typedef struct map_s {
     int translate_map(char **room, int y, int x, room_type_t type);
     sfFloatRect translate_collisions_village(char c);
     sfFloatRect trans_col_cave(char c);
-    list_t *handle_angle(list_t *colliders, room_t *room, int x, int y);
-    list_t *add_in_colliders(list_t *colliders, room_t *room, int x, int y);
     tile_t **init_house_tile_list(tile_t **tile_list, int map_nb);
     int translate_house(char **map, int y, int x);
     sfFloatRect translate_collisions_house(char c);
     sfFloatRect *translate_collisions(char c, sfFloatRect *rect,
     room_type_t type);
+    list_t *init_colliders(list_t *colliders, room_t *room);
 
 #endif /* !ROOM_H_ */
