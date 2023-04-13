@@ -26,6 +26,7 @@ typedef enum room_type_e {
     VILLAGE_R,
     CAVE_R,
     HOUSE_R,
+    BOSS_R,
 } room_type_t;
 
 typedef struct room_s {

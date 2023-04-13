@@ -56,7 +56,7 @@ static room_t *fill_room_lines(room_t *room, char *buff, FILE *fd, size_t len)
             y++;
         }
     }
-    if (room->type == CAVE_R)
+    if (room->type == CAVE_R || room->type == BOSS_R)
         room->bg_color = sfColor_fromRGB(34, 32, 52);
     if (room->type == VILLAGE_R)
         room->bg_color = sfColor_fromRGB(56, 152, 255);
@@ -92,8 +92,9 @@ room_t *get_room(room_t *room, room_type_t type)
     char *path = NULL;
     static int room_nb = 0;
 
-    if (type == CAVE_R)
-        path = get_random_room();
+    if (type == CAVE_R) path = get_random_room();
+    if (type == BOSS_R)
+        path = get_specific_file("assets/rooms/boss_room", 0);
     if (type == VILLAGE_R)
         path = get_specific_file("assets/rooms/village", 0);
     if (type == HOUSE_R)

@@ -10,6 +10,19 @@
 #include "room.h"
 #include "collision.h"
 
+static collider_t *create_special_col(collider_t *collider, sfFloatRect *rect,
+char c, room_type_t type)
+{
+    if (((c == 'e' || c == 'p') && (type == CAVE_R || type == BOSS_R))
+    || c == '@')
+        collider = collider_create(rect, TRIGGER, true, NULL);
+    else if (c == 'c' || c == 'v' || c == 'V')
+        collider = collider_create(rect, INTERACTION, true, NULL);
+    else
+        collider = collider_create(rect, SOLID, true, NULL);
+    return (collider);
+}
+
 static list_t *add_in_colliders(list_t *colliders, room_t *room, int x, int y)
 {
     collider_t *collider = NULL;
@@ -25,7 +38,8 @@ static list_t *add_in_colliders(list_t *colliders, room_t *room, int x, int y)
         rect->left = x + rect->left;
         rect->top *= TILE_SIZE;
         rect->left *= TILE_SIZE;
-        collider = collider_create(rect, SOLID, true, NULL);
+        collider = create_special_col(collider, rect, room->room[y][x],
+        room->type);
         ASSERT_MALLOC(collider, NULL);
         colliders->interface->append(colliders, collider);
     }
