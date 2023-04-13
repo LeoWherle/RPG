@@ -12,8 +12,9 @@
 #include "item.h"
 #include "entities.h"
 #include "collision.h"
+#include "weapon.h"
 
-void on_hurtbox_enter(collider_t *main, collider_t *sub)
+void receive_enemy_damage(collider_t *main, collider_t *sub)
 {
     entity_t *player = main->owner;
     entity_t *enemy = NULL;
@@ -25,7 +26,20 @@ void on_hurtbox_enter(collider_t *main, collider_t *sub)
         player->knockback = true;
         player->hit_angle = atan2(player->pos.y - enemy->pos.y,
         player->pos.x - enemy->pos.x) * 180 / M_PI;
-        enemy->hit_angle = atan2(enemy->pos.y - player->pos.y,
-        enemy->pos.x - player->pos.x) * 180 / M_PI;
+    }
+}
+
+void receive_player_damage(collider_t *main, collider_t *sub)
+{
+    entity_t *enemy = main->owner;
+    entity_t *player = NULL;
+
+    if (sub->type == PLAYER_HITBOX && !enemy->got_hit) {
+        player = sub->owner;
+        enemy->stats.hp -= player->stats.atk;
+        enemy->got_hit = true;
+        enemy->knockback = true;
+        enemy->hit_angle = atan2(main->hitbox->top - sub->hitbox->top,
+        main->hitbox->left - sub->hitbox->left) * 180 / M_PI;
     }
 }

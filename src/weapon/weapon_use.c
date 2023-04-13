@@ -53,8 +53,8 @@ void sword_use(weapon_t *sword, window_t *win)
     }
     time = sfClock_getElapsedTime(win->frame);
     if ((time.microseconds - prev_time.microseconds) / 1000000. > 0.23) {
-        prev_time = time;
         sword->activated = false;
+        sword->hitbox->activated = false;
         prev_time.microseconds = 0;
     }
     sfRectangleShape_setPosition(sword->weapon, (sfVector2f){player.x +

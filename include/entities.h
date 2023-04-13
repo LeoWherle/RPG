@@ -72,30 +72,30 @@
     } enemy_t;
 
     typedef struct entity {
-        enemy_t enemy;
+        sfSprite *sprite;
+        sfTexture *texture;
         enum animation_type_player animation;
-        int facing_right;
+        sfIntRect anim_rect;
         int sprite_size;
+        int facing_right;
+        stats_t stats;
+        sfVector2f pos;
+        sfVector2f speed_vector;
+        player_dash_t dash;
         int got_hit;
         float hit_angle;
         int knockback;
-        sfVector2f speed_vector;
-        stats_t stats;
-        sfSprite *sprite;
-        sfTexture *texture;
-        sfVector2f pos;
-        player_dash_t dash;
-        sfIntRect anim_rect;
+        weapon_t *weapon;
         collider_t *hurt;
         collider_t *trigger;
         sfFloatRect hitbox;
-        weapon_t *weapon;
         dependency_t *depend;
+        enemy_t enemy;
     } entity_t;
 
     //CREATE AND DESTROY
-    entity_t *create_player(window_t *window, map_t *map);
-    entity_t *create_slime(window_t *window);
+    entity_t *create_player(map_t *map);
+    entity_t *create_slime(sfVector2f pos);
     void destroy_player(void *entity);
     void destroy_enemy(void *entity);
 
@@ -122,6 +122,7 @@
 
     //COMBAT
     void invicibility_frames(entity_t *player, window_t *window);
+    void enemy_invicibilty(entity_t *enemy, window_t *window);
     void player_knockback(entity_t *player, window_t *window);
     void ennemy_knockback(entity_t *enemy, window_t *window);
     sfFloatRect get_player_bounds(entity_t *player);

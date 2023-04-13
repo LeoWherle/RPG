@@ -38,6 +38,7 @@
     void collider_destroy(collider_t *collider);
 
     void move_trigger_enter(collider_t *main, collider_t *sub);
-    void on_hurtbox_enter(collider_t *main, collider_t *sub);
+    void receive_enemy_damage(collider_t *main, collider_t *sub);
+    void receive_player_damage(collider_t *main, collider_t *sub);
 
 #endif /*COLLISION_H*/
