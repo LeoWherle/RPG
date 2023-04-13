@@ -8,6 +8,7 @@
 #include <SFML/Graphics.h>
 #include <SFML/Window.h>
 #include <stdlib.h>
+#include <math.h>
 #include "item.h"
 #include "entities.h"
 

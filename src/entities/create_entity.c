@@ -46,6 +46,8 @@ entity_t *create_player(map_t *map)
     player->weapon = weapon_create_sword(0.5, 5, (sfVector2f){50, 50},
     "assets/items/sword.png");
     player->weapon->hitbox->owner = player;
+    player->pos = (sfVector2f){0, 0};
+    player->speed_vector = (sfVector2f){0, 0};
     player->dash.is_dashing = 0;
     player->dash.dash_cooldown = 0;
     player->dash.vector_lock = 0;
@@ -77,6 +79,7 @@ entity_t *create_slime(sfVector2f pos)
     slime->enemy.range = 300;
     slime->enemy.proj_range = CLOSE_RANGE;
     slime->enemy.spoted = 0;
+    slime->speed_vector = (sfVector2f){0, 0};
     set_sprite(slime, "assets/characters/Slime.png",
     (sfIntRect){0, 0, SLIME_SPRITE_SIZE, SLIME_SPRITE_SIZE},
     (sfVector2f){10, 0});
