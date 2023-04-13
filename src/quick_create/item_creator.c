@@ -40,6 +40,12 @@ map_t *map)
     hp->type = GUI_HEALTH_BAR;
     hp->interactor = &player->stats;
     ASSERT_POINTER(hp, NULL);
+    item = item_create(item, create_slime((sfVector2f){window->mode.width / 2, window->mode.height / 2}), destroy_enemy);
+    ASSERT_MALLOC(item, NULL);
+    item_set_func(item, enemy_update, enemy_animation, enemy_print);
+    //item = item_create(item, spawn_enemies(map), clear_list);
+    //ASSERT_MALLOC(item, NULL);
+    //item_set_func(item, enemy_list_update, enemy_list_animate, enemy_list_print);
     return (item);
 }
 

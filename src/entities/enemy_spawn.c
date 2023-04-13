@@ -11,19 +11,36 @@
 #include "entities.h"
 #include "collision.h"
 #include "chained_list.h"
+#include "errorhandling.h"
 #include "item.h"
 #include "room.h"
 
-void clear_list(list_t *list)
+void destroy_monster(void *item)
 {
-    list->interface->destroy(list, destroy_enemy);
+    item_t *monster = (item_t *)item;
+
+    item_list_destroy(monster);
+}
+
+void clear_list(void *list_void)
+{
+    list_t *list = (list_t *)list_void;
+
+    list->interface->destroy(list, destroy_monster);
 }
 
 void enemy_type(list_t *enemies, int i, int j, char sign)
 {
+    item_t *add = NULL;
+
     if (sign == '#') {
-        enemies->interface->append(enemies,
-        create_slime((sfVector2f){j * TILE_SIZE, i * TILE_SIZE}));
+        add = item_create(NULL,
+        create_slime((sfVector2f){j * TILE_SIZE, i * TILE_SIZE}),
+        destroy_enemy);
+        if (!add)
+            return;
+        item_set_func(add, enemy_update, enemy_animation, enemy_print);
+        enemies->interface->append(enemies, add);
     }
 }
 
@@ -38,4 +55,43 @@ list_t *spawn_enemies(map_t *map)
         }
     }
     return enemies;
+}
+
+void enemy_list_print(void *enemies, window_t *window)
+{
+    list_t *list = (list_t *)enemies;
+    item_t *enemy = NULL;
+    node_t *node = list->head;
+
+    while (node) {
+        enemy = node->data;
+        enemy->print(enemy->item, window);
+        node = node->next;
+    }
+}
+
+void enemy_list_animate(void *enemies, window_t *window)
+{
+    list_t *list = (list_t *)enemies;
+    item_t *enemy = NULL;
+    node_t *node = list->head;
+
+    while (node) {
+        enemy = node->data;
+        enemy->animate(enemy->item, window);
+        node = node->next;
+    }
+}
+
+void enemy_list_update(void *enemies, window_t *window)
+{
+    list_t *list = (list_t *)enemies;
+    item_t *enemy = NULL;
+    node_t *node = list->head;
+
+    while (node) {
+        enemy = node->data;
+        enemy->update(enemy->item, window);
+        node = node->next;
+    }
 }

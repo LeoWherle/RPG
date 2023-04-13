@@ -109,6 +109,13 @@
     void destroy_player(void *entity);
     void destroy_enemy(void *entity);
 
+    //CREATE ENEMY LIST
+    list_t *spawn_enemies(map_t *map);
+    void enemy_list_print(void *enemies, window_t *window);
+    void enemy_list_animate(void *enemies, window_t *window);
+    void enemy_list_update(void *enemies, window_t *window);
+    void clear_list(void *list);
+
     //PLAYER MOVEMENT
     void move_player(entity_t *player, window_t *window);
     void update_camera(entity_t *player, window_t *window);
