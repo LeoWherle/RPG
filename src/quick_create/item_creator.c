@@ -56,8 +56,6 @@ item_t *create_item(item_t *item, window_t *window)
     item_set_func(item, NULL, NULL, &gui_draw);
     map = init_map(VILLAGE_R, map);
     ASSERT_MALLOC(map, NULL);
-    map = init_map(HOUSE_R, map);
-    ASSERT_MALLOC(map, NULL);
     item = item_create(item, map, free_map);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, NULL, NULL, draw_room_second);
