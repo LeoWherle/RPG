@@ -12,12 +12,15 @@
 #include <math.h>
 #include "item.h"
 #include "collision.h"
+#include "weapon.h"
+#include "room.h"
 
 #ifndef ENTITIES_H
     #define ENTITIES_H
 
     #define SQRT 0.70710678118
     #define INTERVAL 0.1
+
     #define PLAYER_SIZE 3
     #define PLAYER_SPEED 5
     #define PLAYER_ATK_SPEED 1
@@ -28,6 +31,9 @@
     #define PLAYER_EXP_CAP 100
     #define PLAYER_DASH_COOLDOWN 3
     #define PLAYER_SPRITE_SIZE 48
+
+    #define CLOSE_RANGE -24
+
     #define SLIME_SPRITE_SIZE 20
 
     enum animation_type_player {
@@ -76,42 +82,63 @@
     } enemy_t;
 
     typedef struct entity {
-        enemy_t *enemy;
-        enum animation_type_player animation;
-        int facing_right;
-        int sprite_size;
-        sfVector2f speed_vector;
-        stats_t stats;
         sfSprite *sprite;
         sfTexture *texture;
-        sfVector2f pos;
-        player_dash_t *dash;
+        enum animation_type_player animation;
         sfIntRect anim_rect;
-        sfFloatRect trig;
+        int sprite_size;
+        int facing_right;
+        stats_t stats;
+        sfVector2f pos;
+        sfVector2f speed_vector;
+        player_dash_t dash;
+        int got_hit;
+        float hit_angle;
+        int knockback;
+        weapon_t *weapon;
         collider_t *hurt;
         collider_t *trigger;
+        sfFloatRect hitbox;
         dependency_t *depend;
+        enemy_t enemy;
     } entity_t;
 
-    entity_t *create_player(window_t *window);
-    entity_t *create_slime(window_t *window);
+    //CREATE AND DESTROY
+    entity_t *create_player(map_t *map);
+    entity_t *create_slime(sfVector2f pos);
     void destroy_player(void *entity);
     void destroy_enemy(void *entity);
+
+    //PLAYER MOVEMENT
     void move_player(entity_t *player, window_t *window);
-    void player_print(void *player, window_t *window);
+    void update_camera(entity_t *player, window_t *window);
     void player_update(void *player, window_t *window);
+
+    //PLAYER ANIMATION
     void player_animation(void *player, window_t *window);
     void dash_animation(entity_t *player);
     void animation_controller(entity_t *player);
     void move_player_sprite(entity_t *player, window_t *window);
     void move_enemy_sprite(entity_t *enemy, window_t *window);
-    void player_hitbox(entity_t *player);
-    void enemy_update(void *enemy_void, window_t *window);
-    void enemy_print(void *enemy_void, window_t *window);
+    void player_print(void *player, window_t *window);
+
+    //ENEMY MOVEMENT
     void enemy_move(entity_t *enemy, window_t *window);
+    void enemy_update(void *enemy_void, window_t *window);
+
+    //ENEMY ANIMATION
+    void enemy_print(void *enemy_void, window_t *window);
     void enemy_animation(void *enemy_void, window_t *window);
-    void set_camera(entity_t *player, window_t *window);
-    void update_camera(entity_t *player, window_t *window);
+
+    //COMBAT
+    void invicibility_frames(entity_t *player, window_t *window);
+    void enemy_invicibilty(entity_t *enemy, window_t *window);
+    void player_knockback(entity_t *player, window_t *window);
+    void ennemy_knockback(entity_t *enemy, window_t *window);
+    sfFloatRect get_player_bounds(entity_t *player);
+
+    //OTHER
     void check_dir(entity_t *entity);
+    void spawn_point(entity_t *entity, char sign);
 
 #endif /* !ENTITIES_H */

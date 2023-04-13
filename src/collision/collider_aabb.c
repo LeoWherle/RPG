@@ -7,34 +7,28 @@
 
 #include <stddef.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include "collision.h"
 #include "chained_list.h"
 
 /**
  * @brief check if there is a collision between a collider and
- * another collider that have a certain tag
+ * another collider and use the on collision entered
  *
  * @param to_check the collider that collision will be check
- * @param tag the tag to check
  * @return collider_t*
  */
-collider_t *collision_check(collider_t *to_check, tag_t tag)
+void collision_check(collider_t *to_check)
 {
     collider_t *act = NULL;
     node_t *node = to_check->to_collide->head;
-    tag_t hold = 0;
 
-    hold = to_check->type;
-    to_check->type = 6;
     while (node) {
         act = node->data;
-        if (act->activated && act->type == tag &&
+        if (act->activated && act->hitbox && to_check->hitbox &&
+            act != to_check &&
             sfFloatRect_intersects(to_check->hitbox, act->hitbox, NULL)) {
-            return act;
+                to_check->on_collision_entered(to_check, act);
         }
         node = node->next;
     }
-    to_check->type = hold;
-    return NULL;
 }

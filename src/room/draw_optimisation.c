@@ -30,3 +30,26 @@ sfVector2f draw_in_rdr(sfVector2f center, int x, int y)
         pos.x = -1;
     return (pos);
 }
+
+void draw_room_second(void *map_pt, window_t* window)
+{
+    sfVector2f pos = {0, 0};
+    int tile_asset = 0;
+    tile_t *tile = NULL;
+    char c = 0;
+    map_t *map = (map_t *)map_pt;
+    sfVector2f center = sfView_getCenter(window->view);
+
+    for (int y = 0; map->room->room[y] != NULL; y++) {
+        if (stop_draw_on_close(window, y)) return;
+        for (int x = 0; map->room->room[y][x] != '\0'; x++) {
+            RENDER((pos = draw_in_rdr(center, x, y)).x);
+            RENDER_3D(pos.y, center.y);
+            tile_asset = translate_map(map->room->room, y, x, map->room->type);
+            c = map->room->room[y][x];
+            tile = map->tile_list[tile_asset];
+            sfSprite_setPosition(tile->img, pos);
+            draw_tile(window->window, tile->img, c, map->room->type);
+        }
+    }
+}

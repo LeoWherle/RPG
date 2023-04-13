@@ -55,5 +55,6 @@
     void item_set_func(item_t *item, void (* update)(void *, window_t *),
                     void (* animate)(void *, window_t *),
                     void (* print)(void *, window_t *));
+    item_t *create_item(item_t *item, window_t *window);
 
 #endif /*ITEM_H*/

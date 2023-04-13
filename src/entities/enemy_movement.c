@@ -27,13 +27,28 @@ void move_enemy_sprite(entity_t *enemy, window_t *window)
         enemy->anim_rect.left = 0;
 }
 
+void ennemy_knockback(entity_t *enemy, window_t *window)
+{
+    static sfTime time = {0};
+    sfTime current = {0};
+
+    if (time.microseconds == 0)
+        time = sfClock_getElapsedTime(window->frame);
+    current = sfClock_getElapsedTime(window->frame);
+    if ((current.microseconds - time.microseconds) / 1000000. > 0.2) {
+        time.microseconds = 0;
+        enemy->knockback = false;
+    }
+    if (enemy->knockback) {
+        enemy->speed_vector.x = cos(enemy->hit_angle * M_PI / 180) * 8;
+        enemy->speed_vector.y = sin(enemy->hit_angle * M_PI / 180) * 8;
+    }
+}
+
 void enemy_vector(entity_t *enemy, float angle, float speed)
 {
     enemy->speed_vector.x = cos(angle) * speed;
     enemy->speed_vector.y = sin(angle) * speed;
-    check_dir(enemy);
-    enemy->pos.x += enemy->speed_vector.x;
-    enemy->pos.y += enemy->speed_vector.y;
 }
 
 void enemy_wander(entity_t *enemy, window_t *window)
@@ -60,23 +75,23 @@ void enemy_wander(entity_t *enemy, window_t *window)
 void enemy_move(entity_t *enemy, window_t *window)
 {
     sfVector2f target = sfView_getCenter(window->view);
-    int range = enemy->enemy->range;
+    int range = enemy->enemy.range;
     float angle = atan2(target.y - enemy->pos.y, target.x - enemy->pos.x);
     float distance_from_center = sqrt(pow(target.x - enemy->pos.x, 2) +
     pow(target.y - enemy->pos.y, 2));
 
-    if (enemy->enemy->spoted == 1)
-        range = enemy->enemy->range * 2;
+    if (enemy->enemy.spoted == 1)
+        range = enemy->enemy.range * 2;
     else
-        range = enemy->enemy->range;
+        range = enemy->enemy.range;
     if (distance_from_center > range) {
         enemy_wander(enemy, window);
-        enemy->enemy->spoted = 0;
+        enemy->enemy.spoted = 0;
         return;
     }
-    enemy->enemy->spoted = 1;
-    if (distance_from_center < enemy->enemy->proj_range)
+    enemy->enemy.spoted = 1;
+    if (distance_from_center < enemy->enemy.proj_range)
         enemy_vector(enemy, angle + 180, enemy->stats.speed);
-    else if (distance_from_center > enemy->enemy->proj_range + 50)
+    else if (distance_from_center > enemy->enemy.proj_range + 50)
         enemy_vector(enemy, angle, enemy->stats.speed);
 }

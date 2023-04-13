@@ -31,6 +31,7 @@ SRC =	src/main.c	\
 		src/room/init_map.c 			\
 		src/room/cave.c					\
 		src/room/village.c				\
+		src/room/house.c				\
 		src/room/draw_optimisation.c	\
 		src/entities/create_entity.c		\
 		src/entities/destroy_entity.c		\
@@ -41,8 +42,22 @@ SRC =	src/main.c	\
 		src/entities/enemy_movement.c	\
 		src/entities/enemy_controller.c	\
 		src/entities/general_entity.c 		\
+		src/entities/player_combat.c 		\
+		src/entities/enemy_combat.c 		\
+		src/entities/enemy_spawn.c		\
 		src/collision/collider_create.c	\
 		src/collision/collider_aabb.c	\
+		src/collision/move_trigger_enter.c	\
+		src/collision/hitbox_manager.c 			\
+		src/gui/gui_create.c	\
+		src/gui/gui_draw.c	\
+		src/gui/gui_evaluate.c	\
+		src/gui/gui_setter.c	\
+		src/gui/gui_events.c 		\
+		src/weapon/weapon_create.c		\
+		src/weapon/weapon_use.c 		\
+		src/quick_create/rectangle.c	\
+		src/quick_create/item_creator.c	\
 
 TEST_CRIT	=	\
 

@@ -8,21 +8,24 @@
 #include <SFML/Graphics.h>
 #include <SFML/Window.h>
 #include <stdlib.h>
-#include "item.h"
 #include "entities.h"
-
-void enemy_hitbox(entity_t *enemy)
-{
-    collider_t *hit_by = NULL;
-
-    hit_by = collision_check(enemy->hurt, HITBOX);
-}
 
 void enemy_update(void *enemy_void, window_t *window)
 {
     entity_t *enemy = (entity_t *)enemy_void;
 
     enemy_move(enemy, window);
+    enemy->hitbox = sfSprite_getGlobalBounds(enemy->sprite);
+    if (enemy->knockback)
+        ennemy_knockback(enemy, window);
+    if (enemy->got_hit)
+        enemy_invicibilty(enemy, window);
+    check_dir(enemy);
+    enemy->pos.x += enemy->speed_vector.x;
+    enemy->pos.y += enemy->speed_vector.y;
+    collision_check(enemy->hurt);
+    if (enemy->weapon->use)
+        enemy->weapon->use(enemy->weapon, window);
 }
 
 void enemy_print(void *enemy_void, window_t *window)

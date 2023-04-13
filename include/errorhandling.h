@@ -5,12 +5,17 @@
 ** errorhandling
 */
 
+#include <stddef.h>
+
 #ifndef ERRORHANDLING_H_
     #define ERRORHANDLING_H_
     #define ERROR 84
     #define SUCCESS 0
     #define UNUSED __attribute__((unused))
     #define DEPRECATED __attribute__((deprecated))
-    #define ASSERT_MALLOC(ptr, retrn) if (ptr == ((void *)0)) return retrn;
+    #define LIKELY(x)       __builtin_expect((x),1)
+    #define UNLIKELY(x)     __builtin_expect((x),0)
+    #define ASSERT_MALLOC(ptr, ret) if (UNLIKELY(ptr == NULL)) return ret;
+    #define ASSERT_POINTER(ptr, retrn) if (ptr == NULL) return retrn;
 
 #endif /* !ERRORHANDLING_H_ */

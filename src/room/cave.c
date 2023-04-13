@@ -10,6 +10,43 @@
 #include "room.h"
 #include "cave.h"
 
+static const sfFloatRect *vil_col_list[] = {
+    &((sfFloatRect){0, -0.9, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0.35, -0.6, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){-0.35, -0.6, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){0, 0 - 0.5, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
+    &((sfFloatRect){-0.4, 0 - 0.5, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
+    &((sfFloatRect){0, 0, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
+    &((sfFloatRect){0, 0, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0 - 0.4, 0 - 0.75, TILE_SIZE * 1.7, TILE_SIZE * 0.9}),
+    &((sfFloatRect){-0.3, -0.9, TILE_SIZE * 1.3, TILE_SIZE * 1.3}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 1.3, TILE_SIZE * 1.3}),
+    &((sfFloatRect){-0.3, -0.9, TILE_SIZE * 1.3, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 1.3, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
+    &((sfFloatRect){-0.3, 0, TILE_SIZE * 2, TILE_SIZE * 1.4}),
+    &((sfFloatRect){-0.3, 0, TILE_SIZE * 2, TILE_SIZE * 1.4}),
+    &((sfFloatRect){0.1, 0, TILE_SIZE * 0.9, TILE_SIZE * 0.5}),
+    NULL};
+
+sfFloatRect trans_col_cave(char c)
+{
+    char img[] = "-_[]lrLRppPPc<>{}eeEESst";
+
+    for (int i = 0; img[i] != '\0'; i++)
+        if (img[i] == c)
+            return (*vil_col_list[i]);
+    return (*vil_col_list[0]);
+}
+
 static int draw_doors(char **map, int x, int y, int i)
 {
     if (map[y][x] == 'p' && map[y - 1][x] == 'p')
@@ -39,10 +76,12 @@ char *get_random_room(void)
 
 int translate_cave(char **map, int y, int x)
 {
-    char *img = ". -_[]lrLRppPP:;,~c<>{}eeEESst";
+    char img[] = ". -_[]lrLRppPP:;,~c<>{}eeEESst";
     int i = 0;
     int temp = 0;
 
+    if (map[y][x] == '$')
+        return (FLOOR_ID);
     while (img[i] != '\0') {
         if (is_in(img[i], "pPeE") && (is_in(map[y][x], "pPeE"))
         && (temp = draw_doors(map, x, y, i)) != -1)
