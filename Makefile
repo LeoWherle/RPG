@@ -33,6 +33,7 @@ SRC =	src/main.c	\
 		src/room/village.c				\
 		src/room/house.c				\
 		src/room/draw_optimisation.c	\
+		src/room/map_collisions.c		\
 		src/entities/create_entity.c		\
 		src/entities/destroy_entity.c		\
 		src/entities/player_camera.c		\

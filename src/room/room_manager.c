@@ -13,23 +13,6 @@
 #include "my_str.h"
 #include "errorhandling.h"
 
-list_t *handle_angle(list_t *colliders, room_t *room, int x, int y)
-{
-    if (room->room[y][x] == 'l') {
-        room->room[y][x] = '[';
-        add_in_colliders(colliders, room, x, y);
-        ASSERT_MALLOC(colliders, NULL);
-        room->room[y][x] = 'l';
-    }
-    if (room->room[y][x] == 'r') {
-        room->room[y][x] = ']';
-        add_in_colliders(colliders, room, x, y);
-        ASSERT_MALLOC(colliders, NULL);
-        room->room[y][x] = 'r';
-    }
-    return (colliders);
-}
-
 void free_room(room_t *room)
 {
     int i = 0;
