@@ -26,7 +26,7 @@ projectile_t *projectile_create(sfFloatRect rect, sfVector2f move_vect,
     new->pos = sfRectangleShape_getPosition(new->rect);
     new->move_vect = move_vect;
     new->box = sfRectangleShape_getGlobalBounds(new->rect);
-    new->hitbox = collider_create(&new->box, HITBOX, true, NULL);
+    new->hitbox = collider_create(&new->box, PROJECTILE, true, NULL);
     ASSERT_MALLOC(new->hitbox, NULL);
     if (!projectile_list) {
         projectile_list = list_init();

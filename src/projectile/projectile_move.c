@@ -12,23 +12,23 @@
 
 void projectile_move_line(projectile_t *proj, window_t *win)
 {
-    static sfTime prev_time = {0};
     sfTime time = {0};
 
-    if (prev_time.microseconds == 0) {
-        prev_time = sfClock_getElapsedTime(win->frame);
+    if (proj->time.microseconds == 0) {
+        proj->time = sfClock_getElapsedTime(win->frame);
     } else {
         time = sfClock_getElapsedTime(win->frame);
     }
-    if ((time.microseconds - prev_time.microseconds) / 1000000. > 5) {
+    if ((time.microseconds - proj->time.microseconds) / 1000000. > 5) {
         node_delete(proj->projectile_list, proj, projectile_delete);
-        prev_time = time;
+        proj->time = time;
         return;
     }
     proj->pos.x += proj->move_vect.x;
     proj->pos.y += proj->move_vect.y;
     sfRectangleShape_setPosition(proj->rect, proj->pos);
     proj->box = sfRectangleShape_getGlobalBounds(proj->rect);
+    collision_check(proj->hitbox);
 }
 
 void projectile_move_sinus(projectile_t *proj, window_t *win)

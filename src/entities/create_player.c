@@ -33,8 +33,8 @@ entity_t *create_player(map_t *map)
     stats_t stats = {100, PLAYER_HP, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
     PLAYER_SPEED, PLAYER_ATK_SPEED, {0}};
 
-    player->weapon = weapon_create_sword(0.5, 5, (sfVector2f){50, 50},
-    "assets/items/sword.png");
+    player->weapon = weapon_create_bow(0.5, 5, (sfVector2f){50, 50},
+    "assets/items/bow.png");
     player->weapon->hitbox->owner = player;
     player->pos = (sfVector2f){0, 0};
     player->speed_vector = (sfVector2f){0, 0};

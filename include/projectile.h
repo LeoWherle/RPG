@@ -21,6 +21,8 @@
         sfFloatRect box;
         sfVector2f pos;
         sfVector2f move_vect;
+        sfTime time;
+        void *caster;
         void (*move)(struct projectile *, window_t *);
     } projectile_t;
 

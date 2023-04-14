@@ -54,6 +54,7 @@ SRC =	src/main.c	\
 		src/collision/collider_aabb.c	\
 		src/collision/move_trigger_enter.c	\
 		src/collision/hitbox_manager.c 			\
+		src/collision/projectile_collision.c	\
 		src/gui/gui_create.c	\
 		src/gui/gui_draw.c	\
 		src/gui/gui_evaluate.c	\
@@ -63,6 +64,8 @@ SRC =	src/main.c	\
 		src/weapon/weapon_use.c 		\
 		src/weapon/bow/bow_create.c	\
 		src/weapon/bow/bow_use.c	\
+		src/weapon/enemies/body_damage.c	\
+		src/weapon/enemies/cast_magic_ball.c	\
 		src/quick_create/rectangle.c	\
 		src/quick_create/item_creator.c	\
 		src/projectile/projectile_create.c	\
