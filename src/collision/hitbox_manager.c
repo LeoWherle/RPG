@@ -21,7 +21,6 @@ bool receive_enemy_damage(collider_t *main, collider_t *sub)
     entity_t *enemy = NULL;
 
     if (sub->type == HITBOX && !player->got_hit) {
-        printf("here\n");
         enemy = sub->owner;
         if (!player->dash.is_dashing) {
             player->stats.hp -= enemy->stats.atk;
