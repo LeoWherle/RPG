@@ -128,6 +128,7 @@
     void enemy_list_animate(void *enemies, window_t *window);
     void enemy_list_update(void *enemies, window_t *window);
     void clear_list(void *list);
+    void clear_enemies(list_t *enemies);
     void destroy_item_enemy(void *item);
 
     //PLAYER MOVEMENT

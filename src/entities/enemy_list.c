@@ -29,6 +29,19 @@ void clear_list(void *list_void)
     list->interface->destroy(list, destroy_item_enemy);
 }
 
+void clear_enemies(list_t *enemies)
+{
+    list_t *list = (list_t *)enemies;
+    item_t *enemy = NULL;
+    node_t *node = list->head;
+
+    while (node) {
+        enemy = node->data;
+        node = node->next;
+        node_delete(list, enemy, destroy_item_enemy);
+    }
+}
+
 void enemy_type(list_t *enemies, int i, int j, char sign)
 {
     item_t *add = NULL;
