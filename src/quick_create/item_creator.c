@@ -14,6 +14,7 @@
 #include "gui.h"
 #include "menu_values.h"
 #include "room.h"
+#include "projectile.h"
 
 gui_t *create_gui(void)
 {
@@ -24,6 +25,19 @@ gui_t *create_gui(void)
     sfRectangleShape_setScale(health_background->shape, (sfVector2f){0.7, 0.7});
     ASSERT_POINTER(health_background, NULL);
     return gui;
+}
+
+static item_t *create_weapon(item_t *item, window_t *window)
+{
+    projectile_t *proj = NULL;
+
+    proj = projectile_create((sfFloatRect){0}, (sfVector2f){0}, NULL, NULL);
+    ASSERT_MALLOC(proj, NULL);
+    item = item_create(item, proj->projectile_list, projectile_list_destroy);
+    ASSERT_MALLOC(item, NULL);
+    item_set_func(item, projectile_update, NULL, projectile_print);
+    node_delete(proj->projectile_list, proj, projectile_delete);
+    return (item);
 }
 
 static item_t *create_entity(item_t *item, window_t *window, gui_t *gui,
@@ -43,6 +57,8 @@ map_t *map)
     item = item_create(item, create_slime((sfVector2f){0, 0}), destroy_enemy);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, enemy_update, enemy_animation, enemy_print);
+    item = create_weapon(item, window);
+    ASSERT_MALLOC(item, NULL);
     return (item);
 }
 

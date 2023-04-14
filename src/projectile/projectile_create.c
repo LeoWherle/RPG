@@ -18,9 +18,9 @@ projectile_t *projectile_create(sfFloatRect rect, sfVector2f move_vect,
 {
     static list_t *projectile_list = NULL;
     projectile_t *new = NULL;
+
     new = malloc(sizeof(projectile_t));
     ASSERT_MALLOC(new, NULL);
-    new->texture = texture;
     new->rect = rectangle_quick_create(rect, texture, sfWhite);
     ASSERT_MALLOC(new->rect, NULL);
     new->pos = sfRectangleShape_getPosition(new->rect);
@@ -44,8 +44,6 @@ void projectile_delete(void *node)
 
     collider_destroy(proj->hitbox);
     sfRectangleShape_destroy(proj->rect);
-    if (proj->texture)
-        sfTexture_destroy(proj->texture);
     free(proj);
 }
 

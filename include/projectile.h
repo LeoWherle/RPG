@@ -18,17 +18,15 @@
         list_t *projectile_list;
         collider_t *hitbox;
         sfRectangleShape *rect;
-        sfTexture *texture;
         sfFloatRect box;
         sfVector2f pos;
         sfVector2f move_vect;
-        int power;
         void (*move)(struct projectile *, window_t *);
     } projectile_t;
 
     /**
      * @brief create a projectile
-     * 
+     *
      * @param rect the rectangle of the projectile (position and size)
      * @param move_vect the movement/speed vector of the projectile
      * @param texture texture of the projectile
@@ -40,14 +38,14 @@
 
     /**
      * @brief delete a node from the projectile list
-     * 
+     *
      * @param node the node to be destroyed
      */
     void projectile_delete(void *node);
 
     /**
      * @brief delete the projectile list
-     * 
+     *
      * @param item the list to be destroyed
      */
     void projectile_list_destroy(void *item);
