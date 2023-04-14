@@ -22,13 +22,17 @@ void weapon_use(weapon_t *weapon, window_t *win)
     if ((time.microseconds - prev_time.microseconds) / 1000000. >
         weapon->cooldown && sfMouse_isButtonPressed(sfMouseLeft)) {
         weapon->activated = true;
-        weapon->hitbox->activated = true;
-        weapon->pos = sfView_getCenter(win->view);
-        weapon->rect = sfRectangleShape_getGlobalBounds(weapon->weapon);
+        if (weapon->hitbox)
+            weapon->hitbox->activated = true;
         prev_time = time;
     }
-    if (weapon->activated)
+    if (weapon->activated) {
+        weapon->pos = sfView_getCenter(win->view);
+        sfRectangleShape_setPosition(weapon->weapon, weapon->pos);
+        sfRectangleShape_setRotation(weapon->weapon, weapon->angle + 45);
+        weapon->rect = sfRectangleShape_getGlobalBounds(weapon->weapon);
         weapon->use(weapon, win);
+    }
 }
 
 void body_use(weapon_t *body, UNUSED window_t *win)

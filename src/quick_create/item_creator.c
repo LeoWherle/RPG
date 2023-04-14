@@ -14,6 +14,7 @@
 #include "gui.h"
 #include "menu_values.h"
 #include "room.h"
+#include "projectile.h"
 
 gui_t *create_gui(void)
 {

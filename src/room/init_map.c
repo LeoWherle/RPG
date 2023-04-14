@@ -45,7 +45,7 @@ map_t *init_map(room_type_t type, map_t *map)
 
     map = reset_map(map);
     ASSERT_MALLOC(map, NULL);
-    if (type == CAVE_R)
+    if (type == CAVE_R || type == BOSS_R)
         map->tile_list = init_cave_tile_list(map->tile_list, map_nb);
     if (type == VILLAGE_R)
         map->tile_list = init_village_tile_list(map->tile_list, map_nb);
