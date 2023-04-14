@@ -35,6 +35,8 @@ SRC =	src/main.c	\
 		src/room/draw_optimisation.c	\
 		src/room/map_collisions.c		\
 		src/entities/create_entity.c		\
+		src/entities/create_player.c 	\
+		src/entities/create_slime.c 	\
 		src/entities/destroy_entity.c		\
 		src/entities/player_camera.c		\
 		src/entities/player_controller.c	\
@@ -46,6 +48,7 @@ SRC =	src/main.c	\
 		src/entities/player_combat.c 		\
 		src/entities/enemy_combat.c 		\
 		src/entities/enemy_spawn.c		\
+		src/entities/enemy_list.c 		\
 		src/collision/collider_create.c	\
 		src/collision/collider_aabb.c	\
 		src/collision/move_trigger_enter.c	\

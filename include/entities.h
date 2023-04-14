@@ -79,6 +79,11 @@
         int range;
         int proj_range;
         int spoted;
+        int rand_angle;
+        int is_moving;
+        sfTime knock_time;
+        sfTime wander_time;
+        sfTime anim_time;
     } enemy_t;
 
     typedef struct entity {
@@ -108,6 +113,9 @@
     entity_t *create_slime(sfVector2f pos);
     void destroy_player(void *entity);
     void destroy_enemy(void *entity);
+    void set_stats(entity_t *entity, stats_t *stats);
+    void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
+                sfVector2f origin);
 
     //CREATE ENEMY LIST
     list_t *spawn_enemies(map_t *map);
@@ -115,6 +123,7 @@
     void enemy_list_animate(void *enemies, window_t *window);
     void enemy_list_update(void *enemies, window_t *window);
     void clear_list(void *list);
+    void destroy_item_enemy(void *item);
 
     //PLAYER MOVEMENT
     void move_player(entity_t *player, window_t *window);
