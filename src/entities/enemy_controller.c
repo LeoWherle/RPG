@@ -15,7 +15,6 @@ void enemy_update(void *enemy_void, window_t *window)
     entity_t *enemy = (entity_t *)enemy_void;
 
     enemy_move(enemy, window);
-    enemy->hitbox = sfSprite_getGlobalBounds(enemy->sprite);
     if (enemy->knockback)
         ennemy_knockback(enemy, window);
     if (enemy->got_hit)
@@ -23,6 +22,7 @@ void enemy_update(void *enemy_void, window_t *window)
     check_dir(enemy);
     enemy->pos.x += enemy->speed_vector.x;
     enemy->pos.y += enemy->speed_vector.y;
+    enemy->hitbox = sfSprite_getGlobalBounds(enemy->sprite);
     collision_check(enemy->hurt);
     if (enemy->weapon->use)
         enemy->weapon->use(enemy->weapon, window);

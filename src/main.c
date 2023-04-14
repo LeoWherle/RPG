@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "item.h"
+#include "quick_create.h"
 #include "errorhandling.h"
 #include "my_str.h"
 
@@ -50,7 +51,7 @@ int main(int ac, UNUSED char *av[], char *env[])
     window = window_create((sfVideoMode){1920, 1080, 32}, 60,
             "Into the abyss", (sfFloatRect){0, 0, 1920, 1080});
     ASSERT_MALLOC(window, 84);
-    item = create_item(item, window);
+    item = item_initialization(item);
     ASSERT_MALLOC(item, 84);
     item_loop(item, window, exit_ecs);
     item_list_destroy(item);

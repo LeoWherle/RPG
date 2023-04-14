@@ -8,19 +8,19 @@
 #include <SFML/Graphics.h>
 #include <SFML/Window.h>
 #include <stdlib.h>
+#include <math.h>
 #include "item.h"
 #include "entities.h"
 
 void move_enemy_sprite(entity_t *enemy, window_t *window)
 {
-    static sfTime time = {0};
     sfTime current = {0};
 
     sfSprite_setTextureRect(enemy->sprite, enemy->anim_rect);
     current = sfClock_getElapsedTime(window->frame);
     if (current.microseconds / 1000000. -
-    time.microseconds / 1000000. > INTERVAL) {
-        time = current;
+    enemy->enemy.anim_time.microseconds / 1000000. > INTERVAL) {
+        enemy->enemy.anim_time = current;
         enemy->anim_rect.left += enemy->sprite_size;
     }
     if (enemy->anim_rect.left >= enemy->sprite_size * 5)
@@ -29,14 +29,14 @@ void move_enemy_sprite(entity_t *enemy, window_t *window)
 
 void ennemy_knockback(entity_t *enemy, window_t *window)
 {
-    static sfTime time = {0};
     sfTime current = {0};
 
-    if (time.microseconds == 0)
-        time = sfClock_getElapsedTime(window->frame);
+    if (enemy->enemy.knock_time.microseconds == 0)
+        enemy->enemy.knock_time = sfClock_getElapsedTime(window->frame);
     current = sfClock_getElapsedTime(window->frame);
-    if ((current.microseconds - time.microseconds) / 1000000. > 0.2) {
-        time.microseconds = 0;
+    if ((current.microseconds - enemy->enemy.knock_time.microseconds)
+    / 1000000. > 0.2) {
+        enemy->enemy.knock_time.microseconds = 0;
         enemy->knockback = false;
     }
     if (enemy->knockback) {
@@ -53,22 +53,20 @@ void enemy_vector(entity_t *enemy, float angle, float speed)
 
 void enemy_wander(entity_t *enemy, window_t *window)
 {
-    static int rand_angle = 0;
-    static int is_moving = 0;
-    static sfTime time = {0};
     sfTime current = {0};
 
     current = sfClock_getElapsedTime(window->frame);
-    if ((current.microseconds - time.microseconds) / 1000000. > 2) {
-        time = current;
-        if (is_moving == 0) {
-            rand_angle = rand() % 360;
-            is_moving = 1;
+    if ((current.microseconds - enemy->enemy.wander_time.microseconds)
+    / 1000000. > 2) {
+        enemy->enemy.wander_time = current;
+        if (enemy->enemy.is_moving == 0) {
+            enemy->enemy.rand_angle = rand() % 360;
+            enemy->enemy.is_moving = 1;
         } else
-            is_moving = 0;
+            enemy->enemy.is_moving = 0;
     }
-    if (is_moving == 1) {
-        enemy_vector(enemy, rand_angle, enemy->stats.speed / 2);
+    if (enemy->enemy.is_moving == 1) {
+        enemy_vector(enemy, enemy->enemy.rand_angle, enemy->stats.speed / 2);
     }
 }
 

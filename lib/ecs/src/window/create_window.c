@@ -24,7 +24,7 @@ window_t *window_create(sfVideoMode mode, int framerate, char const *title,
     new->window = sfRenderWindow_create(new->mode, title,
     sfClose | sfResize, NULL);
     new->view = sfView_createFromRect(view_rect);
-    if (!new->window) {
+    if (!new->window || !new->frame || !new->view) {
         free(new);
         return NULL;
     }

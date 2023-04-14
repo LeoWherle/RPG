@@ -28,6 +28,7 @@
     #define PLAYER_ATK 10
     #define PLAYER_DEF 10
     #define PLAYER_LUCK 10
+    #define PLAYER_EXP_CAP 100
     #define PLAYER_DASH_COOLDOWN 3
     #define PLAYER_SPRITE_SIZE 48
 
@@ -47,13 +48,22 @@
         BACK_DASH,
     };
 
+    typedef struct exp{
+        unsigned int level;
+        unsigned int current_exp;
+        unsigned int exp_cap;
+        float mult;
+    } exp_t;
+
     typedef struct stats {
+        float max_hp;
         float hp;
         float atk;
         float def;
         float luck;
         float speed;
         float atk_speed;
+        exp_t exp;
     } stats_t;
 
     typedef struct player_dash {
@@ -69,6 +79,11 @@
         int range;
         int proj_range;
         int spoted;
+        int rand_angle;
+        int is_moving;
+        sfTime knock_time;
+        sfTime wander_time;
+        sfTime anim_time;
     } enemy_t;
 
     typedef struct entity {
@@ -98,6 +113,17 @@
     entity_t *create_slime(sfVector2f pos);
     void destroy_player(void *entity);
     void destroy_enemy(void *entity);
+    void set_stats(entity_t *entity, stats_t *stats);
+    void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
+                sfVector2f origin);
+
+    //CREATE ENEMY LIST
+    list_t *spawn_enemies(map_t *map);
+    void enemy_list_print(void *enemies, window_t *window);
+    void enemy_list_animate(void *enemies, window_t *window);
+    void enemy_list_update(void *enemies, window_t *window);
+    void clear_list(void *list);
+    void destroy_item_enemy(void *item);
 
     //PLAYER MOVEMENT
     void move_player(entity_t *player, window_t *window);

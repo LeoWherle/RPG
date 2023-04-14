@@ -27,7 +27,7 @@ gui_t *create_gui(void)
     return gui;
 }
 
-static item_t *create_weapon(item_t *item, window_t *window)
+static item_t *create_weapons(item_t *item)
 {
     projectile_t *proj = NULL;
 
@@ -40,8 +40,7 @@ static item_t *create_weapon(item_t *item, window_t *window)
     return (item);
 }
 
-static item_t *create_entity(item_t *item, window_t *window, gui_t *gui,
-map_t *map)
+static item_t *create_entity(item_t *item, gui_t *gui, map_t *map)
 {
     gui_t *hp = NULL;
     entity_t *player = NULL;
@@ -54,15 +53,16 @@ map_t *map)
     hp->type = GUI_HEALTH_BAR;
     hp->interactor = &player->stats;
     ASSERT_POINTER(hp, NULL);
-    item = item_create(item, create_slime((sfVector2f){0, 0}), destroy_enemy);
+    item = item_create(item, spawn_enemies(map), clear_list);
     ASSERT_MALLOC(item, NULL);
-    item_set_func(item, enemy_update, enemy_animation, enemy_print);
-    item = create_weapon(item, window);
+    item_set_func(item, enemy_list_update, enemy_list_animate,
+    enemy_list_print);
+    item = create_weapons(item);
     ASSERT_MALLOC(item, NULL);
     return (item);
 }
 
-item_t *create_item(item_t *item, window_t *window)
+item_t *item_initialization(item_t *item)
 {
     map_t *map = NULL;
     gui_t *gui = create_gui();
@@ -75,7 +75,7 @@ item_t *create_item(item_t *item, window_t *window)
     item = item_create(item, map, free_map);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, NULL, NULL, draw_room_second);
-    item = create_entity(item, window, gui, map);
+    item = create_entity(item, gui, map);
     ASSERT_MALLOC(item, NULL);
     item = item_create(item, map, NULL);
     ASSERT_MALLOC(item, NULL);
