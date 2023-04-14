@@ -62,6 +62,8 @@ list_t *spawn_enemies(map_t *map)
     char **map_array = map->room->room;
     static list_t *enemies = NULL;
 
+    if (enemies)
+        clear_enemies(enemies);
     if (!enemies)
         enemies = list_init();
     for (int i = 0; map_array[i] != NULL; i++) {
