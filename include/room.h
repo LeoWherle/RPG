@@ -85,5 +85,7 @@ typedef struct map_s {
     sfFloatRect *translate_collisions(char c, sfFloatRect *rect,
     room_type_t type);
     list_t *init_colliders(list_t *colliders, room_t *room);
+    void draw_tile_on_floor(sfRenderWindow *window, sfSprite *floor, char c,
+    room_type_t type);
 
 #endif /* !ROOM_H_ */

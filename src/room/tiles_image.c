@@ -18,7 +18,7 @@ room_type_t type)
 {
     if ((type == CAVE_R || type == BOSS_R) && !is_in(c, "? $;,:~#@"))
         sfRenderWindow_drawSprite(window, tile, NULL);
-    if (type == VILLAGE_R && !is_in(c, "? []{}<>-_lrLR$;,:#@"))
+    if (type == VILLAGE_R && !is_in(c, "? []{}<>-_lrLR$;,:#@=/\\"))
         sfRenderWindow_drawSprite(window, tile, NULL);
     if (type == HOUSE_R && !is_in(c, "? "))
         sfRenderWindow_drawSprite(window, tile, NULL);
@@ -67,7 +67,7 @@ static void draw_floor(window_t *window, room_t *room, tile_t **tile_list)
             tile_asset = translate_map(room->room, y, x, room->type);
             tile = tile_list[tile_asset];
             sfSprite_setPosition(tile->img, pos);
-            draw_floor_tile(window->window, tile->img, c, room->type);
+            draw_tile_on_floor(window->window, tile->img, c, room->type);
         }
     }
 }
