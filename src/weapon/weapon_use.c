@@ -39,7 +39,7 @@ void weapon_use(weapon_t *weapon, window_t *win)
 
 static void rotate_sword(weapon_t *sword, sfVector2f player, float angle)
 {
-    sfRectangleShape_setPosition(sword->weapon, (sfVector2f){player.x + 10 * 
+    sfRectangleShape_setPosition(sword->weapon, (sfVector2f){player.x + 10 *
     cos(angle * M_PI / 180) + 3, player.y + 10 *
     sin(angle * M_PI / 180) + 39});
     sfRectangleShape_setRotation(sword->weapon, angle);
