@@ -35,11 +35,12 @@ static const sfFloatRect *vil_col_list[] = {
     &((sfFloatRect){-0.3, 0, TILE_SIZE * 2, TILE_SIZE * 1.4}),
     &((sfFloatRect){-0.3, 0, TILE_SIZE * 2, TILE_SIZE * 1.4}),
     &((sfFloatRect){0.1, 0, TILE_SIZE * 0.9, TILE_SIZE * 0.5}),
+    &((sfFloatRect){-2, -2, TILE_SIZE * 2.5, TILE_SIZE * 3}),
     NULL};
 
 sfFloatRect trans_col_cave(char c)
 {
-    char img[] = "-_[]lrLRppPPc<>{}eeEESst";
+    char img[] = "-_[]lrLRppPPc<>{}eeEESstX";
 
     for (int i = 0; img[i] != '\0'; i++)
         if (img[i] == c)

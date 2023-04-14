@@ -16,7 +16,7 @@
 void draw_tile(sfRenderWindow *window, sfSprite *tile, char c,
 room_type_t type)
 {
-    if ((type == CAVE_R || type == BOSS_R) && !is_in(c, "? $;,:~#@"))
+    if ((type == CAVE_R || type == BOSS_R) && !is_in(c, "? $;,:~#@X"))
         sfRenderWindow_drawSprite(window, tile, NULL);
     if (type == VILLAGE_R && !is_in(c, "? []{}<>-_lrLR$;,:#@=/\\w"))
         sfRenderWindow_drawSprite(window, tile, NULL);
@@ -27,7 +27,7 @@ room_type_t type)
 static void draw_floor_tile(sfRenderWindow *window, sfSprite *floor, char c,
 room_type_t type)
 {
-    if ((type == CAVE_R || type == BOSS_R) && !is_in(c, "?[]{}<>-_lrLR"))
+    if ((type == CAVE_R || type == BOSS_R) && !is_in(c, "?[]{}<>-_lrLRX"))
         sfRenderWindow_drawSprite(window, floor, NULL);
     if (type == VILLAGE_R && !is_in(c, "?=/\\+"))
         sfRenderWindow_drawSprite(window, floor, NULL);
