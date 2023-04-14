@@ -47,16 +47,14 @@ void enemy_list_update(void *enemies, window_t *window)
     item_t *enemy = NULL;
     entity_t *enemy_data = NULL;
     node_t *node = list->head;
-    node_t *prev = NULL;
 
     while (node) {
         enemy = node->data;
         enemy_data = enemy->item;
         enemy->update(enemy_data, window);
-        prev = node;
         node = node->next;
         if (enemy_data->stats.hp <= 0) {
-            list->interface->pop(list, prev);
+            node_delete(list, enemy, destroy_item_enemy);
         }
     }
 }

@@ -13,6 +13,6 @@
 
     sfRectangleShape *rectangle_quick_create(sfFloatRect rect,
                                 sfTexture *texture, sfColor color);
-    item_t *item_initialization(item_t *item);
+    item_t *item_initialization(item_t *item, window_t *window);
 
 #endif

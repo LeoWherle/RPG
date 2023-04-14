@@ -13,13 +13,24 @@
 static collider_t *create_special_col(collider_t *collider, sfFloatRect *rect,
 char c, room_type_t type)
 {
-    if (((c == 'e' || c == 'p') && (type == CAVE_R || type == BOSS_R))
-    || c == '@')
-        collider = collider_create(rect, TRIGGER, true, NULL);
-    else if (c == 'c' || c == 'v' || c == 'V')
+    if (((c == 'e' || c == 'p') && (type == CAVE_R || type == BOSS_R)) ||
+    (type == VILLAGE_R && c == 'w')) {
+        collider = collider_create(rect, TELEPORTER_CAVE, true, NULL);
+        return (collider);
+    }
+    if (c == '@' && type == VILLAGE_R) {
+        collider = collider_create(rect, TELEPORTER_ROOM, true, NULL);
+        return (collider);
+    }
+    if (c == '@' && type == HOUSE_R) {
+        collider = collider_create(rect, TELEPORTER_VILLAGE, true, NULL);
+        return (collider);
+    }
+    if (c == 'c' || c == 'v' || c == 'V') {
         collider = collider_create(rect, INTERACTION, true, NULL);
-    else
-        collider = collider_create(rect, SOLID, true, NULL);
+        return (collider);
+    }
+    collider = collider_create(rect, SOLID, true, NULL);
     return (collider);
 }
 

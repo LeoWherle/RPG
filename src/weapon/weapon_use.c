@@ -17,10 +17,12 @@ void weapon_use(weapon_t *weapon, window_t *win)
 {
     static sfTime prev_time = {0};
     sfTime time = {0};
+    entity_t *entity = weapon->hitbox->owner;
 
     time = sfClock_getElapsedTime(win->frame);
-    if ((time.microseconds - prev_time.microseconds) / 1000000. >
-        weapon->cooldown && sfMouse_isButtonPressed(sfMouseLeft)) {
+    if (((time.microseconds - prev_time.microseconds) / 1000000. >
+        weapon->cooldown || entity->dash.is_dashing)
+        && sfMouse_isButtonPressed(sfMouseLeft)) {
         weapon->activated = true;
         if (weapon->hitbox)
             weapon->hitbox->activated = true;

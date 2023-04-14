@@ -41,11 +41,12 @@ static const sfFloatRect *vil_col_list[] = {
     &((sfFloatRect){0 - 1.8, 0 - 1.2, TILE_SIZE * 4, TILE_SIZE * 1.5}),
     &((sfFloatRect){0 - 0.3, -0.5, TILE_SIZE * 1.2, TILE_SIZE * 0.7}),
     &((sfFloatRect){0, -2, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){-2, -2, TILE_SIZE, TILE_SIZE}),
     NULL};
 
 sfFloatRect translate_collisions_village(char c)
 {
-    char img[] = "_-[]lrLR}{><MtTFfOvG+|bp\\/CVmP@";
+    char img[] = "_-[]lrLR}{><MtTFfOvG+|bp\\/CVmP@w";
 
     for (int i = 0; img[i] != '\0'; i++)
         if (img[i] == c)

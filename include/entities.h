@@ -29,8 +29,9 @@
     #define PLAYER_DEF 10
     #define PLAYER_LUCK 10
     #define PLAYER_EXP_CAP 100
-    #define PLAYER_DASH_COOLDOWN 3
+    #define PLAYER_DASH_COOLDOWN 2.5
     #define PLAYER_SPRITE_SIZE 48
+    #define SWORD_COOLDOWN 0.5
 
     #define CLOSE_RANGE -24
 
@@ -81,6 +82,7 @@
         int spoted;
         int rand_angle;
         int is_moving;
+        int anim_frames;
         sfTime knock_time;
         sfTime wander_time;
         sfTime anim_time;
@@ -101,6 +103,7 @@
         int got_hit;
         float hit_angle;
         int knockback;
+        sfRectangleShape *info_bar;
         weapon_t *weapon;
         collider_t *hurt;
         collider_t *trigger;
@@ -110,13 +113,15 @@
     } entity_t;
 
     //CREATE AND DESTROY
-    entity_t *create_player(map_t *map);
+    entity_t *create_player(map_t *map, window_t *window);
     entity_t *create_slime(sfVector2f pos);
     void destroy_player(void *entity);
     void destroy_enemy(void *entity);
     void set_stats(entity_t *entity, stats_t *stats);
     void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
                 sfVector2f origin);
+    void set_info_bar(entity_t *entity, sfColor color,
+    sfVector2f size, sfVector2f pos);
 
     //CREATE ENEMY LIST
     list_t *spawn_enemies(map_t *map);
@@ -124,6 +129,7 @@
     void enemy_list_animate(void *enemies, window_t *window);
     void enemy_list_update(void *enemies, window_t *window);
     void clear_list(void *list);
+    void clear_enemies(list_t *enemies);
     void destroy_item_enemy(void *item);
 
     //PLAYER MOVEMENT
@@ -150,7 +156,9 @@
     //COMBAT
     void invicibility_frames(entity_t *player, window_t *window);
     void enemy_invicibilty(entity_t *enemy, window_t *window);
+    void enemy_health_bar(entity_t *enemy);
     void player_knockback(entity_t *player, window_t *window);
+    void player_dash_bar(entity_t *player);
     void ennemy_knockback(entity_t *enemy, window_t *window);
     sfFloatRect get_player_bounds(entity_t *player);
 

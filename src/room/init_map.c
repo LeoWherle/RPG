@@ -29,6 +29,8 @@ void free_map(void *map_pt)
 
 static map_t *reset_map(map_t *map)
 {
+    if (map != NULL && map->colliders != NULL)
+        map->colliders->interface->destroy(map->colliders, free_colliders);
     if (map == NULL) {
         map = malloc(sizeof(map_t));
         ASSERT_MALLOC(map, NULL);
