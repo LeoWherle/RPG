@@ -36,13 +36,20 @@ bool teleporter_trigger(collider_t *main, collider_t *sub)
 {
     entity_t *player = NULL;
     map_t *map = NULL;
+    window_t *window = NULL;
 
     if (sub->type >= TELEPORTER_VILLAGE) {
         player = main->owner;
         map = player->depend->dependency;
+        window = player->depend->next->dependency;
+        sfRenderWindow_clear(window->window, sfBlack);
+        sfRenderWindow_display(window->window);
         init_map(sub->type - TELEPORTER_VILLAGE, map);
         spawn_enemies(map);
-        spawn_point(player, '$');
+        if (sub->type == TELEPORTER_VILLAGE)
+            spawn_point(player, '@');
+        if (sub->type > TELEPORTER_VILLAGE)
+            spawn_point(player, '$');
         return true;
     }
     return false;

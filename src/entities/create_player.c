@@ -11,7 +11,7 @@
 #include "entities.h"
 #include "collision.h"
 
-void create_player_2(map_t *map, entity_t *player)
+static void create_player_2(map_t *map, entity_t *player, window_t *window)
 {
     player->knockback = false;
     player->hitbox = get_player_bounds(player);
@@ -23,11 +23,13 @@ void create_player_2(map_t *map, entity_t *player)
     player->trigger->on_collision_entered = move_trigger_enter;
     player->depend = malloc(sizeof(dependency_t));
     player->depend->dependency = map;
-    player->depend->next = NULL;
+    player->depend->next = malloc(sizeof(dependency_t));
+    player->depend->next->dependency = window;
+    player->depend->next->next = NULL;
     spawn_point(player, '$');
 }
 
-entity_t *create_player(map_t *map)
+entity_t *create_player(map_t *map, window_t *window)
 {
     entity_t *player = malloc(sizeof(entity_t));
     stats_t stats = {100, PLAYER_HP, PLAYER_ATK, PLAYER_DEF, PLAYER_LUCK,
@@ -45,6 +47,6 @@ entity_t *create_player(map_t *map)
     set_sprite(player, "assets/characters/player.png",
     (sfIntRect){0, 0, 48, 48}, (sfVector2f){24, 24});
     set_stats(player, &stats);
-    create_player_2(map, player);
+    create_player_2(map, player, window);
     return player;
 }

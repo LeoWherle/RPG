@@ -109,7 +109,7 @@
     } entity_t;
 
     //CREATE AND DESTROY
-    entity_t *create_player(map_t *map);
+    entity_t *create_player(map_t *map, window_t *window);
     entity_t *create_slime(sfVector2f pos);
     void destroy_player(void *entity);
     void destroy_enemy(void *entity);

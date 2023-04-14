@@ -51,7 +51,7 @@ int main(int ac, UNUSED char *av[], char *env[])
     window = window_create((sfVideoMode){1920, 1080, 32}, 60,
             "Into the abyss", (sfFloatRect){0, 0, 1920, 1080});
     ASSERT_MALLOC(window, 84);
-    item = item_initialization(item);
+    item = item_initialization(item, window);
     ASSERT_MALLOC(item, 84);
     item_loop(item, window, exit_ecs);
     item_list_destroy(item);

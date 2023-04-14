@@ -36,7 +36,7 @@ room_type_t type)
 {
     if ((type == CAVE_R || type == BOSS_R) && !is_in(c, "?[]{}<>-_lrLR$@#"))
         sfRenderWindow_drawSprite(window, floor, NULL);
-    if (type == VILLAGE_R && !is_in(c, "?+$@#"))
+    if (type == VILLAGE_R && !is_in(c, "?+$@#w"))
         sfRenderWindow_drawSprite(window, floor, NULL);
     if (type == HOUSE_R && !is_in(c, "?$@"))
         sfRenderWindow_drawSprite(window, floor, NULL);

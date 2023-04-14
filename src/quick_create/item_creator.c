@@ -40,12 +40,13 @@ static item_t *create_weapons(item_t *item)
     return (item);
 }
 
-static item_t *create_entity(item_t *item, gui_t *gui, map_t *map)
+static item_t *create_entity(item_t *item, gui_t *gui, map_t *map,
+window_t *window)
 {
     gui_t *hp = NULL;
     entity_t *player = NULL;
 
-    item = item_create(item, create_player(map), destroy_player);
+    item = item_create(item, create_player(map, window), destroy_player);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, player_update, player_animation, player_print);
     hp = gui_sub_create(GUIPOS_HEALTH, "assets/menu/health_f.png", gui);
@@ -62,7 +63,7 @@ static item_t *create_entity(item_t *item, gui_t *gui, map_t *map)
     return (item);
 }
 
-item_t *item_initialization(item_t *item)
+item_t *item_initialization(item_t *item, window_t *window)
 {
     map_t *map = NULL;
     gui_t *gui = create_gui();
@@ -75,7 +76,7 @@ item_t *item_initialization(item_t *item)
     item = item_create(item, map, free_map);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, NULL, NULL, draw_room_second);
-    item = create_entity(item, gui, map);
+    item = create_entity(item, gui, map, window);
     ASSERT_MALLOC(item, NULL);
     item = item_create(item, map, NULL);
     ASSERT_MALLOC(item, NULL);
