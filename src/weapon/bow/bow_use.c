@@ -21,7 +21,10 @@ projectile_t *instantiate_arrow(weapon_t *bow, sfTexture *proj, bool *sent)
         10 / sin(M_PI / 2) * sin(bow->angle * M_PI / 180)},
         proj, projectile_move_line);
     sfRectangleShape_setRotation(new->rect, bow->angle);
-    new->hitbox->owner = bow->hitbox->owner;
+    new->hitbox->owner = new;
+    new->time.microseconds = 0;
+    new->caster = bow->hitbox->owner;
+    new->hitbox->on_collision_entered = projectile_collision;
     *sent = false;
     return new;
 }

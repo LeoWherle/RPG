@@ -27,17 +27,9 @@ weapon_t *weapon_create_bow(float cooldown, int strenght, sfVector2f size,
     ASSERT_MALLOC(new->weapon, NULL;)
     sfRectangleShape_setOrigin(new->weapon, (sfVector2f){0, size.x});
     new->rect = sfRectangleShape_getGlobalBounds(new->weapon);
-    new->hitbox = collider_create(&new->rect, HITBOX, false, new);
+    new->hitbox = collider_create(&new->rect, PLAYER_HURTBOX, false, new);
     ASSERT_MALLOC(new->hitbox, NULL);
     new->pos = (sfVector2f){0, 0};
     new->use = bow_use;
     return new;
-}
-
-void bow_destroy(weapon_t *bow)
-{
-    bow->use(NULL, NULL);
-    sfRectangleShape_destroy(bow->weapon);
-    collider_destroy(bow->hitbox);
-    free(bow);
 }

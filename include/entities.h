@@ -86,6 +86,7 @@
         sfTime knock_time;
         sfTime wander_time;
         sfTime anim_time;
+        sfTime attack_time;
     } enemy_t;
 
     typedef struct entity {

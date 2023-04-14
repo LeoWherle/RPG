@@ -39,18 +39,19 @@ bool teleporter_trigger(collider_t *main, collider_t *sub)
     entity_t *player = NULL;
     map_t *map = NULL;
     window_t *window = NULL;
+    tag_t old = sub->type;
 
-    if (sub->type >= TELEPORTER_VILLAGE) {
+    if (old >= TELEPORTER_VILLAGE) {
         player = main->owner;
         map = player->depend->dependency;
         window = player->depend->next->dependency;
         sfRenderWindow_clear(window->window, sfBlack);
         sfRenderWindow_display(window->window);
-        init_map(sub->type - TELEPORTER_VILLAGE, map);
+        init_map(old - TELEPORTER_VILLAGE, map);
         spawn_enemies(map);
-        if (sub->type == TELEPORTER_VILLAGE)
+        if (old == TELEPORTER_VILLAGE)
             spawn_point(player, '@');
-        if (sub->type > TELEPORTER_VILLAGE)
+        if (old > TELEPORTER_VILLAGE)
             spawn_point(player, '$');
         return true;
     }
@@ -74,7 +75,7 @@ bool receive_player_damage(collider_t *main, collider_t *sub)
     if (sub->type == PLAYER_HITBOX && !enemy->got_hit) {
         player = sub->owner;
         enemy->stats.hp -= player->stats.atk;
-        if (enemy->stats.hp < 0)
+        if (enemy->stats.hp <= 0)
             add_exp(&player->stats, 100);
         enemy->got_hit = true;
         enemy->knockback = true;

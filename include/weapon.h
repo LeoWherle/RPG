@@ -37,7 +37,8 @@
 
     weapon_t *weapon_create_bow(float cooldown, int strenght, sfVector2f size,
                         char *path);
-    void bow_destroy(weapon_t *bow);
     void bow_use(weapon_t *bow, window_t *window);
+    void use_cast_magic_ball(weapon_t *ball, window_t *win);
+    weapon_t *cast_projectile(int strength);
 
 #endif /*WEAPON_H*/

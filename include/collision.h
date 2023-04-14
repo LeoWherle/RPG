@@ -21,6 +21,7 @@
         INTERACTION,
         PLAYER_HITBOX,
         PLAYER_HURTBOX,
+        PROJECTILE,
         TELEPORTER_VILLAGE,
         TELEPORTER_CAVE,
         TELEPORTER_ROOM,
@@ -45,5 +46,6 @@
     bool receive_enemy_damage(collider_t *main, collider_t *sub);
     bool receive_player_damage(collider_t *main, collider_t *sub);
     bool player_collision(collider_t *player, collider_t *sub);
+    bool projectile_collision(collider_t *main, collider_t *sub);
 
 #endif /*COLLISION_H*/

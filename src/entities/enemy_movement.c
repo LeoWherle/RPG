@@ -47,6 +47,7 @@ void ennemy_knockback(entity_t *enemy, window_t *window)
 
 void enemy_vector(entity_t *enemy, float angle, float speed)
 {
+    enemy->weapon->angle = angle;
     enemy->speed_vector.x = cos(angle) * speed;
     enemy->speed_vector.y = sin(angle) * speed;
 }
