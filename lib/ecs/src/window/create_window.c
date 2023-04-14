@@ -24,11 +24,11 @@ window_t *window_create(sfVideoMode mode, int framerate, char const *title,
     new->window = sfRenderWindow_create(new->mode, title,
     sfClose | sfResize, NULL);
     new->view = sfView_createFromRect(view_rect);
-    if (!new->window || !new->frame || !new->view) {
+    new->event = malloc(sizeof(sfEvent));
+    if (!new->window || !new->frame || !new->view || !new->event) {
         free(new);
         return NULL;
     }
-    new->event = malloc(sizeof(sfEvent));
     sfRenderWindow_setFramerateLimit(new->window, framerate);
     sfRenderWindow_setView(new->window, new->view);
     new->exit = false;

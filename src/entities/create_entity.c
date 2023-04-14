@@ -24,6 +24,10 @@ void set_stats(entity_t *entity, stats_t *stats)
     entity->stats.luck = stats->luck;
     entity->stats.speed = stats->speed;
     entity->stats.atk_speed = stats->atk_speed;
+    entity->stats.exp.current_exp = 0;
+    entity->stats.exp.exp_cap = 100;
+    entity->stats.exp.level = 1;
+    entity->stats.exp.mult = 1.;
 }
 
 void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
