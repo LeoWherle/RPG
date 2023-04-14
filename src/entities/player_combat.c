@@ -40,6 +40,16 @@ void player_knockback(entity_t *player, window_t *window)
     }
 }
 
+void player_dash_bar(entity_t *player)
+{
+    sfVector2f pos = {player->pos.x - 30, player->pos.y + 70};
+    float percent = (float)player->dash.dash_cooldown /
+    PLAYER_DASH_COOLDOWN;
+
+    sfRectangleShape_setPosition(player->info_bar, pos);
+    sfRectangleShape_setSize(player->info_bar, (sfVector2f){60 * percent, 10});
+}
+
 void invicibility_frames(entity_t *player, window_t *window)
 {
     static sfTime time_inv = {0};

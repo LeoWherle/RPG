@@ -26,6 +26,7 @@ void player_update(void *player_void, window_t *window)
     player->hitbox = get_player_bounds(player);
     collision_check(player->hurt);
     weapon_use(player->weapon, window);
+    player_dash_bar(player);
     update_camera(player, window);
 }
 
@@ -41,6 +42,11 @@ void player_print(void *player_void, window_t *window)
         invicibility_frames(player, window);
     else
         sfRenderWindow_drawSprite(window->window, player->sprite, NULL);
+    if (player->dash.dash_cooldown > 0)
+        sfRenderWindow_drawRectangleShape(window->window,
+        player->info_bar, NULL);
+    if (player->stats.hp <= 0)
+        window->exit = true;
 }
 
 void player_animation(void *player_void, window_t *window)

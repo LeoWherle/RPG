@@ -17,7 +17,7 @@
 
 bool exit_ecs(window_t *window)
 {
-    if (window->event->type == sfEvtClosed) {
+    if (window->event->type == sfEvtClosed || window->exit) {
         sfRenderWindow_close(window->window);
         return true;
     }

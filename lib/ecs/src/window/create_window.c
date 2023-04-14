@@ -31,6 +31,7 @@ window_t *window_create(sfVideoMode mode, int framerate, char const *title,
     new->event = malloc(sizeof(sfEvent));
     sfRenderWindow_setFramerateLimit(new->window, framerate);
     sfRenderWindow_setView(new->window, new->view);
+    new->exit = false;
     return new;
 }
 

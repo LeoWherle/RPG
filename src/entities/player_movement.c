@@ -62,16 +62,15 @@ void player_orientation(entity_t *player, window_t *window)
 
 static void reduce_player_speed(entity_t *player)
 {
-    player->speed_vector = (sfVector2f){0, 0};
-    if (player->weapon->activated)
-        player->stats.speed = PLAYER_SPEED - 2;
-    else
-        player->stats.speed = PLAYER_SPEED;
+    if (!player->dash.is_dashing && player->weapon->activated) {
+        player->speed_vector.x /= 2;
+        player->speed_vector.y /= 2;
+    }
 }
 
 void move_player(entity_t *player, window_t *window)
 {
-    reduce_player_speed(player);
+    player->speed_vector = (sfVector2f){0, 0};
     if (sfKeyboard_isKeyPressed(sfKeyZ) || sfKeyboard_isKeyPressed(sfKeyUp))
         player->speed_vector.y -= player->stats.speed;
     if (sfKeyboard_isKeyPressed(sfKeyS) || sfKeyboard_isKeyPressed(sfKeyDown))
@@ -83,6 +82,7 @@ void move_player(entity_t *player, window_t *window)
     if (sfKeyboard_isKeyPressed(sfKeyLShift) &&
     (player->speed_vector.x != 0 || player->speed_vector.y != 0))
         player->dash.is_dashing = 1;
+    reduce_player_speed(player);
     if (player->speed_vector.x != 0 && player->speed_vector.y != 0) {
         player->speed_vector.x *= SQRT;
         player->speed_vector.y *= SQRT;

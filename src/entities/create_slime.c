@@ -13,6 +13,7 @@
 
 void create_slime_2(entity_t *slime)
 {
+    slime->enemy.anim_frames = 5;
     slime->weapon = body_damage((sfVector2f){SLIME_SPRITE_SIZE * 3,
     SLIME_SPRITE_SIZE * 3},
     slime->stats.atk);
@@ -25,6 +26,8 @@ void create_slime_2(entity_t *slime)
     slime->hurt->on_collision_entered = receive_player_damage;
     slime->trigger = collider_create(NULL, TRIGGER, false, slime);
     slime->trigger->on_collision_entered = move_trigger_enter;
+    set_info_bar(slime, sfRed, (sfVector2f){100, 20},
+    (sfVector2f){slime->pos.x, slime->pos.y - 20});
 }
 
 entity_t *create_slime(sfVector2f pos)

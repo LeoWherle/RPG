@@ -12,10 +12,12 @@
 #include "entities.h"
 #include "collision.h"
 #include "weapon.h"
+#include "quick_create.h"
 #include "room.h"
 
 void set_stats(entity_t *entity, stats_t *stats)
 {
+    entity->stats.max_hp = stats->max_hp;
     entity->stats.hp = stats->hp;
     entity->stats.atk = stats->atk;
     entity->stats.def = stats->def;
@@ -35,4 +37,13 @@ void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
     sfSprite_setTexture(entity->sprite, entity->texture, sfTrue);
     sfSprite_setTextureRect(entity->sprite, entity->anim_rect);
     sfSprite_setPosition(entity->sprite, entity->pos);
+}
+
+void set_info_bar(entity_t *entity, sfColor color, sfVector2f size,
+                sfVector2f pos)
+{
+    entity->info_bar = sfRectangleShape_create();
+    sfRectangleShape_setFillColor(entity->info_bar, color);
+    sfRectangleShape_setSize(entity->info_bar, size);
+    sfRectangleShape_setPosition(entity->info_bar, pos);
 }

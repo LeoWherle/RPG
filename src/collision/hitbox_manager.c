@@ -22,9 +22,11 @@ bool receive_enemy_damage(collider_t *main, collider_t *sub)
 
     if (sub->type == HITBOX && !player->got_hit) {
         enemy = sub->owner;
-        player->stats.hp -= enemy->stats.atk;
-        player->got_hit = true ;
-        player->knockback = true;
+        if (!player->dash.is_dashing) {
+            player->stats.hp -= enemy->stats.atk;
+            player->got_hit = true ;
+            player->knockback = true;
+        }
         player->hit_angle = atan2(player->pos.y - enemy->pos.y,
         player->pos.x - enemy->pos.x) * 180 / M_PI;
         return true;
