@@ -49,6 +49,7 @@ SRC =	src/main.c	\
 		src/entities/enemy_combat.c 		\
 		src/entities/enemy_spawn.c		\
 		src/entities/enemy_list.c 		\
+		src/entities/level_up.c	\
 		src/collision/collider_create.c	\
 		src/collision/collider_aabb.c	\
 		src/collision/move_trigger_enter.c	\
