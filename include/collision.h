@@ -21,6 +21,10 @@
         INTERACTION,
         PLAYER_HITBOX,
         PLAYER_HURTBOX,
+        TELEPORTER_VILLAGE,
+        TELEPORTER_CAVE,
+        TELEPORTER_ROOM,
+        TELEPORTER_BOSS,
     } tag_t;
 
     typedef struct collider {
@@ -29,7 +33,7 @@
         list_t *to_collide;
         bool activated;
         void *owner;
-        void (*on_collision_entered)(struct collider *, struct collider *);
+        bool (*on_collision_entered)(struct collider *, struct collider *);
     } collider_t;
 
     void collision_check(collider_t *to_check);
@@ -37,8 +41,8 @@
                                 bool activate, void *owner);
     void collider_destroy(collider_t *collider);
 
-    void move_trigger_enter(collider_t *main, collider_t *sub);
-    void receive_enemy_damage(collider_t *main, collider_t *sub);
-    void receive_player_damage(collider_t *main, collider_t *sub);
+    bool move_trigger_enter(collider_t *main, collider_t *sub);
+    bool receive_enemy_damage(collider_t *main, collider_t *sub);
+    bool receive_player_damage(collider_t *main, collider_t *sub);
 
 #endif /*COLLISION_H*/
