@@ -16,7 +16,8 @@
 void draw_tile(sfRenderWindow *window, sfSprite *tile, char c,
 room_type_t type)
 {
-    if ((type == CAVE_R || type == BOSS_R) && !is_in(c, "? $;,:~#@X"))
+    if ((type == CAVE_R || type == BOSS_R) &&
+    !is_in(c, "? $;,:~#@X[]{}<>-_lrLR"))
         sfRenderWindow_drawSprite(window, tile, NULL);
     if (type == VILLAGE_R && !is_in(c, "? []{}<>-_lrLR$;,:#@=/\\w"))
         sfRenderWindow_drawSprite(window, tile, NULL);
