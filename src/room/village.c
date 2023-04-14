@@ -17,7 +17,7 @@ static const sfFloatRect *vil_col_list[] = {
     &((sfFloatRect){0, 0 - 1.5, TILE_SIZE, TILE_SIZE}),
     &((sfFloatRect){0, 0 - 1.5, TILE_SIZE, TILE_SIZE}),
     &((sfFloatRect){-1.2, -1, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
-    &((sfFloatRect){1.2, -1, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
+    &((sfFloatRect){0.75, -1, TILE_SIZE * 1.5, TILE_SIZE * 1.5}),
     &((sfFloatRect){0 - 1, 0 - 2, 0, 0}),
     &((sfFloatRect){0, 0 - 2, 0, 0}),
     &((sfFloatRect){0 - 0.5, 0, TILE_SIZE, TILE_SIZE}),
