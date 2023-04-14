@@ -18,7 +18,7 @@ void create_player_2(map_t *map, entity_t *player)
     player->hurt = collider_create(&player->hitbox,
     PLAYER_HURTBOX, true, player);
     player->hurt->owner = player;
-    player->hurt->on_collision_entered = receive_enemy_damage;
+    player->hurt->on_collision_entered = player_collision;
     player->trigger = collider_create(NULL, TRIGGER, false, player);
     player->trigger->on_collision_entered = move_trigger_enter;
     player->depend = malloc(sizeof(dependency_t));

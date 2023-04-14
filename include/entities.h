@@ -157,4 +157,6 @@
     void check_dir(entity_t *entity);
     void spawn_point(entity_t *entity, char sign);
 
+    void add_exp(stats_t *stat, int exp_gain);
+
 #endif /* !ENTITIES_H */
