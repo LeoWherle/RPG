@@ -26,6 +26,7 @@ void enemy_update(void *enemy_void, window_t *window)
     collision_check(enemy->hurt);
     if (enemy->weapon->use)
         enemy->weapon->use(enemy->weapon, window);
+    enemy_health_bar(enemy);
 }
 
 void enemy_print(void *enemy_void, window_t *window)
@@ -34,6 +35,9 @@ void enemy_print(void *enemy_void, window_t *window)
 
     sfSprite_setPosition(enemy->sprite, enemy->pos);
     sfRenderWindow_drawSprite(window->window, enemy->sprite, NULL);
+    if (enemy->stats.hp < enemy->stats.max_hp)
+        sfRenderWindow_drawRectangleShape(window->window,
+        enemy->info_bar, NULL);
 }
 
 void enemy_animation(void *enemy_void, window_t *window)

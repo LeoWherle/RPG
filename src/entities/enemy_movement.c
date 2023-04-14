@@ -23,7 +23,7 @@ void move_enemy_sprite(entity_t *enemy, window_t *window)
         enemy->enemy.anim_time = current;
         enemy->anim_rect.left += enemy->sprite_size;
     }
-    if (enemy->anim_rect.left >= enemy->sprite_size * 5)
+    if (enemy->anim_rect.left >= enemy->sprite_size * enemy->enemy.anim_frames)
         enemy->anim_rect.left = 0;
 }
 

@@ -28,6 +28,7 @@
         sfEvent *event;
         sfRenderWindow *window;
         int freeze_frame;
+        bool exit;
     } window_t;
 
     typedef struct item {

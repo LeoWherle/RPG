@@ -24,6 +24,8 @@ void create_player_2(map_t *map, entity_t *player)
     player->depend = malloc(sizeof(dependency_t));
     player->depend->dependency = map;
     player->depend->next = NULL;
+    set_info_bar(player, sfWhite, (sfVector2f){100, 20},
+    (sfVector2f){player->pos.x, player->pos.y - 20});
     spawn_point(player, '$');
 }
 
