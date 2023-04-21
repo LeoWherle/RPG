@@ -32,11 +32,11 @@ void player_knockback(entity_t *player, window_t *window)
     current = sfClock_getElapsedTime(window->frame);
     if ((current.microseconds - time.microseconds) / 1000000. > 0.2) {
         time.microseconds = 0;
-        player->knockback = false;
+        player->state.knockback = false;
     }
-    if (player->knockback) {
-        player->speed_vector.x = cos(player->hit_angle * M_PI / 180) * 8;
-        player->speed_vector.y = sin(player->hit_angle * M_PI / 180) * 8;
+    if (player->state.knockback) {
+        player->speed_vector.x = cos(player->state.hit_angle * M_PI / 180) * 8;
+        player->speed_vector.y = sin(player->state.hit_angle * M_PI / 180) * 8;
     }
 }
 
@@ -46,8 +46,9 @@ void player_dash_bar(entity_t *player)
     float percent = (float)player->dash.dash_cooldown /
     PLAYER_DASH_COOLDOWN;
 
-    sfRectangleShape_setPosition(player->info_bar, pos);
-    sfRectangleShape_setSize(player->info_bar, (sfVector2f){60 * percent, 10});
+    sfRectangleShape_setPosition(player->state.info_bar, pos);
+    sfRectangleShape_setSize(player->state.info_bar,
+    (sfVector2f){60 * percent, 10});
 }
 
 void invicibility_frames(entity_t *player, window_t *window)
@@ -64,12 +65,12 @@ void invicibility_frames(entity_t *player, window_t *window)
     current_cool = sfClock_getElapsedTime(window->frame);
     if ((current_cool.microseconds - time_cool.microseconds) / 1000000. > 1) {
         time_cool.microseconds = 0;
-        player->got_hit = false;
+        player->state.got_hit = false;
     }
     if ((current_inv.microseconds - time_inv.microseconds) / 1000000. > 0.15) {
         time_inv = current_inv;
         is_invisible = !is_invisible;
     }
     if (!is_invisible)
-        sfRenderWindow_drawSprite(window->window, player->sprite, NULL);
+        sfRenderWindow_drawSprite(window->window, player->visu.sprite, NULL);
 }

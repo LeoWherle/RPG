@@ -5,79 +5,95 @@
 ** menu_create
 */
 
+#include <stdlib.h>
 #include "menu_values.h"
+#include "errorhandling.h"
 #include "entities.h"
+#include "item.h"
 
-
-// implement exit button
-// implement item slots display <- needs player inventory
-// implement background display (transparent)
-// implement button
-gui_t *menu_create_inventory(gui_t *gobal_menu)
+static gui_t *menu_create_bars_background(gui_t *hud)
 {
-    gui_t *inventory = NULL;
+    gui_t *exp_background = NULL;
+    gui_t *health_background = NULL;
 
-    inventory = gui_sub_create((sfVector2f){0, 0}, NULL, gobal_menu);
-    ASSERT_POINTER(inventory, NULL);
-    return inventory;
+    exp_background = gui_sub_create(GUIPOS_EXP,
+                                    "assets/menu/health_e.png", hud);
+    ASSERT_POINTER(exp_background, NULL);
+    exp_background->state = DISABLED;
+    sfRectangleShape_setScale(exp_background->shape, (sfVector2f){0.7, 0.7});
+    health_background = gui_sub_create(GUIPOS_HEALTH,
+                                        "assets/menu/health_e.png", hud);
+    ASSERT_POINTER(health_background, NULL);
+    health_background->state = DISABLED;
+    sfRectangleShape_setScale(health_background->shape, (sfVector2f){0.7, 0.7});
+    return hud;
 }
 
-// implement inventory button
-// implement settings button
-// implement health display
-// implement weapon display
-gui_t *menu_create_hud(gui_t *global_menu)
+gui_t *menu_create_hud(gui_t *global_menu, window_t *screen)
 {
     gui_t *hud = NULL;
-    gui_t *inventory = NULL;
-    gui_t *settings = NULL;
-    gui_t *health = NULL;
-    gui_t *weapon = NULL;
+    gui_t *options = NULL;
 
     hud = gui_sub_create((sfVector2f){1, 1}, NULL, global_menu);
     ASSERT_POINTER(hud, NULL);
-    inventory = menu_create_inventory(hud);
-    ASSERT_POINTER(inventory, NULL);
-    settings = gui_sub_create(GUIPOS_SETNGS, "assets/menu/settings.png", hud);
-    ASSERT_POINTER(settings, NULL);
-    health = gui_sub_create(GUIPOS_HEALTH, "assets/menu/health.png", hud);
-    ASSERT_POINTER(health, NULL);
-    weapon = gui_sub_create(GUIPOS_WEAPON, "assets/menu/weapon.png", hud);
-    ASSERT_POINTER(weapon, NULL);
-    return global_menu;
+    hud->type = GUI_HUD;
+    hud = menu_create_bars_background(hud);
+    ASSERT_POINTER(hud, NULL);
+    options = menu_create_option(global_menu, screen);
+    ASSERT_POINTER(options, NULL);
+    return hud;
 }
 
-// implement play button
-// implement settings button
-// implement quit button
-// implement credits button
-// implement background display
-gui_t *menu_create_main(gui_t *gui)
+gui_t *bars_init(gui_t *hud, item_t *player_item)
 {
-    gui_t *main_menu = NULL;
-    gui_t *play_btn = NULL;
-    gui_t *settings_btn = NULL;
-    gui_t *cretid_btn = NULL;
-    gui_t *exit_btn = NULL;
+    gui_t *bar = NULL;
+    entity_t *player = (entity_t *)(player_item->item);
 
-    main_menu = gui_sub_create(GUI_TOP_LEFT, "assets/menu/bAckground", gui);
-    ASSERT_POINTER(main_menu, NULL);
-    main_menu->interaction = &menu_update;
-    play_btn = gui_sub_create(GUIPOS_PLAY, "assets/menu/play.png", main_menu);
-    ASSERT_POINTER(play_btn, NULL);
-    play_btn->interaction = &close_menu;
-    play_btn->interactor = main_menu;
-    return NULL;
+    bar = gui_sub_create(GUIPOS_HEALTH, "assets/menu/health_f.png", hud);
+    ASSERT_POINTER(bar, NULL);
+    bar->type = GUI_HEALTH_BAR;
+    bar->interactor = &player->stats;
+    bar->state = DISABLED;
+    bar = gui_sub_create(GUIPOS_EXP, "assets/menu/exp.png", hud);
+    ASSERT_POINTER(bar, NULL);
+    bar->type = GUI_EXP_BAR;
+    bar->interactor = &player->stats;
+    bar->state = DISABLED;
+    return bar;
 }
 
-// global_menu = menu_create_hud(global_menu);
-// ASSERT_POINTER(global_menu, NULL);
-gui_t *menu_create_all(void *menu_data, void *player_data, window_t *window)
+gui_t *create_gui(window_t *screen)
 {
-    gui_t *global_menu = (gui_t *)global_menu;
-    entity_t *player = (entity_t *)player_data;
+    gui_t *global = NULL;
+    gui_t *sub_menu = NULL;
 
-    global_menu = menu_create_main(global_menu);
-    ASSERT_POINTER(global_menu, NULL)
-    return global_menu;
+    global = gui_create((sfVector2f){0, -0.48}, NULL);
+    ASSERT_POINTER(global, NULL);
+    sub_menu = menu_create_hud(global, screen);
+    ASSERT_POINTER(sub_menu, NULL);
+    return global;
+}
+
+gui_t *create_stats(gui_t *inventory, window_t *screen)
+{
+    gui_t *slot = NULL;
+    sfVector2f rpos = sfView_getSize(screen->view);
+    float width = 0;
+    float height = 0;
+
+    rpos = (sfVector2f){INV_SPACING / rpos.x, INV_SPACING / rpos.y};
+    width = rpos.x + 0.2;
+    height = rpos.y - 0.45;
+    slot = gui_sub_create((sfVector2f){width, height}, NULL, inventory);
+    ASSERT_POINTER(slot, NULL);
+    slot->font = sfFont_createFromFile("assets/font/Monocraft.otf");
+    ASSERT_MALLOC(slot->font, NULL);
+    slot->text = sfText_create(); slot->type = GUI_INV_STATS;
+    ASSERT_MALLOC(slot->text, NULL);
+    sfText_setFont(slot->text, slot->font);
+    sfText_setCharacterSize(slot->text, 50);
+    sfText_setOutlineColor(slot->text, sfBlack);
+    sfText_setOutlineThickness(slot->text, 5);
+    ASSERT_MALLOC(slot, NULL);
+    return slot;
 }

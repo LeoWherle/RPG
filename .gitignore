@@ -1,6 +1,9 @@
 # Compiled
 my_rpg
 
+# Save files
+.save.csv
+
 # gprof
 gmon.out
 gprof.txt

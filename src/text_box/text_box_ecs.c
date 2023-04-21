@@ -11,7 +11,7 @@
 #include "text_box.h"
 #include "errorhandling.h"
 
-void text_box_update(void *item, window_t *window)
+void text_box_update(void *item, window_t *window, UNUSED float delta)
 {
     text_box_t *text_box = item;
 
@@ -20,7 +20,7 @@ void text_box_update(void *item, window_t *window)
     if (window->event->type == sfEvtMouseButtonReleased)
         text_box->index += 2;
     window->event->type = -1;
-    if (!text_box->to_print[text_box->index]) {
+    if (text_box->index >= text_box->max) {
         for (int i = 0; text_box->to_print[i]; i++)
             free(text_box->to_print[i]);
         free(text_box->to_print);

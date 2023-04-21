@@ -15,11 +15,12 @@ static const sfFloatRect *house_col_list[] = {
     &((sfFloatRect){-1, -1, TILE_SIZE * 2.2, TILE_SIZE * 1.2}),
     &((sfFloatRect){-0.2, -1.2, TILE_SIZE * 1.8, TILE_SIZE * 2}),
     &((sfFloatRect){0, -2, TILE_SIZE, TILE_SIZE}),
+    &((sfFloatRect){-0.3, -0.2, TILE_SIZE * 1.5, TILE_SIZE * 0.7}),
     NULL};
 
 sfFloatRect translate_collisions_house(char c)
 {
-    char img[] = "bcAX@";
+    char img[] = "bcAX@m";
 
     for (int i = 0; img[i] != '\0'; i++)
         if (img[i] == c)
@@ -29,7 +30,7 @@ sfFloatRect translate_collisions_house(char c)
 
 int translate_house(char **map, int y, int x)
 {
-    char img[] = ".. bcAX";
+    char img[] = ".. bcAXm";
     int i = 0;
 
     if (map[y][x] == '$')
@@ -73,7 +74,7 @@ tile_t **init_house_tile_list(tile_t **tile_list, int map_nb)
 {
     char *tiles[] = {"assets/tiles/bedroom.png", NULL};
     sfIntRect *rec_list[] = {&VOID_POS, &FLOOR_POS, &ROOM_POS, &BED_POS,
-    &CHEST_POS, &CABINET_POS, &SOLID_POS, NULL};
+    &CHEST_POS, &CABINET_POS, &SOLID_POS, &MINER, NULL};
 
     if (map_nb != 0)
         free(tile_list);

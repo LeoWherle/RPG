@@ -75,7 +75,9 @@
     void list_foreach_wargs(list_t *list, fun_foreach_wargs,
     void *arg1, void *arg2);
     void list_foreach(list_t *list, fun_foreach);
+
     node_t *node_find(list_t *list, const any_t data);
+    node_t *node_get(list_t *list, int index);
 
     int node_delete(list_t *list, any_t data, fun_free_data);
     int node_destroy(list_t *list, fun_free_data);

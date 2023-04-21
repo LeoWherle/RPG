@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "item.h"
 
-void print(item_t *item, window_t *window)
+static void print(item_t *item, window_t *window)
 {
     sfRenderWindow_clear(window->window, sfWhite);
     for (item_t *pr = item; pr; pr = pr->next) {
@@ -22,12 +22,16 @@ void print(item_t *item, window_t *window)
     sfRenderWindow_display(window->window);
 }
 
-void execute(item_t *item, window_t *window)
+static void execute(item_t *item, window_t *window, float delta)
 {
     if (item) {
-        execute(item->next, window);
+        execute(item->next, window, delta);
+        if (window->state == EXIT_ERROR)
+            return;
         if (item->update && window->event->type <= 23)
-            item->update(item->item, window);
+            item->update(item->item, window, delta);
+        if (window->state == EXIT_ERROR)
+            return;
         if (item->animate)
             item->animate(item->item, window);
     }
@@ -37,21 +41,19 @@ void item_loop(item_t *item, window_t *window, bool (* cond)(window_t *))
 {
     sfTime time = {0};
     sfTime prev_time = {0};
+    float delta = 0;
 
     prev_time = sfClock_getElapsedTime(window->frame);
     sfRenderWindow_pollEvent(window->window, window->event);
-    do {
+    while (!cond(window) && sfRenderWindow_isOpen(window->window)) {
         time = sfClock_getElapsedTime(window->frame);
-        if ((time.microseconds - prev_time.microseconds) / 1000000. >
-            0.016666) {
-            execute(item, window);
-            print(item, window);
-            time = prev_time;
-        }
-        while ((time.microseconds - prev_time.microseconds) / 1000000. <
-                0.016666 * window->freeze_frame) {
-            time = sfClock_getElapsedTime(window->frame);
-        }
+        delta = (time.microseconds - prev_time.microseconds) / 1000000.;
+        execute(item, window, delta);
+        window->event->type = 23;
+        if (window->state == EXIT_ERROR)
+            return;
+        print(item, window);
+        prev_time = time;
         sfRenderWindow_pollEvent(window->window, window->event);
-    } while (!cond(window));
+    }
 }

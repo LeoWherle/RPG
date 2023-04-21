@@ -71,7 +71,7 @@ typedef struct map_s {
     int translate_village(char **map, int y, int x);
     tile_t **init_cave_tile_list(tile_t **tile_list, int map_nb);
     int translate_cave(char **map, int y, int x);
-    char *get_random_room(void);
+    char *get_random_file(char *folder);
     sfVector2f draw_in_rdr(sfVector2f center, int x, int y);
     int stop_draw_on_close(window_t *window, int y);
     void draw_tile(sfRenderWindow *window, sfSprite *tile, char c,

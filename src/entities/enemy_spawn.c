@@ -12,6 +12,7 @@
 #include "collision.h"
 #include "chained_list.h"
 #include "errorhandling.h"
+#include "music_player.h"
 #include "item.h"
 #include "room.h"
 
@@ -41,20 +42,34 @@ void enemy_list_animate(void *enemies, window_t *window)
     }
 }
 
-void enemy_list_update(void *enemies, window_t *window)
+void remove_enemy_from_list(list_t *list, item_t *enemy, entity_t *enemy_data)
+{
+    if (enemy_data->enemy.is_dead == 1) {
+        if (enemy_data->enemy.is_boss)
+            change_music(NULL, VICTORY_M);
+        node_delete(list, enemy, destroy_item_enemy);
+    }
+}
+
+void enemy_list_update(void *enemies, window_t *window, float delta)
 {
     list_t *list = (list_t *)enemies;
     item_t *enemy = NULL;
     entity_t *enemy_data = NULL;
     node_t *node = list->head;
 
-    while (node) {
+    while (node && window->event->type <= 23) {
         enemy = node->data;
         enemy_data = enemy->item;
-        enemy->update(enemy_data, window);
+        enemy->update(enemy_data, window, delta);
         node = node->next;
-        if (enemy_data->stats.hp <= 0) {
-            node_delete(list, enemy, destroy_item_enemy);
+        if (!enemy_data->enemy.is_boss && enemy_data->stats.hp <= 0) {
+            enemy_explosion(enemy_data, window);
+            remove_enemy_from_list(list, enemy, enemy_data);
+        }
+        if (enemy_data->enemy.is_boss && enemy_data->stats.hp <= 0) {
+            death_camera_controller(window, enemy_data);
+            remove_enemy_from_list(list, enemy, enemy_data);
         }
     }
 }

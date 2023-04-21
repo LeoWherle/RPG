@@ -35,12 +35,14 @@ static const sfFloatRect *vil_col_list[] = {
     &((sfFloatRect){-0.3, 0, TILE_SIZE * 2, TILE_SIZE * 1.4}),
     &((sfFloatRect){-0.3, 0, TILE_SIZE * 2, TILE_SIZE * 1.4}),
     &((sfFloatRect){0.1, 0, TILE_SIZE * 0.9, TILE_SIZE * 0.5}),
-    &((sfFloatRect){-2, -2, TILE_SIZE * 4, TILE_SIZE * 2}),
+    &((sfFloatRect){-2, -1, TILE_SIZE * 4, TILE_SIZE * 2}),
+    &((sfFloatRect){-0.3, -0.6, TILE_SIZE * 1.9, TILE_SIZE * 1.4}),
+    &((sfFloatRect){0, -0.9, TILE_SIZE * 2, TILE_SIZE}),
     NULL};
 
 sfFloatRect trans_col_cave(char c)
 {
-    char img[] = "-_[]lrLRppPPc<>{}eeEESstX";
+    char img[] = "-_[]lrLRppPPc<>{}eeEESstXm@";
 
     for (int i = 0; img[i] != '\0'; i++)
         if (img[i] == c)
@@ -61,23 +63,23 @@ static int draw_doors(char **map, int x, int y, int i)
     return (-1);
 }
 
-char *get_random_room(void)
+char *get_random_file(char *folder)
 {
     int nb = 0;
     char *path = NULL;
 
-    nb = get_file_nb("assets/rooms/caves");
+    nb = get_file_nb(folder);
     if (nb <= 0)
         return (NULL);
     srand(time(NULL));
     nb = rand() % nb;
-    path = get_specific_file("assets/rooms/caves", nb);
+    path = get_specific_file(folder, nb);
     return (path);
 }
 
 int translate_cave(char **map, int y, int x)
 {
-    char img[] = ". -_[]lrLRppPP:;,~c<>{}eeEESst";
+    char img[] = ". -_[]lrLRppPP:;,~c<>{}eeEESstm=";
     int i = 0;
     int temp = 0;
 
@@ -104,7 +106,7 @@ tile_t **init_cave_tile_list(tile_t **tile_list, int map_nb)
     &LITTLE_CRIS_PI, &LITTLE_ROCK, &LITTLE_STICK, &CHEST, &INTERN_TOP_LEFT,
     &INTERN_TOP_RIGHT, &INTERN_BOT_LEFT, &INTERN_BOT_RIGHT, &ENT_TOP_OP,
     &ENT_BOT_OP, &ENT_TOP_CL, &ENT_BOT_CL, &SAVE_PILLAR, &SAVED_PILLAR,
-    &TORCH, NULL};
+    &TORCH, &MINERAL, &EXIT, NULL};
 
     if (map_nb != 0)
         free(tile_list);

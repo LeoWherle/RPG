@@ -19,35 +19,36 @@ void move_player_sprite(entity_t *player, window_t *window)
     sfTime current = {0};
 
     current = sfClock_getElapsedTime(window->frame);
-    if (player->animation == FRONT_DASH ||
-    player->animation == BACK_DASH || player->animation == SIDE_DASH) {
-        if (player->animation == SIDE_DASH)
-            player->anim_rect.left = 0;
+    if (player->visu.animation == FRONT_DASH ||
+    player->visu.animation == BACK_DASH ||
+    player->visu.animation == SIDE_DASH) {
+        if (player->visu.animation == SIDE_DASH)
+            player->visu.anim_rect.left = 0;
         else
-            player->anim_rect.left = PLAYER_SPRITE_SIZE;
+            player->visu.anim_rect.left = PLAYER_SPRITE_SIZE;
     } else if (current.microseconds / 1000000. -
-    time.microseconds / 1000000. > INTERVAL) {
+    time.microseconds / 1000000. > 0.1) {
         time = current;
-        player->anim_rect.left += PLAYER_SPRITE_SIZE;
+        player->visu.anim_rect.left += PLAYER_SPRITE_SIZE;
     }
-    if (player->anim_rect.left >= PLAYER_SPRITE_SIZE * 6)
-        player->anim_rect.left = 0;
+    if (player->visu.anim_rect.left >= PLAYER_SPRITE_SIZE * 6)
+        player->visu.anim_rect.left = 0;
 }
 
 void dash_animation(entity_t *player)
 {
     if (player->dash.is_dashing == 1 && player->dash.dash_cooldown <= 0) {
         if (player->speed_vector.x == 0 && player->speed_vector.y > 0)
-            player->animation = FRONT_DASH;
+            player->visu.animation = FRONT_DASH;
         if (player->speed_vector.x == 0 && player->speed_vector.y < 0)
-            player->animation = BACK_DASH;
+            player->visu.animation = BACK_DASH;
         if (player->speed_vector.x > 0) {
-            player->animation = SIDE_DASH;
-            player->facing_right = true;
+            player->visu.animation = SIDE_DASH;
+            player->visu.facing_right = true;
         }
         if (player->speed_vector.x < 0) {
-            player->animation = SIDE_DASH;
-            player->facing_right = false;
+            player->visu.animation = SIDE_DASH;
+            player->visu.facing_right = false;
         }
     }
 }
@@ -55,22 +56,23 @@ void dash_animation(entity_t *player)
 void animation_controller(entity_t *player)
 {
     if (player->speed_vector.x != 0 || player->speed_vector.y != 0) {
-        if (player->animation == FRONT_IDLE)
-            player->animation = FRONT_WALK;
-        if (player->animation == BACK_IDLE)
-            player->animation = BACK_WALK;
-        if (player->animation == SIDE_IDLE)
-            player->animation = SIDE_WALK;
+        if (player->visu.animation == FRONT_IDLE)
+            player->visu.animation = FRONT_WALK;
+        if (player->visu.animation == BACK_IDLE)
+            player->visu.animation = BACK_WALK;
+        if (player->visu.animation == SIDE_IDLE)
+            player->visu.animation = SIDE_WALK;
     }
-    player->anim_rect.top = player->animation * PLAYER_SPRITE_SIZE;
-    sfSprite_setTextureRect(player->sprite, player->anim_rect);
-    if (player->animation == SIDE_IDLE || player->animation == SIDE_WALK
-    || player->animation == SIDE_DASH) {
-        if (player->facing_right)
-            sfSprite_setScale(player->sprite,
+    player->visu.anim_rect.top = player->visu.animation * PLAYER_SPRITE_SIZE;
+    sfSprite_setTextureRect(player->visu.sprite, player->visu.anim_rect);
+    if (player->visu.animation == SIDE_IDLE ||
+    player->visu.animation == SIDE_WALK
+    || player->visu.animation == SIDE_DASH) {
+        if (player->visu.facing_right)
+            sfSprite_setScale(player->visu.sprite,
             (sfVector2f){PLAYER_SIZE, PLAYER_SIZE});
         else
-            sfSprite_setScale(player->sprite,
+            sfSprite_setScale(player->visu.sprite,
             (sfVector2f){-PLAYER_SIZE, PLAYER_SIZE});
     }
 }

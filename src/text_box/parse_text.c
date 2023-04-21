@@ -13,7 +13,7 @@ static int get_line_len(char *txt)
 {
     int i = 0;
 
-    while (i < 90 && txt[i] != '\0' && txt[i] != '\n') {
+    while (i < 80 && txt[i] != '\0' && txt[i] != '\n') {
         i++;
     }
     while (txt[i] != ' ' && txt[i] != '\0' && txt[i] != '\n') {
@@ -56,10 +56,19 @@ static char **format_text(char *text)
     return new;
 }
 
-void text_box_modify(text_box_t *text_box, char *new_title,
+void text_box_modify(text_box_t *text, char *new_title,
                     char *new_text, int text_delay)
 {
+    static text_box_t *text_box = NULL;
+    int max = 0;
+
+    if (!text_box) {
+        text_box = text;
+        return;
+    }
     text_box->to_print = format_text(new_text);
+    for (max = 0; text_box->to_print[max]; max++);
+    text_box->max = max;
     text_box->index = 0;
     text_box->text_delay = text_delay;
     sfText_setString(text_box->title, new_title);

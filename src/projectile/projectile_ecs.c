@@ -9,7 +9,7 @@
 #include "item.h"
 #include "chained_list.h"
 
-void projectile_update(void *item, window_t *window)
+void projectile_update(void *item, window_t *window, float delta)
 {
     list_t *list = item;
     node_t *node = list->head;
@@ -17,7 +17,7 @@ void projectile_update(void *item, window_t *window)
 
     while (node) {
         proj = node->data;
-        proj->move(proj, window);
+        proj->move(proj, window, delta);
         node = node->next;
     }
 }

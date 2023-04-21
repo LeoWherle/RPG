@@ -15,17 +15,8 @@
 #include "menu_values.h"
 #include "room.h"
 #include "projectile.h"
-
-gui_t *create_gui(void)
-{
-    gui_t *gui = gui_create((sfVector2f){0, -0.48}, "assets/menu/options.png");
-    ASSERT_POINTER(gui, NULL);
-    gui_t *health_background = gui_sub_create(GUIPOS_HEALTH,
-"assets/menu/health_e.png", gui);
-    sfRectangleShape_setScale(health_background->shape, (sfVector2f){0.7, 0.7});
-    ASSERT_POINTER(health_background, NULL);
-    return gui;
-}
+#include "text_box.h"
+#include "music_player.h"
 
 static item_t *create_weapons(item_t *item)
 {
@@ -43,35 +34,49 @@ static item_t *create_weapons(item_t *item)
 static item_t *create_entity(item_t *item, gui_t *gui, map_t *map,
 window_t *window)
 {
-    gui_t *hp = NULL;
-    entity_t *player = NULL;
+    gui_t *bar = NULL;
 
-    item = item_create(item, create_player(map, window), destroy_player);
-    ASSERT_MALLOC(item, NULL);
-    item_set_func(item, player_update, player_animation, player_print);
-    hp = gui_sub_create(GUIPOS_HEALTH, "assets/menu/health_f.png", gui);
-    player = (entity_t *)(item->item);
-    hp->type = GUI_HEALTH_BAR;
-    hp->interactor = &player->stats;
-    ASSERT_POINTER(hp, NULL);
     item = item_create(item, spawn_enemies(map), clear_list);
     ASSERT_MALLOC(item, NULL);
     item_set_func(item, enemy_list_update, enemy_list_animate,
     enemy_list_print);
+    item = item_create(item, create_player(map, window), destroy_player);
+    ASSERT_MALLOC(item, NULL);
+    item_set_func(item, player_update, player_animation, player_print);
+    window->player = item->item;
+    bar = bars_init(gui->sub_gui_list->head->data, item);
+    ASSERT_POINTER(bar, NULL);
+    bar = menu_create_inventory(gui, window, item);
     item = create_weapons(item);
     ASSERT_MALLOC(item, NULL);
     return (item);
 }
 
+static item_t *create_text(item_t *item)
+{
+    sfFont *font = sfFont_createFromFile("assets/font/Monocraft.otf");
+
+    ASSERT_MALLOC(font, NULL);
+    item = item_create(item, text_box_create(font, NULL), text_box_destroy);
+    ASSERT_POINTER(item, NULL);
+    item_set_func(item, text_box_update, NULL, text_box_print);
+    item = item_create(item, music_player_create(font), music_player_destroy);
+    ASSERT_POINTER(item, NULL);
+    item_set_func(item, music_update, NULL, music_print);
+    return item;
+}
+
 item_t *item_initialization(item_t *item, window_t *window)
 {
     map_t *map = NULL;
-    gui_t *gui = create_gui();
+    gui_t *gui = create_gui(window);
 
     item = item_create(item, gui, &gui_destroy);
     ASSERT_POINTER(item, NULL);
-    item_set_func(item, NULL, NULL, &gui_draw);
-    map = init_map(VILLAGE_R, map);
+    item_set_func(item, &gui_update, NULL, &gui_draw);
+    item = create_text(item);
+    ASSERT_MALLOC(item, NULL);
+    map = init_map(HOUSE_R, map);
     ASSERT_MALLOC(map, NULL);
     item = item_create(item, map, free_map);
     ASSERT_MALLOC(item, NULL);

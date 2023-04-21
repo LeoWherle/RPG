@@ -23,7 +23,7 @@
         sfVector2f move_vect;
         sfTime time;
         void *caster;
-        void (*move)(struct projectile *, window_t *);
+        void (*move)(struct projectile *, window_t *, float);
     } projectile_t;
 
     /**
@@ -36,7 +36,8 @@
      * @return projectile_t*
      */
     projectile_t *projectile_create(sfFloatRect rect, sfVector2f move_vect,
-        sfTexture *texture, void (*move)(struct projectile *, window_t *));
+        sfTexture *texture,
+        void (*move)(struct projectile *, window_t *, float));
 
     /**
      * @brief delete a node from the projectile list
@@ -51,9 +52,10 @@
      * @param item the list to be destroyed
      */
     void projectile_list_destroy(void *item);
-    void projectile_move_sinus(projectile_t *proj, window_t *win);
-    void projectile_move_line(projectile_t *proj, window_t *win);
+    void projectile_move_sinus(projectile_t *proj, window_t *win, float delta);
+    void projectile_move_line(projectile_t *proj, window_t *win, float delta);
     void projectile_print(void *item, window_t *window);
-    void projectile_update(void *item, window_t *window);
+    void projectile_update(void *item, window_t *window, float delta);
+    void clear_projectile_list(list_t *proj);
 
 #endif /*PROJECTILE_H*/

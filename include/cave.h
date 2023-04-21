@@ -11,7 +11,7 @@
 
 #ifndef CAVE_H_
     #define CAVE_H_
-    #define TILE_NB_CAVE 30
+    #define TILE_NB_CAVE 32
     #define VOID_POS ((sfIntRect){2, 2, 20, 20})
     #define FLOOR_POS ((sfIntRect){142, 2, 20, 20})
     #define WALL_FRONT_POS ((sfIntRect){162, 42, 20, 20})
@@ -42,5 +42,7 @@
     #define SAVE_PILLAR ((sfIntRect){208, 62, 28, 45})
     #define SAVED_PILLAR ((sfIntRect){236, 62, 28, 45})
     #define TORCH ((sfIntRect){182, 0, 20, 22})
+    #define MINERAL ((sfIntRect){0, 122, 28, 29})
+    #define EXIT ((sfIntRect){0, 153, 34, 12})
 
 #endif /* !CAVE_H_ */

@@ -21,16 +21,23 @@ void free_map(void *map_pt)
 {
     map_t *map = (map_t *)map_pt;
 
-    free_room(map->room);
-    free_tile_list(map->tile_list);
-    map->colliders->interface->destroy(map->colliders, free_colliders);
+    if (!map)
+        return;
+    if (map->room)
+        free_room(map->room);
+    if (map->tile_list)
+        free_tile_list(map->tile_list);
+    if (map->colliders)
+        map->colliders->interface->destroy(map->colliders, free_colliders);
     free(map);
 }
 
 static map_t *reset_map(map_t *map)
 {
-    if (map != NULL && map->colliders != NULL)
+    if (map != NULL && map->colliders != NULL) {
         map->colliders->interface->destroy(map->colliders, free_colliders);
+        map->colliders = NULL;
+    }
     if (map == NULL) {
         map = malloc(sizeof(map_t));
         ASSERT_MALLOC(map, NULL);

@@ -21,10 +21,10 @@ weapon_t *weapon_create_sword(float cooldown, int strenght, sfVector2f size,
 
     new = malloc(sizeof(weapon_t));
     ASSERT_MALLOC(new, NULL);
-    new->activated = false;
     new->angle = 0.;
     new->cooldown = cooldown;
     new->strenght = strenght;
+    new->path = string_dup(path);
     new->texture = sfTexture_createFromFile(path, NULL);
     ASSERT_MALLOC(new->texture, NULL);
     new->weapon = rectangle_quick_create((sfFloatRect){0, 0, size.x, size.y},
@@ -41,8 +41,10 @@ weapon_t *weapon_create_sword(float cooldown, int strenght, sfVector2f size,
 
 void weapon_destroy(weapon_t *weapon)
 {
-    weapon->use(NULL, NULL);
+    weapon->use(NULL, NULL, 0.);
     sfRectangleShape_destroy(weapon->weapon);
     collider_destroy(weapon->hitbox);
+    if (weapon->path)
+        free(weapon->path);
     free(weapon);
 }

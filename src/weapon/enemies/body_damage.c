@@ -15,7 +15,7 @@
 #include "entities.h"
 #include "item.h"
 
-void body_use(weapon_t *body, UNUSED window_t *win)
+void body_use(weapon_t *body, UNUSED window_t *win, UNUSED float delta)
 {
     entity_t *entity = NULL;
 
@@ -23,8 +23,7 @@ void body_use(weapon_t *body, UNUSED window_t *win)
         return;
     entity = body->hitbox->owner;
     sfRectangleShape_setPosition(body->weapon, entity->pos);
-    body->rect = sfRectangleShape_getGlobalBounds(body->weapon);
-    body->rect.left -= 30;
+    body->rect = sfSprite_getGlobalBounds(entity->visu.sprite);
 }
 
 weapon_t *body_damage(sfVector2f size, int strength)
@@ -33,7 +32,6 @@ weapon_t *body_damage(sfVector2f size, int strength)
 
     new = malloc(sizeof(weapon_t));
     ASSERT_MALLOC(new, NULL);
-    new->activated = true;
     new->angle = 0.;
     new->cooldown = 0;
     new->strenght = strength;
@@ -45,5 +43,6 @@ weapon_t *body_damage(sfVector2f size, int strength)
     ASSERT_MALLOC(new->hitbox, NULL);
     new->pos = (sfVector2f){0, 0};
     new->use = body_use;
+    new->path = NULL;
     return new;
 }

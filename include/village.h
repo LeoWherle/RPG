@@ -10,7 +10,7 @@
 
 #ifndef VILLAGE_H_
     #define VILLAGE_H_
-    #define TILE_NB_VILL 36
+    #define TILE_NB_VILL 37
     #define VOID_POS ((sfIntRect){0, 0, 20, 20})
     #define FLOOR_POS ((sfIntRect){20, 120, 20, 20})
     #define WALL_FRONT_POS ((sfIntRect){0, 60, 20, 20})
@@ -47,5 +47,6 @@
     #define MAN_BIRD ((sfIntRect){285, 80, 21, 25})
     #define SHOP ((sfIntRect){342, 243, 67, 61})
     #define PALM_TREE ((sfIntRect){134, 432, 46, 48})
+    #define BOSS_HOUSE ((sfIntRect){413, 390, 86, 86})
 
 #endif /* !VILLAGE_H_ */

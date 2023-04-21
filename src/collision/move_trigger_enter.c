@@ -13,7 +13,7 @@ bool move_trigger_enter(collider_t *main, collider_t *sub)
 {
     entity_t *ent = NULL;
 
-    if (sub->type == SOLID || sub->type == INTERACTION) {
+    if (sub->type == SOLID) {
         ent = main->owner;
         if (main->hitbox->left != ent->pos.x) {
             ent->speed_vector.x = 0;

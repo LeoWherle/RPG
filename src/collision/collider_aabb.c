@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include "collision.h"
 #include "chained_list.h"
+#include "text_box.h"
 
 /**
  * @brief check if there is a collision between a collider and
@@ -21,7 +22,12 @@ void collision_check(collider_t *to_check)
 {
     collider_t *act = NULL;
     node_t *node = to_check->to_collide->head;
+    static bool tuto = false;
 
+    if (tuto == false) {
+        talk_tuto_pnj(NULL, NULL);
+        tuto = true;
+    }
     while (node) {
         act = node->data;
         if (act->activated && act->hitbox && to_check->hitbox &&

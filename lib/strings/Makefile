@@ -33,6 +33,7 @@ SRC = src/my_getnbr.c \
       src/my_put_nbr.c \
       src/my_nbrlen.c \
       src/str_to_word_array.c \
+	  src/nbr_to_str.c 			\
 
 SRC_CRIT = $(SRC)
 TEST_CRIT = \

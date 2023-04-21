@@ -26,13 +26,13 @@ static bool text_box_create_text(text_box_t *new, sfFont *font)
     new->text_line_2 = sfText_create();
     ASSERT_MALLOC(new->text_line_2, true);
     sfText_setFont(new->text_line_2, font);
+    sfText_setCharacterSize(new->text_line_2, 32);
     return false;
 }
 
 text_box_t *text_box_create(sfFont *font, sfTexture *rect_texture)
 {
     text_box_t *new = NULL;
-
     new = malloc(sizeof(text_box_t));
     ASSERT_MALLOC(new, NULL);
     new->box = sfRectangleShape_create();
@@ -42,11 +42,15 @@ text_box_t *text_box_create(sfFont *font, sfTexture *rect_texture)
         sfRectangleShape_setTexture(new->box, rect_texture, sfTrue);
     else
         sfRectangleShape_setFillColor(new->box, sfBlack);
+    sfRectangleShape_setOutlineColor(new->box, sfWhite);
+    sfRectangleShape_setOutlineThickness(new->box, 8);
     if (text_box_create_text(new, font))
         return NULL;
     new->text_delay = 0;
     new->to_print = NULL;
     new->index = 0;
+    new->max = 0;
+    text_box_modify(new, NULL, NULL, 0);
     return new;
 }
 

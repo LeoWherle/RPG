@@ -20,11 +20,9 @@ void set_stats(entity_t *entity, stats_t *stats)
     entity->stats.max_hp = stats->max_hp;
     entity->stats.hp = stats->hp;
     entity->stats.atk = stats->atk;
-    entity->stats.def = stats->def;
-    entity->stats.luck = stats->luck;
     entity->stats.speed = stats->speed;
     entity->stats.atk_speed = stats->atk_speed;
-    entity->stats.exp.current_exp = 0;
+    entity->stats.exp.current_exp = stats->exp.current_exp;
     entity->stats.exp.exp_cap = 100;
     entity->stats.exp.level = 1;
     entity->stats.exp.mult = 1.;
@@ -33,21 +31,39 @@ void set_stats(entity_t *entity, stats_t *stats)
 void set_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
                 sfVector2f origin)
 {
-    entity->texture = sfTexture_createFromFile(path, NULL);
-    entity->sprite = sfSprite_create();
-    entity->anim_rect = anim_rect;
-    sfSprite_setOrigin(entity->sprite, origin);
-    sfSprite_setScale(entity->sprite, (sfVector2f){PLAYER_SIZE, PLAYER_SIZE});
-    sfSprite_setTexture(entity->sprite, entity->texture, sfTrue);
-    sfSprite_setTextureRect(entity->sprite, entity->anim_rect);
-    sfSprite_setPosition(entity->sprite, entity->pos);
+    entity->visu.texture = sfTexture_createFromFile(path, NULL);
+    entity->visu.sprite = sfSprite_create();
+    entity->visu.anim_rect = anim_rect;
+    sfSprite_setOrigin(entity->visu.sprite, origin);
+    sfSprite_setTexture(entity->visu.sprite, entity->visu.texture, sfTrue);
+    sfSprite_setTextureRect(entity->visu.sprite, entity->visu.anim_rect);
+    sfSprite_setPosition(entity->visu.sprite, entity->pos);
+    entity->coll.hitbox = sfSprite_getGlobalBounds(entity->visu.sprite);
+}
+
+void set_death_sprite(entity_t *entity, char *path, sfIntRect anim_rect,
+                    sfVector2f origin)
+{
+    entity->visu.death_texture = sfTexture_createFromFile(path, NULL);
+    entity->visu.death_sprite = sfSprite_create();
+    entity->visu.death_anim_rect = anim_rect;
+    sfSprite_setOrigin(entity->visu.death_sprite, origin);
+    sfSprite_setTexture(entity->visu.death_sprite,
+    entity->visu.death_texture, sfTrue);
+    sfSprite_setScale(entity->visu.death_sprite, (sfVector2f)
+    {2, 2});
+    sfSprite_setTextureRect(entity->visu.death_sprite,
+    entity->visu.death_anim_rect);
+    sfSprite_setPosition(entity->visu.death_sprite, entity->pos);
 }
 
 void set_info_bar(entity_t *entity, sfColor color, sfVector2f size,
                 sfVector2f pos)
 {
-    entity->info_bar = sfRectangleShape_create();
-    sfRectangleShape_setFillColor(entity->info_bar, color);
-    sfRectangleShape_setSize(entity->info_bar, size);
-    sfRectangleShape_setPosition(entity->info_bar, pos);
+    entity->state.info_bar = sfRectangleShape_create();
+    sfRectangleShape_setFillColor(entity->state.info_bar, color);
+    sfRectangleShape_setOutlineColor(entity->state.info_bar, sfBlack);
+    sfRectangleShape_setOutlineThickness(entity->state.info_bar, 2);
+    sfRectangleShape_setSize(entity->state.info_bar, size);
+    sfRectangleShape_setPosition(entity->state.info_bar, pos);
 }

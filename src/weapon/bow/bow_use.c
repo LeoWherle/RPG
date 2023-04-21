@@ -11,7 +11,8 @@
 #include "projectile.h"
 #include "item.h"
 
-projectile_t *instantiate_arrow(weapon_t *bow, sfTexture *proj, bool *sent)
+projectile_t *instantiate_arrow(weapon_t *bow, sfTexture *proj, bool *sent,
+                                window_t *window)
 {
     projectile_t *new = NULL;
 
@@ -20,6 +21,12 @@ projectile_t *instantiate_arrow(weapon_t *bow, sfTexture *proj, bool *sent)
         (bow->angle * M_PI / 180)),
         10 / sin(M_PI / 2) * sin(bow->angle * M_PI / 180)},
         proj, projectile_move_line);
+    if (!proj || !new) {
+        window->state = EXIT_ERROR;
+        return NULL;
+    }
+    new->move_vect.x /= (1. / 60.);
+    new->move_vect.y /= (1. / 60.);
     sfRectangleShape_setRotation(new->rect, bow->angle);
     new->hitbox->owner = new;
     new->time.microseconds = 0;
@@ -29,26 +36,32 @@ projectile_t *instantiate_arrow(weapon_t *bow, sfTexture *proj, bool *sent)
     return new;
 }
 
-void bow_use(weapon_t *bow, window_t *window)
+sfTime set_timing(float *cast, weapon_t *bow, window_t *window)
+{
+    *cast = bow->cooldown / 5.;
+    return sfClock_getElapsedTime(window->frame);
+}
+
+void bow_use(weapon_t *bow, window_t *window, UNUSED float delta)
 {
     static sfTexture *proj = NULL;
-    static sfTime prev_time = {0};
+    static sfTime p_time = {0};
     static bool go = true;
+    static float cast = 0.;
     sfTime time = {0};
-
     if (!bow) {
-        sfTexture_destroy(proj);
+        if (proj) sfTexture_destroy(proj);
+        proj = NULL;
         return;
     } else if (!proj)
         proj = sfTexture_createFromFile("assets/items/arrow.png", NULL);
-    if (prev_time.microseconds == 0)
-        prev_time = sfClock_getElapsedTime(window->frame);
+    if (p_time.microseconds == 0) p_time = set_timing(&cast, bow, window);
     time = sfClock_getElapsedTime(window->frame);
-    if ((time.microseconds - prev_time.microseconds) / 1000000. > 0.1 && go)
-        instantiate_arrow(bow, proj, &go);
-    if ((time.microseconds - prev_time.microseconds) / 1000000. > 0.5) {
+    if ((time.microseconds - p_time.microseconds) / 1000000. > cast && go)
+        instantiate_arrow(bow, proj, &go, window);
+    if ((time.microseconds - p_time.microseconds) / 1000000. > cast * 4) {
         go = true;
-        bow->activated = false;
-        prev_time.microseconds = 0;
+        bow->hitbox->activated = false;
+        p_time.microseconds = 0;
     }
 }

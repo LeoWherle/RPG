@@ -27,5 +27,6 @@
     char *my_strcpy(char *dest, char const *src);
     int my_strlen(char const *str);
     char **str_to_word_array(char *str, char *sep);
+    char *nbr_to_str(long long nb);
 
 #endif /* !MY_STR_H_ */

@@ -11,6 +11,7 @@
     #define ERRORHANDLING_H_
     #define ERROR 84
     #define SUCCESS 0
+    #define INLINE_STATIC inline static
     #define UNUSED __attribute__((unused))
     #define DEPRECATED __attribute__((deprecated))
     #define LIKELY(x)       __builtin_expect((x),1)

@@ -21,19 +21,28 @@
         MAP,
     };
 
+    enum win_state {
+        TITLE_SCREEN,
+        GAME,
+        GAME_OVER,
+        EXIT_ERROR,
+    };
+
     typedef struct window {
         sfClock *frame;
         sfVideoMode mode;
+        sfUint32 style;
         sfView *view;
         sfEvent *event;
         sfRenderWindow *window;
-        int freeze_frame;
         bool exit;
+        enum win_state state;
+        void *player;
     } window_t;
 
     typedef struct item {
         void *item;
-        void (* update)(void *, window_t *);
+        void (* update)(void *, window_t *, float);
         void (* animate)(void *, window_t *);
         void (* print)(void *, window_t *);
         void (* destroy)(void *);
@@ -53,7 +62,7 @@
     void window_destroy(window_t *window);
     item_t *item_create(item_t *list, void *item, void (* destroy)(void *));
     void item_list_destroy(item_t *item);
-    void item_set_func(item_t *item, void (* update)(void *, window_t *),
+    void item_set_func(item_t *item, void (* update)(void *, window_t *, float),
                     void (* animate)(void *, window_t *),
                     void (* print)(void *, window_t *));
 

@@ -16,10 +16,10 @@ weapon_t *weapon_create_bow(float cooldown, int strenght, sfVector2f size,
 
     new = malloc(sizeof(weapon_t));
     ASSERT_MALLOC(new, NULL);
-    new->activated = false;
     new->angle = 0.;
     new->cooldown = cooldown;
     new->strenght = strenght;
+    new->path = string_dup(path);
     new->texture = sfTexture_createFromFile(path, NULL);
     ASSERT_MALLOC(new->texture, NULL);
     new->weapon = rectangle_quick_create((sfFloatRect){0, 0, size.x, size.y},
@@ -27,7 +27,7 @@ weapon_t *weapon_create_bow(float cooldown, int strenght, sfVector2f size,
     ASSERT_MALLOC(new->weapon, NULL;)
     sfRectangleShape_setOrigin(new->weapon, (sfVector2f){0, size.x});
     new->rect = sfRectangleShape_getGlobalBounds(new->weapon);
-    new->hitbox = collider_create(&new->rect, PLAYER_HURTBOX, false, new);
+    new->hitbox = collider_create(&new->rect, PLAYER_HITBOX, false, new);
     ASSERT_MALLOC(new->hitbox, NULL);
     new->pos = (sfVector2f){0, 0};
     new->use = bow_use;

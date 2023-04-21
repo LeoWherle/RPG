@@ -14,11 +14,11 @@
 #include "quick_create.h"
 
 projectile_t *projectile_create(sfFloatRect rect, sfVector2f move_vect,
-            sfTexture *texture, void (*move)(struct projectile *, window_t *))
+            sfTexture *texture,
+            void (*move)(struct projectile *, window_t *, float))
 {
     static list_t *projectile_list = NULL;
     projectile_t *new = NULL;
-
     new = malloc(sizeof(projectile_t));
     ASSERT_MALLOC(new, NULL);
     new->rect = rectangle_quick_create(rect, texture, sfWhite);
@@ -31,6 +31,7 @@ projectile_t *projectile_create(sfFloatRect rect, sfVector2f move_vect,
     if (!projectile_list) {
         projectile_list = list_init();
         ASSERT_MALLOC(projectile_list, NULL);
+        clear_projectile_list(projectile_list);
     }
     projectile_list->interface->append(projectile_list, new);
     new->projectile_list = projectile_list;
@@ -52,4 +53,17 @@ void projectile_list_destroy(void *item)
     list_t *list = item;
 
     list_destroy(list, projectile_delete);
+}
+
+void clear_projectile_list(list_t *proj)
+{
+    static list_t *list = NULL;
+
+    if (proj) {
+        list = proj;
+        return;
+    }
+    while (list->head) {
+        node_destroy(list, projectile_delete);
+    }
 }

@@ -34,9 +34,9 @@ sfVector2f draw_in_rdr(sfVector2f center, int x, int y)
 void draw_tile_on_floor(sfRenderWindow *window, sfSprite *floor, char c,
 room_type_t type)
 {
-    if ((type == CAVE_R || type == BOSS_R) && !is_in(c, "?$@#X"))
+    if ((type == CAVE_R || type == BOSS_R) && !is_in(c, "?$@#XKasdeS"))
         sfRenderWindow_drawSprite(window, floor, NULL);
-    if (type == VILLAGE_R && !is_in(c, "?+$@#w"))
+    if (type == VILLAGE_R && !is_in(c, "?+$@#wKxasd"))
         sfRenderWindow_drawSprite(window, floor, NULL);
     if (type == HOUSE_R && !is_in(c, "?$@"))
         sfRenderWindow_drawSprite(window, floor, NULL);

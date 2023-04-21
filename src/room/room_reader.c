@@ -92,7 +92,7 @@ room_t *get_room(room_t *room, room_type_t type)
     char *path = NULL;
     static int room_nb = 0;
 
-    if (type == CAVE_R) path = get_random_room();
+    if (type == CAVE_R) path = get_random_file("assets/rooms/caves");
     if (type == BOSS_R)
         path = get_specific_file("assets/rooms/boss_room", 0);
     if (type == VILLAGE_R)

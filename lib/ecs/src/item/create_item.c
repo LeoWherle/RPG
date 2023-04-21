@@ -43,7 +43,7 @@ item_t *item_create(item_t *list, void *item, void (* destroy)(void *))
  * @param animate the animate function of the item
  * @param print the print function of the item
  */
-void item_set_func(item_t *item, void (* update)(void *, window_t *),
+void item_set_func(item_t *item, void (* update)(void *, window_t *, float),
                     void (* animate)(void *, window_t *),
                     void (* print)(void *, window_t *))
 {

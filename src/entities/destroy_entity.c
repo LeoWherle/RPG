@@ -13,12 +13,12 @@ void destroy_player(void *player_void)
 {
     entity_t *player = (entity_t *)player_void;
 
-    collider_destroy(player->hurt);
-    collider_destroy(player->trigger);
-    weapon_destroy(player->weapon);
-    sfSprite_destroy(player->sprite);
-    sfTexture_destroy(player->texture);
-    sfRectangleShape_destroy(player->info_bar);
+    collider_destroy(player->coll.hurt);
+    collider_destroy(player->coll.trigger);
+    inventory_destroy(player->inventory);
+    sfSprite_destroy(player->visu.sprite);
+    sfTexture_destroy(player->visu.texture);
+    sfRectangleShape_destroy(player->state.info_bar);
     free(player->depend);
 }
 
@@ -26,10 +26,12 @@ void destroy_enemy(void *enemy_void)
 {
     entity_t *enemy = (entity_t *)enemy_void;
 
-    collider_destroy(enemy->hurt);
-    collider_destroy(enemy->trigger);
-    weapon_destroy(enemy->weapon);
-    sfSprite_destroy(enemy->sprite);
-    sfTexture_destroy(enemy->texture);
-    sfRectangleShape_destroy(enemy->info_bar);
+    collider_destroy(enemy->coll.hurt);
+    collider_destroy(enemy->coll.trigger);
+    weapon_destroy(enemy->coll.weapon);
+    sfSprite_destroy(enemy->visu.sprite);
+    sfTexture_destroy(enemy->visu.texture);
+    sfSprite_destroy(enemy->visu.death_sprite);
+    sfTexture_destroy(enemy->visu.death_texture);
+    sfRectangleShape_destroy(enemy->state.info_bar);
 }

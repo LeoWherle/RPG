@@ -42,34 +42,32 @@ void clear_enemies(list_t *enemies)
     }
 }
 
-void enemy_type(list_t *enemies, int i, int j, char sign)
+bool enemy_type(list_t *enemies, int i, int j, char sign)
 {
-    item_t *add = NULL;
-
-    if (sign == '#') {
-        add = item_create(NULL,
-        create_slime((sfVector2f){j * TILE_SIZE, i * TILE_SIZE}),
-        destroy_enemy);
-        if (!add)
-            return;
-        item_set_func(add, enemy_update, enemy_animation, enemy_print);
-        enemies->interface->append(enemies, add);
-    }
+    if (!enemy_set(enemies, i, j, sign))
+        return false;
+    return true;
 }
 
 list_t *spawn_enemies(map_t *map)
 {
-    char **map_array = map->room->room;
+    char **map_array = NULL;
     static list_t *enemies = NULL;
+    bool error = true;
 
     if (enemies)
         clear_enemies(enemies);
     if (!enemies)
         enemies = list_init();
-    for (int i = 0; map_array[i] != NULL; i++) {
-        for (int j = 0; map_array[i][j] != '\0'; j++) {
-            enemy_type(enemies, i, j, map_array[i][j]);
+    if (!enemies || !map)
+        return false;
+    map_array = map->room->room;
+    for (int i = 0; map_array[i] != NULL && error; i++) {
+        for (int j = 0; map_array[i][j] != '\0' && error; j++) {
+            error = enemy_type(enemies, i, j, map_array[i][j]);
         }
     }
+    if (!error)
+        return NULL;
     return enemies;
 }
